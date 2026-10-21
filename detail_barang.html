@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detail Barang - FoundIt!</title>
+  <title>Detail Barang - FoundIt! Polibatam</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -16,11 +16,35 @@
     .btn-outline-foundit:hover { background-color: #f0fdfa; color: #0c7262; border-color: #0c7262; }
     .badge-temuan { background-color: #d1fae5; color: #065f46; font-weight: 600; font-size: 0.75rem; padding: 6px 12px; border-radius: 6px; }
     .badge-hilang { background-color: #fee2e2; color: #991b1b; font-weight: 600; font-size: 0.75rem; padding: 6px 12px; border-radius: 6px; }
-    .main-img-container { width: 100%; height: 380px; object-fit: cover; border-radius: 16px; background-color: #e2e8f0; }
-    .thumb-img { width: 100%; height: 95px; object-fit: cover; border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
-    .thumb-img.active { border-color: #0f8a77; }
+    
+    .main-img-container {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: 16px;
+      background-color: #e2e8f0;
+    }
     .card-detail { border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; }
-    .footer-dark { background-color: #0f172a; color: #94a3b8; }
+    .footer-dark { background-color: #0b1329; color: #94a3b8; padding: 50px 0 25px; }
+    
+    .item-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      transition: transform 0.2s ease;
+    }
+    .item-card:hover { transform: translateY(-4px); }
+    .item-card-img { width: 100%; height: 180px; object-fit: cover; background-color: #f1f5f9; }
+
+    /* Box Khusus Admin */
+    .admin-verification-box {
+      background-color: #fff1f2;
+      border: 1px solid #fecdd3;
+      border-radius: 12px;
+      padding: 16px;
+    }
   </style>
   
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -31,83 +55,60 @@
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="dashboard_mahasiswa.html">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" id="navBrandLink" href="dashboard_mahasiswa.html">
         <div class="rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 32px; height: 32px; background-color: #0f8a77;">
           🔍
         </div>
         <span>FoundIt!</span>
       </a>
 
-      <div class="collapse navbar-collapse justify-content-center">
-        <ul class="navbar-nav gap-3">
-          <li class="nav-item"><a class="nav-link text-muted" href="dashboard_mahasiswa.html">Beranda</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold text-success active" href="#">Katalog Barang</a></li>
-          <li class="nav-item"><a class="nav-link text-muted" href="laporkan_barang.html">Laporkan Barang</a></li>
-          <li class="nav-item"><a class="nav-link text-muted" href="#">Tentang</a></li>
-        </ul>
-      </div>
-
-      <div class="d-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-3 ms-auto">
         <div class="text-end">
-          <div class="fw-bold small" id="navUser">Budi Santoso</div>
-          <div class="text-muted" style="font-size: 0.75rem;" id="navNIM">NIM: 1301210001</div>
+          <div class="fw-bold small" id="navUser">Pengguna</div>
+          <div class="text-muted" style="font-size: 0.75rem;" id="navRole">Polibatam</div>
         </div>
-        <button onclick="logout()" class="btn btn-outline-danger btn-sm">Keluar</button>
+        <a id="btnNavBack" href="dashboard_mahasiswa.html" class="btn btn-outline-secondary btn-sm">Kembali</a>
       </div>
     </div>
   </nav>
 
   <!-- KONTEN DETAIL BARANG -->
   <div class="container my-4">
-    <!-- Breadcrumb -->
     <nav class="small text-muted mb-4">
-      Beranda &gt; Katalog Barang &gt; <strong class="text-dark">Detail Barang</strong>
+      <span id="breadcrumbRoot">Portal</span> &gt; <strong class="text-dark">Detail Laporan Barang</strong>
     </nav>
 
     <div class="row g-4">
-      <!-- SISI KIRI: Galeri Foto -->
+      <!-- SISI KIRI: Foto Barang Asli -->
       <div class="col-lg-6">
-        <img id="mainImage" src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80" alt="Foto Barang" class="main-img-container shadow-sm mb-3" />
-        
-        <div class="row g-2">
-          <div class="col-4">
-            <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=400&q=80" class="thumb-img active" onclick="switchImage(this)" alt="Thumbnail 1" />
-          </div>
-          <div class="col-4">
-            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80" class="thumb-img" onclick="switchImage(this)" alt="Thumbnail 2" />
-          </div>
-          <div class="col-4">
-            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" class="thumb-img" onclick="switchImage(this)" alt="Thumbnail 3" />
-          </div>
-        </div>
+        <img id="mainImage" src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=800&q=80" alt="Foto Barang" class="main-img-container shadow-sm mb-3" />
       </div>
 
-      <!-- SISI KANAN: Informasi Rincian Barang -->
+      <!-- SISI KANAN: Rincian Barang -->
       <div class="col-lg-6">
         <div class="card-detail p-4 p-md-5 shadow-sm h-100 d-flex flex-column justify-content-between">
           <div>
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <span id="badgeJenis" class="badge-temuan text-uppercase">Ditemukan</span>
-              <span id="labelKategori" class="text-foundit fw-semibold small">Aksesoris Pribadi</span>
+              <span id="badgeJenis" class="badge-temuan text-uppercase">Memuat...</span>
+              <span id="labelKategori" class="text-foundit fw-semibold small">-</span>
             </div>
 
-            <h2 id="judulBarang" class="fw-bold text-dark mb-4">Dompet Kulit Coklat</h2>
+            <h2 id="judulBarang" class="fw-bold text-dark mb-4">Memuat data...</h2>
 
-            <!-- Metadata Penemuan -->
             <div class="vstack gap-3 mb-4">
               <div class="d-flex align-items-center gap-3">
                 <div class="p-2 bg-light rounded text-muted">📅</div>
                 <div>
-                  <small class="text-muted d-block" id="labelTanggalKey">Tanggal Ditemukan</small>
-                  <strong class="small" id="valTanggal">15 September 2025</strong>
+                  <small class="text-muted d-block" id="labelTanggalKey">Tanggal</small>
+                  <strong class="small" id="valTanggal">-</strong>
                 </div>
               </div>
 
               <div class="d-flex align-items-center gap-3">
                 <div class="p-2 bg-light rounded text-muted">📍</div>
                 <div>
-                  <small class="text-muted d-block">Lokasi Penemuan</small>
-                  <strong class="small" id="valLokasi">Gedung A – Lantai 2, Ruang 205</strong>
+                  <small class="text-muted d-block">Lokasi di Polibatam</small>
+                  <strong class="small" id="valLokasi">-</strong>
                 </div>
               </div>
 
@@ -115,179 +116,274 @@
                 <div class="p-2 bg-light rounded text-muted">👤</div>
                 <div>
                   <small class="text-muted d-block">Dilaporkan Oleh</small>
-                  <strong class="small" id="valPelapor">Petugas Kampus (Satpam)</strong>
+                  <strong class="small" id="valPelapor">Mahasiswa Polibatam</strong>
                 </div>
               </div>
             </div>
 
-            <!-- Deskripsi -->
-            <div class="mb-3">
-              <h6 class="fw-bold small text-secondary text-uppercase mb-1">Deskripsi</h6>
-              <p class="small text-muted mb-0 lh-base" id="valDeskripsi">
-                Ditemukan sebuah dompet lipat bahan kulit berwarna coklat tua di bawah meja baris ketiga Ruang 205 Gedung A. Kondisi dompet masih sangat bagus dan terisi beberapa kartu tanda pengenal mahasiswa.
-              </p>
-            </div>
-
-            <!-- Ciri Khusus -->
             <div class="mb-4">
-              <h6 class="fw-bold small text-secondary text-uppercase mb-2">Ciri Khusus</h6>
-              <ul class="small text-muted ps-3 mb-0 lh-lg" id="valCiri">
-                <li>Terdapat gantungan kunci kecil berbentuk logo klub sepak bola.</li>
-                <li>Merk tertera samar di bagian sudut kanan bawah depan.</li>
-                <li>Terdapat slip tiket masuk tanggal kegiatan kampus.</li>
-              </ul>
+              <h6 class="fw-bold small text-secondary text-uppercase mb-2">Deskripsi &amp; Kontak Pelapor</h6>
+              <div class="p-3 bg-light rounded-3 small text-secondary lh-base" id="valDeskripsi">
+                -
+              </div>
             </div>
           </div>
 
-          <!-- Tombol Aksi -->
-          <div class="vstack gap-2 pt-3">
-            <button onclick="ajukanKlaim()" class="btn btn-foundit fw-semibold py-2 w-100">
-              Ajukan Klaim Barang Ini
-            </button>
-            <button onclick="hubungiPetugas()" class="btn btn-outline-foundit fw-semibold py-2 w-100">
-              Hubungi Petugas
-            </button>
+          <!-- PANEL AKSI DINAMIS (ADMIN vs MAHASISWA) -->
+          <div id="actionArea" class="pt-3">
+            <!-- Diisi otomatis lewat JavaScript berdasarkan role -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- BAGIAN BAWAH: Rekomendasi Barang Serupa -->
+    <!-- BARANG SERUPA DARI DATABASE -->
     <div class="my-5 pt-4">
-      <h4 class="fw-bold text-dark mb-4">Barang Serupa di Sekitar Anda</h4>
+      <h4 class="fw-bold text-dark mb-1">Barang Serupa di Sekitar Anda</h4>
+      <p class="text-muted small mb-4">Laporan barang lainnya yang tercatat di lingkungan Politeknik Negeri Batam.</p>
+      
       <div class="row g-4" id="barangSerupaContainer">
-        
-        <div class="col-md-4">
-          <div class="card h-100 border rounded-4 shadow-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Kunci" />
-            <div class="p-3">
-              <span class="badge-temuan">Ditemukan</span>
-              <h6 class="fw-bold mt-2 mb-1">Kunci Motor Honda Vario</h6>
-              <small class="text-muted d-block">📍 Parkiran Barat (Dekat Kantin)</small>
-              <small class="text-muted d-block">🕒 Kemarin, 14:15 WIB</small>
-              <a href="#" class="btn btn-light btn-sm w-100 border mt-3 fw-medium">Lihat Detail</a>
-            </div>
-          </div>
+        <div class="col-12 text-muted py-3">
+          <p class="small mb-0">Memeriksa database...</p>
         </div>
-
-        <div class="col-md-4">
-          <div class="card h-100 border rounded-4 shadow-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Laptop" />
-            <div class="p-3">
-              <span class="badge-hilang">Hilang</span>
-              <h6 class="fw-bold mt-2 mb-1">Laptop ASUS VivoBook 14</h6>
-              <small class="text-muted d-block">📍 Perpustakaan Pusat - Lt. 3</small>
-              <small class="text-muted d-block">🕒 24 Okt 2025</small>
-              <a href="#" class="btn btn-light btn-sm w-100 border mt-3 fw-medium">Lihat Detail</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card h-100 border rounded-4 shadow-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="KTM" />
-            <div class="p-3">
-              <span class="badge-temuan">Ditemukan</span>
-              <h6 class="fw-bold mt-2 mb-1">Kartu Tanda Mahasiswa (KTM)</h6>
-              <small class="text-muted d-block">📍 Gedung Kuliah Bersama (GKB)</small>
-              <small class="text-muted d-block">🕒 23 Okt 2025</small>
-              <a href="#" class="btn btn-light btn-sm w-100 border mt-3 fw-medium">Lihat Detail</a>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="footer-dark py-5 mt-5">
+  <footer class="footer-dark text-center small text-white-50">
     <div class="container">
-      <div class="row g-4">
-        <div class="col-md-4">
-          <h5 class="fw-bold text-white mb-2">FoundIt!</h5>
-          <p class="small text-white-50">Sistem informasi penanganan barang hilang terintegrasi, membantu menjaga kebersamaan dan integritas mahasiswa kampus.</p>
-        </div>
-        <div class="col-md-3">
-          <h6 class="text-white small fw-bold mb-3">Navigasi</h6>
-          <ul class="list-unstyled small vstack gap-2">
-            <li><a href="dashboard_mahasiswa.html" class="text-white-50 text-decoration-none">Beranda</a></li>
-            <li><a href="#" class="text-white-50 text-decoration-none">Katalog Barang</a></li>
-            <li><a href="laporkan_barang.html" class="text-white-50 text-decoration-none">Laporkan Barang</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h6 class="text-white small fw-bold mb-3">Bantuan &amp; Layanan</h6>
-          <ul class="list-unstyled small vstack gap-2">
-            <li><a href="#" class="text-white-50 text-decoration-none">Panduan Klaim</a></li>
-            <li><a href="#" class="text-white-50 text-decoration-none">Syarat &amp; Ketentuan</a></li>
-            <li><a href="#" class="text-white-50 text-decoration-none">Pusat Hubungan Rektorat</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2">
-          <h6 class="text-white small fw-bold mb-3">Keamanan</h6>
-          <span class="badge bg-dark-subtle text-light border small">🛡️ Terintegrasi Supabase</span>
-        </div>
-      </div>
+      <div>FoundIt! 2026 &middot; Politeknik Negeri Batam. Hak Cipta Dilindungi.</div>
     </div>
   </footer>
 
   <script>
-    // 1. Cek sesi login
-    const session = JSON.parse(localStorage.getItem('foundit_session'));
-    if (session) {
+    const session = JSON.parse(localStorage.getItem('foundit_session')) || {};
+    const isAdmin = session.role === 'admin';
+
+    // Sesuaikan navbar sesuai role
+    if (session.name) {
       document.getElementById('navUser').textContent = session.name;
-      document.getElementById('navNIM').textContent = 'NIM: ' + (session.nim || '-');
+      document.getElementById('navRole').textContent = isAdmin ? 'Administrator Kampus' : 'NIM: ' + (session.nim || '-');
+      
+      if (isAdmin) {
+        document.getElementById('btnNavBack').href = 'admin/dashboard_admin.html';
+        document.getElementById('navBrandLink').href = 'admin/dashboard_admin.html';
+        document.getElementById('breadcrumbRoot').textContent = 'Dasbor Admin';
+      }
     }
 
-    // 2. Ganti foto thumbnail
-    function switchImage(thumbElement) {
-      document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
-      thumbElement.classList.add('active');
-      document.getElementById('mainImage').src = thumbElement.src;
-    }
+    let kontakPelaporAktif = '';
+    let currentItem = null;
 
-    // 3. Muat Data Spesifik Berdasarkan ID di URL (?id=...)
     async function loadItemDetail() {
       const urlParams = new URLSearchParams(window.location.search);
       const itemId = urlParams.get('id');
 
-      if (!itemId) return; // Menggunakan data default template mockup jika tanpa ID
+      if (!itemId) {
+        document.getElementById('judulBarang').textContent = 'Barang Tidak Ditemukan';
+        document.getElementById('valDeskripsi').textContent = 'Parameter ID laporan tidak ditemukan.';
+        return;
+      }
 
+      // Ambil data barang dari Supabase
       const { data: item, error } = await supabaseClient
         .from('items')
-        .select('*')
+        .select('*, users(name)')
         .eq('id', itemId)
         .maybeSingle();
 
-      if (error || !item) return;
+      if (error || !item) {
+        document.getElementById('judulBarang').textContent = 'Laporan Tidak Ditemukan';
+        document.getElementById('valDeskripsi').textContent = 'Data laporan ini tidak terdaftar di sistem.';
+        return;
+      }
 
+      currentItem = item;
+
+      // Pasang foto asli
+      document.getElementById('mainImage').src = item.foto_url || 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=800&q=80';
+
+      // Pasang teks
       document.getElementById('judulBarang').textContent = item.nama_barang;
       document.getElementById('labelKategori').textContent = item.kategori;
       document.getElementById('valLokasi').textContent = item.lokasi;
       document.getElementById('valTanggal').textContent = item.tanggal;
-      document.getElementById('valDeskripsi').textContent = item.deskripsi || 'Tidak ada deskripsi rinci.';
+      document.getElementById('valDeskripsi').textContent = item.deskripsi || 'Tidak ada deskripsi tambahan.';
       
+      if (item.users && item.users.name) {
+        document.getElementById('valPelapor').textContent = item.users.name;
+      }
+
       const badge = document.getElementById('badgeJenis');
       badge.textContent = item.jenis;
       badge.className = item.jenis === 'temuan' ? 'badge-temuan text-uppercase' : 'badge-hilang text-uppercase';
       document.getElementById('labelTanggalKey').textContent = item.jenis === 'temuan' ? 'Tanggal Ditemukan' : 'Tanggal Hilang';
+
+      if (item.deskripsi && item.deskripsi.includes('Kontak:')) {
+        const parts = item.deskripsi.split('Kontak:');
+        kontakPelaporAktif = parts[1].trim();
+      }
+
+      // RENDER TOMBOL AKSI BERDASARKAN ROLE
+      renderActionButtons(item);
+
+      // Ambil barang serupa dari database
+      loadBarangSerupa(item.id);
     }
 
-    loadItemDetail();
+    function renderActionButtons(item) {
+      const actionContainer = document.getElementById('actionArea');
+
+      if (isAdmin) {
+        // TAMPILAN KHUSUS ADMIN: PANEL VERIFIKASI
+        actionContainer.innerHTML = `
+          <div class="admin-verification-box mb-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="fw-bold small text-danger">🛡️ Panel Verifikasi Administrator</span>
+              <span class="badge bg-secondary text-uppercase" style="font-size: 0.7rem;">Status: ${item.status}</span>
+            </div>
+            <label class="form-label small text-secondary mb-1">Perbarui Status Barang:</label>
+            <div class="d-flex gap-2 mb-2">
+              <select id="selectStatusAdmin" class="form-select form-select-sm">
+                <option value="aktif" ${item.status === 'aktif' ? 'selected' : ''}>Aktif (Belum Terverifikasi / Belum Diklaim)</option>
+                <option value="dalam klaim" ${item.status === 'dalam klaim' ? 'selected' : ''}>Dalam Klaim (Sedang Diverifikasi)</option>
+                <option value="selesai" ${item.status === 'selesai' ? 'selected' : ''}>Selesai (Sudah Diserahkan ke Pemilik)</option>
+              </select>
+              <button onclick="updateStatusLaporan(${item.id})" class="btn btn-foundit btn-sm px-3 text-nowrap">
+                Simpan
+              </button>
+            </div>
+            <small class="text-muted d-block" style="font-size: 0.72rem;">Admin memverifikasi bukti kepemilikan sebelum mengubah status barang.</small>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button onclick="hubungiPetugas()" class="btn btn-outline-foundit fw-semibold py-2 w-100">
+              Hubungi Pelapor via WA
+            </button>
+            <button onclick="hapusLaporanAdmin(${item.id})" class="btn btn-outline-danger fw-semibold py-2 px-3">
+              Hapus Laporan
+            </button>
+          </div>
+          <a href="admin/dashboard_admin.html" class="btn btn-light border btn-sm mt-2 w-100 text-muted">
+            &larr; Kembali ke Dasbor Admin
+          </a>
+        `;
+      } else {
+        // TAMPILAN MAHASISWA: KLAIM & HUBUNGI
+        actionContainer.innerHTML = `
+          <div class="vstack gap-2">
+            <button onclick="ajukanKlaim()" class="btn btn-foundit fw-semibold py-2 w-100 shadow-sm">
+              Ajukan Klaim Barang Ini
+            </button>
+            <button onclick="hubungiPetugas()" class="btn btn-outline-foundit fw-semibold py-2 w-100">
+              Hubungi Pelapor via WhatsApp
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // Fungsi Admin: Update Status Barang
+    async function updateStatusLaporan(id) {
+      const newStatus = document.getElementById('selectStatusAdmin').value;
+      const { error } = await supabaseClient
+        .from('items')
+        .update({ status: newStatus })
+        .eq('id', id);
+
+      if (error) {
+        alert('Gagal memperbarui status: ' + error.message);
+        return;
+      }
+
+      alert(`Status laporan berhasil diubah menjadi: ${newStatus.toUpperCase()}`);
+      window.location.reload();
+    }
+
+    // Fungsi Admin: Hapus Laporan
+    async function hapusLaporanAdmin(id) {
+      if (!confirm('Apakah Anda yakin ingin menghapus laporan barang ini secara permanen dari sistem?')) {
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from('items')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        alert('Gagal menghapus laporan: ' + error.message);
+        return;
+      }
+
+      alert('Laporan berhasil dihapus!');
+      window.location.href = 'admin/dashboard_admin.html';
+    }
+
+    async function loadBarangSerupa(currentId) {
+      const container = document.getElementById('barangSerupaContainer');
+      const { data: items, error } = await supabaseClient
+        .from('items')
+        .select('*')
+        .neq('id', currentId)
+        .limit(3);
+
+      if (error || !items || items.length === 0) {
+        container.innerHTML = `
+          <div class="col-12 py-4 text-center border rounded-4 bg-white text-muted">
+            <div style="font-size: 1.8rem;" class="mb-1">📭</div>
+            <h6 class="fw-semibold text-secondary mb-1">Belum Ada Barang Serupa Lainnya</h6>
+            <p class="small text-muted mb-0">Saat ini belum ada laporan barang lain yang terdaftar di sistem Polibatam.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const defaultGambar = 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=500&q=80';
+
+      container.innerHTML = items.map(it => {
+        const isTemuan = it.jenis === 'temuan';
+        const imgSrc = it.foto_url || defaultGambar;
+
+        return `
+          <div class="col-md-4">
+            <div class="item-card h-100 d-flex flex-column justify-content-between">
+              <div>
+                <img src="${imgSrc}" alt="${it.nama_barang}" class="item-card-img" />
+                <div class="p-3">
+                  <span class="${isTemuan ? 'badge-temuan' : 'badge-hilang'} text-uppercase" style="font-size: 0.7rem;">
+                    ${isTemuan ? 'Ditemukan' : 'Hilang'}
+                  </span>
+                  <h6 class="fw-bold mt-2 mb-1 text-dark text-truncate">${it.nama_barang}</h6>
+                  <small class="text-muted d-block text-truncate">📍 ${it.lokasi || '-'}</small>
+                  <small class="text-muted d-block mt-1">📅 ${it.tanggal || '-'}</small>
+                </div>
+              </div>
+              <div class="p-3 pt-0">
+                <a href="detail_barang.html?id=${it.id}" class="btn btn-light btn-sm w-100 border fw-medium">
+                  Lihat Detail
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
     function ajukanKlaim() {
-      alert('Pengajuan klaim berhasil dikirim! Silakan tunggu verifikasi admin.');
+      alert('Pengajuan klaim Anda telah dicatat oleh sistem Polibatam.');
     }
 
     function hubungiPetugas() {
-      alert('Menghubungkan ke kontak petugas kampus...');
+      if (kontakPelaporAktif) {
+        const nomorWA = kontakPelaporAktif.replace(/[^0-9]/g, '');
+        window.open(`https://wa.me/${nomorWA}`, '_blank');
+      } else {
+        alert('Kontak pelapor tidak tersedia pada laporan ini.');
+      }
     }
 
-    function logout() {
-      localStorage.removeItem('foundit_session');
-      window.location.href = 'login.html';
-    }
+    loadItemDetail();
   </script>
 </body>
 </html>
