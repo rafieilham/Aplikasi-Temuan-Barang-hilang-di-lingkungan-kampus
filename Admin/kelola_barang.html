@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelola Laporan Barang - Panel Admin FoundIt!</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --admin-primary: #0f172a;
+      --admin-accent: #0f8a77;
+      --admin-accent-hover: #0c7262;
+      --admin-mint: #2dd4bf;
+      --bg-page: #f8fafc;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    .admin-sidebar {
+      width: 270px;
+      background-color: #ffffff;
+      border-right: 1.5px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding: 28px 18px;
+    }
+    .admin-brand {
+      padding: 0 8px 24px;
+      border-bottom: 1.5px solid var(--border-color);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .admin-brand-badge {
+      width: 42px;
+      height: 42px;
+      background-color: var(--admin-accent);
+      color: #ffffff;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .admin-brand-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .admin-nav-item {
+      margin-bottom: 6px;
+    }
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      color: #475569;
+      font-size: 1.02rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .admin-nav-link:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .admin-nav-link.active {
+      background-color: var(--admin-accent);
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .admin-sidebar-footer {
+      border-top: 1.5px solid var(--border-color);
+      padding: 18px 8px 0;
+    }
+    .admin-user-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .admin-user-role {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .admin-logout-btn {
+      color: #dc2626;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .admin-logout-btn:hover {
+      text-decoration: underline;
+    }
+
+    .admin-content {
+      flex-grow: 1;
+      padding: 36px 48px;
+      display: flex;
+      flex-direction: column;
+    }
+    .breadcrumb-text {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .page-title {
+      font-size: 2.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .page-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* Primary Admin Action Button */
+    .btn-admin-primary {
+      background-color: var(--admin-accent);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 22px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-admin-primary:hover {
+      background-color: var(--admin-accent-hover);
+      color: #ffffff;
+    }
+
+    /* Filter Card */
+    .filter-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px 26px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+      margin-bottom: 24px;
+    }
+    .form-control-custom, .form-select-custom {
+      width: 100%;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 1.02rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+      min-height: 48px;
+    }
+    .form-control-custom:focus, .form-select-custom:focus {
+      border-color: var(--admin-accent);
+      box-shadow: 0 0 0 3px rgba(15, 138, 119, 0.15);
+    }
+
+    /* Table */
+    .table-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .table-custom {
+      margin-bottom: 0;
+      width: 100%;
+    }
+    .table-custom th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-size: 0.98rem;
+      font-weight: 700;
+      padding: 16px 18px;
+      border-bottom: 1.5px solid var(--border-color);
+    }
+    .table-custom td {
+      padding: 16px 18px;
+      vertical-align: middle;
+      font-size: 1.02rem;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .table-custom tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge-jenis {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-ditemukan { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+    .badge-hilang { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+    /* Interactive Status Dropdown in Table (4 Status: Aktif, Cocok/Ditemukan, Dikembalikan, Ditutup) */
+    .status-dropdown-table {
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      outline: none;
+      min-width: 155px;
+      transition: all 0.15s ease;
+    }
+    .status-style-aktif {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      border: 1.5px solid #7dd3fc;
+    }
+    .status-style-cocok {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1.5px solid #fcd34d;
+    }
+    .status-style-dikembalikan {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1.5px solid #86efac;
+    }
+    .status-style-ditutup {
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    /* Action Buttons (Edit, Hapus, Detail) */
+    .btn-action-edit {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      padding: 6px 12px;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-action-edit:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-action-delete {
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      padding: 6px 12px;
+      border: 1px solid #fecaca;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-action-delete:hover {
+      background: #fca5a5;
+      color: #7f1d1d;
+    }
+
+    .btn-action-detail {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-action-detail:hover {
+      background: var(--admin-accent);
+      color: #ffffff;
+      border-color: var(--admin-accent);
+    }
+
+    .badge-status-pill {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div>
+          <div class="admin-brand-title">FoundIt!</div>
+          <div class="admin-brand-subtitle">Panel Admin Kampus</div>
+        </div>
+      </div>
+
+      <ul class="admin-nav">
+        <li class="admin-nav-item">
+          <a href="dashboard_admin.html" class="admin-nav-link">
+            Dashboard
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="kelola_barang.html" class="admin-nav-link active">
+            Kelola Barang
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="kategori.html" class="admin-nav-link">
+            Kategori
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="pelapor.html" class="admin-nav-link">
+            Data Pelapor
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="rekap.html" class="admin-nav-link">
+            Rekap Data
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-title">Administrator</div>
+        <div class="admin-user-role" id="adminRoleDisplay">Petugas Kampus</div>
+        <a onclick="logoutAdmin()" class="admin-logout-btn">Keluar</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <div class="breadcrumb-text">
+        <span>FoundIt! Admin</span> / <span>Transaksi</span> / <span>Kelola Laporan Barang</span>
+      </div>
+
+      <!-- Alert Notification Banner -->
+      <div id="feedbackAlert" class="alert d-none mb-4 py-3 px-4" style="border-radius: 12px; font-weight: 500;"></div>
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+          <h1 class="page-title">Kelola Laporan Barang</h1>
+          <p class="page-subtitle mb-0">Pemeriksaan, pembaruan status laporan (Aktif, Cocok/Ditemukan, Dikembalikan, Ditutup), serta operasi CRUD laporan barang.</p>
+        </div>
+        <div>
+          <!-- Tombol Tambah Laporan Sesuai Permintaan -->
+          <button type="button" class="btn-admin-primary" onclick="openTambahModal()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Tambah Laporan</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Card -->
+      <div class="filter-card">
+        <div class="row g-3 align-items-end">
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <label for="filterNama" class="form-label small fw-bold text-secondary mb-1">Cari Barang / Lokasi</label>
+            <input type="text" id="filterNama" class="form-control-custom" placeholder="Ketik kata kunci pencarian..." onkeyup="applyFilters()" />
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <label for="filterJenis" class="form-label small fw-bold text-secondary mb-1">Tipe Laporan</label>
+            <select id="filterJenis" class="form-select-custom" onchange="applyFilters()">
+              <option value="semua">Semua Tipe</option>
+              <option value="temuan">Ditemukan</option>
+              <option value="hilang">Hilang</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6">
+            <label for="filterKategori" class="form-label small fw-bold text-secondary mb-1">Kategori Barang</label>
+            <select id="filterKategori" class="form-select-custom" onchange="applyFilters()">
+              <option value="semua">Semua Kategori</option>
+              <!-- Dinamis diisi dari kategori master -->
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <!-- Dropdown Filter 4 Status Sesuai FR-04 -->
+            <label for="filterStatus" class="form-label small fw-bold text-secondary mb-1">Status Laporan</label>
+            <select id="filterStatus" class="form-select-custom" onchange="applyFilters()">
+              <option value="semua">Semua Status</option>
+              <option value="aktif">Aktif</option>
+              <option value="cocok/ditemukan">Cocok/Ditemukan</option>
+              <option value="dikembalikan">Dikembalikan</option>
+              <option value="ditutup">Ditutup</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <button type="button" class="btn btn-outline-secondary w-100 fw-semibold" style="border-radius: 10px; height: 48px;" onclick="resetFilters()">
+              Reset Filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Card -->
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="table table-custom align-middle">
+            <thead>
+              <tr>
+                <th style="width: 75px;">ID</th>
+                <th style="min-width: 220px;">Nama Barang</th>
+                <th style="width: 140px;">Kategori</th>
+                <th style="width: 120px;">Tanggal</th>
+                <th style="min-width: 150px;">Lokasi Kampus</th>
+                <th style="width: 120px;">Tipe</th>
+                <th style="width: 180px;">Status Laporan (Dropdown)</th>
+                <th style="width: 200px;" class="text-end">Aksi Admin</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <tr>
+                <td colspan="8" class="text-center py-5 text-muted small">
+                  Memuat data laporan barang...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center small text-muted">
+        <div id="tableInfoText" class="fw-semibold">Menampilkan 0 laporan</div>
+        <div class="text-secondary">Sistem Pengelolaan Terpadu · Politeknik Negeri Batam</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Tambah Laporan Baru -->
+  <div class="modal fade" id="modalTambahLaporan" tabindex="-1" aria-labelledby="modalTambahLaporanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.12);">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold" id="modalTambahLaporanLabel">Tambah Laporan Barang Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formTambahLaporan" onsubmit="handleSimpanTambahLaporan(event)">
+          <div class="modal-body px-4 py-3">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="addTipe" class="form-label fw-bold text-dark small">Tipe Laporan <span class="text-danger">*</span></label>
+                <select id="addTipe" class="form-select-custom" required>
+                  <option value="Ditemukan" selected>Ditemukan (Barang Temuan di Kampus)</option>
+                  <option value="Hilang">Hilang (Barang Hilang / Dicari)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="addNamaBarang" class="form-label fw-bold text-dark small">Nama Barang <span class="text-danger">*</span></label>
+                <input type="text" id="addNamaBarang" class="form-control-custom" placeholder="Contoh: Dompet Kulit Coklat Baellerry" required />
+              </div>
+              <div class="col-md-6">
+                <label for="addKategori" class="form-label fw-bold text-dark small">Kategori Barang <span class="text-danger">*</span></label>
+                <select id="addKategori" class="form-select-custom" required>
+                  <!-- Diisi dinamis -->
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="addTanggal" class="form-label fw-bold text-dark small">Tanggal Kejadian <span class="text-danger">*</span></label>
+                <input type="date" id="addTanggal" class="form-control-custom" required />
+              </div>
+              <div class="col-md-6">
+                <label for="addLokasi" class="form-label fw-bold text-dark small">Lokasi Spesifik Kampus <span class="text-danger">*</span></label>
+                <input type="text" id="addLokasi" class="form-control-custom" placeholder="Contoh: Gedung Utama Lantai 2, Kantin Polibatam" required />
+              </div>
+              <div class="col-md-6">
+                <!-- Dropdown 4 Status Awal -->
+                <label for="addStatus" class="form-label fw-bold text-dark small">Status Laporan <span class="text-danger">*</span></label>
+                <select id="addStatus" class="form-select-custom" required>
+                  <option value="aktif" selected>Aktif (Barang masih dicari / belum ada pemilik)</option>
+                  <option value="cocok/ditemukan">Cocok/Ditemukan (Kesesuaian terkonfirmasi / proses)</option>
+                  <option value="dikembalikan">Dikembalikan (Telah diserahkan ke pemilik sah)</option>
+                  <option value="ditutup">Ditutup (Kasus pelaporan ditutup / selesai)</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="addCiri" class="form-label fw-bold text-dark small">Ciri-ciri & Deskripsi Barang <span class="text-danger">*</span></label>
+                <textarea id="addCiri" class="form-control-custom" rows="3" placeholder="Tuliskan warna, kondisi fisik, merek, atau tanda pengenal barang secara rinci" required></textarea>
+              </div>
+              <div class="col-md-6">
+                <label for="addNamaPelapor" class="form-label fw-bold text-dark small">Nama Pelapor <span class="text-danger">*</span></label>
+                <input type="text" id="addNamaPelapor" class="form-control-custom" placeholder="Nama mahasiswa atau staf pelapor" required />
+              </div>
+              <div class="col-md-6">
+                <label for="addKontak" class="form-label fw-bold text-dark small">Kontak WhatsApp / No. HP <span class="text-danger">*</span></label>
+                <input type="text" id="addKontak" class="form-control-custom" placeholder="Contoh: 081234567890" required />
+              </div>
+              <div class="col-12">
+                <label for="addFotoUrl" class="form-label fw-bold text-dark small">URL Foto Barang (Opsional)</label>
+                <input type="url" id="addFotoUrl" class="form-control-custom" placeholder="https://contoh.com/foto.jpg" />
+                <small class="text-muted">Kosongkan jika belum ada foto, sistem akan menggunakan ikon default kategori.</small>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-top px-4 py-3 bg-light" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+            <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+            <button type="submit" id="btnAddSubmit" class="btn-admin-primary px-4 py-2">Simpan Laporan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Laporan Barang -->
+  <div class="modal fade" id="modalEditLaporan" tabindex="-1" aria-labelledby="modalEditLaporanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.12);">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold" id="modalEditLaporanLabel">Edit Informasi Laporan Barang</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formEditLaporan" onsubmit="handleSimpanEditLaporan(event)">
+          <input type="hidden" id="editItemId" />
+          <div class="modal-body px-4 py-3">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="editTipe" class="form-label fw-bold text-dark small">Tipe Laporan <span class="text-danger">*</span></label>
+                <select id="editTipe" class="form-select-custom" required>
+                  <option value="Ditemukan">Ditemukan (Barang Temuan)</option>
+                  <option value="Hilang">Hilang (Barang Hilang)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="editNamaBarang" class="form-label fw-bold text-dark small">Nama Barang <span class="text-danger">*</span></label>
+                <input type="text" id="editNamaBarang" class="form-control-custom" required />
+              </div>
+              <div class="col-md-6">
+                <label for="editKategori" class="form-label fw-bold text-dark small">Kategori Barang <span class="text-danger">*</span></label>
+                <select id="editKategori" class="form-select-custom" required>
+                  <!-- Diisi dinamis -->
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="editTanggal" class="form-label fw-bold text-dark small">Tanggal Kejadian <span class="text-danger">*</span></label>
+                <input type="date" id="editTanggal" class="form-control-custom" required />
+              </div>
+              <div class="col-md-6">
+                <label for="editLokasi" class="form-label fw-bold text-dark small">Lokasi Spesifik Kampus <span class="text-danger">*</span></label>
+                <input type="text" id="editLokasi" class="form-control-custom" required />
+              </div>
+              <div class="col-md-6">
+                <!-- Dropdown 4 Status di Edit Modal -->
+                <label for="editStatus" class="form-label fw-bold text-dark small">Status Laporan <span class="text-danger">*</span></label>
+                <select id="editStatus" class="form-select-custom" required>
+                  <option value="aktif">Aktif</option>
+                  <option value="cocok/ditemukan">Cocok/Ditemukan</option>
+                  <option value="dikembalikan">Dikembalikan</option>
+                  <option value="ditutup">Ditutup</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="editCiri" class="form-label fw-bold text-dark small">Ciri-ciri & Deskripsi Barang <span class="text-danger">*</span></label>
+                <textarea id="editCiri" class="form-control-custom" rows="3" required></textarea>
+              </div>
+              <div class="col-md-6">
+                <label for="editKontak" class="form-label fw-bold text-dark small">Kontak WhatsApp / No. HP <span class="text-danger">*</span></label>
+                <input type="text" id="editKontak" class="form-control-custom" required />
+              </div>
+              <div class="col-md-6">
+                <label for="editFotoUrl" class="form-label fw-bold text-dark small">URL Foto Barang</label>
+                <input type="url" id="editFotoUrl" class="form-control-custom" />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-top px-4 py-3 bg-light" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+            <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+            <button type="submit" id="btnEditSubmit" class="btn-admin-primary px-4 py-2">Perbarui Laporan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Hapus Laporan -->
+  <div class="modal fade" id="modalHapusLaporan" tabindex="-1" aria-labelledby="modalHapusLaporanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.12);">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold text-danger" id="modalHapusLaporanLabel">Konfirmasi Hapus Laporan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-3">
+          <p class="text-dark mb-2" id="textKonfirmasiHapus">
+            Apakah Anda yakin ingin menghapus data laporan ini?
+          </p>
+          <p class="text-muted small mb-0">
+            Tindakan ini akan menghapus data laporan secara permanen dari basis data sistem dan tidak dapat dikembalikan.
+          </p>
+        </div>
+        <div class="modal-footer border-top px-4 py-3 bg-light" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+          <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+          <button type="button" id="btnKonfirmasiHapusEksekusi" class="btn btn-danger px-4 py-2 fw-bold" style="border-radius: 8px;">Ya, Hapus Laporan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+    if (!session || session.role !== 'admin') {
+      window.location.href = 'login_admin.html';
+    } else {
+      document.getElementById('adminRoleDisplay').textContent = `${session.name || 'Admin'} · Petugas`;
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('foundit_session');
+      window.location.href = 'login_admin.html';
+    }
+
+    let allItems = [];
+    let filteredItems = [];
+    let activeCategories = [];
+    let modalTambahBs = null;
+    let modalEditBs = null;
+    let modalHapusBs = null;
+    let itemToDeleteId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      modalTambahBs = new bootstrap.Modal(document.getElementById('modalTambahLaporan'));
+      modalEditBs = new bootstrap.Modal(document.getElementById('modalEditLaporan'));
+      modalHapusBs = new bootstrap.Modal(document.getElementById('modalHapusLaporan'));
+
+      // Set default tanggal hari ini
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('addTanggal').value = today;
+
+      populateCategoryDropdowns();
+      loadItems();
+    });
+
+    function showFeedback(message, type = 'success') {
+      const alertBox = document.getElementById('feedbackAlert');
+      alertBox.textContent = message;
+      alertBox.className = `alert alert-${type} mb-4 py-3 px-4`;
+      alertBox.classList.remove('d-none');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        alertBox.classList.add('d-none');
+      }, 5000);
+    }
+
+    function populateCategoryDropdowns() {
+      activeCategories = getStoredCategories().filter(c => (c.status || 'Aktif').toLowerCase() === 'aktif');
+      
+      const filterSelect = document.getElementById('filterKategori');
+      const addSelect = document.getElementById('addKategori');
+      const editSelect = document.getElementById('editKategori');
+
+      const optionsHtml = activeCategories.map(c => `<option value="${escapeHtml(c.nama)}">${escapeHtml(c.nama)}</option>`).join('');
+
+      filterSelect.innerHTML = '<option value="semua">Semua Kategori</option>' + optionsHtml;
+      addSelect.innerHTML = optionsHtml || '<option value="Lain-lain">Lain-lain</option>';
+      editSelect.innerHTML = optionsHtml || '<option value="Lain-lain">Lain-lain</option>';
+    }
+
+    async function loadItems() {
+      try {
+        const { data, error } = await supabaseClient
+          .from('items')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (error) throw error;
+        allItems = data || [];
+        applyFilters();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('adminTableBody').innerHTML = `
+          <tr><td colspan="8" class="text-center py-4 text-danger small">Gagal memuat data: ${err.message}</td></tr>
+        `;
+      }
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('filterNama').value.toLowerCase().trim();
+      const jen = document.getElementById('filterJenis').value;
+      const kat = document.getElementById('filterKategori').value;
+      const sta = document.getElementById('filterStatus').value;
+
+      filteredItems = allItems.filter(item => {
+        const matchNama = !q || 
+          (item.nama_barang || '').toLowerCase().includes(q) || 
+          (item.deskripsi || '').toLowerCase().includes(q) ||
+          (item.lokasi || '').toLowerCase().includes(q);
+
+        const matchJen = jen === 'semua' || (item.jenis || '').toLowerCase() === jen.toLowerCase();
+        const matchKat = kat === 'semua' || (item.kategori || '') === kat;
+        
+        const normStatus = normalizeStatus(item.status);
+        const matchSta = sta === 'semua' || normStatus === sta.toLowerCase();
+
+        return matchNama && matchJen && matchKat && matchSta;
+      });
+
+      renderTable();
+    }
+
+    function resetFilters() {
+      document.getElementById('filterNama').value = '';
+      document.getElementById('filterJenis').value = 'semua';
+      document.getElementById('filterKategori').value = 'semua';
+      document.getElementById('filterStatus').value = 'semua';
+      applyFilters();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('adminTableBody');
+      if (filteredItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-5 text-muted">Data laporan tidak ditemukan sesuai filter.</td></tr>`;
+        document.getElementById('tableInfoText').textContent = 'Menampilkan 0 laporan';
+        return;
+      }
+
+      document.getElementById('tableInfoText').textContent = `Menampilkan ${filteredItems.length} dari ${allItems.length} laporan barang`;
+
+      tbody.innerHTML = filteredItems.map(item => {
+        const formattedId = `L${String(item.id).padStart(3, '0')}`;
+        const isTemuan = (item.jenis || '').toLowerCase() === 'temuan';
+        const jenisBadge = isTemuan ? 
+          '<span class="badge-jenis badge-ditemukan">Ditemukan</span>' : 
+          '<span class="badge-jenis badge-hilang">Hilang</span>';
+
+        const normStatus = normalizeStatus(item.status);
+
+        // Pilih class styling dropdown berdasarkan 4 status
+        let dropdownClass = 'status-style-aktif';
+        if (normStatus === 'cocok/ditemukan') dropdownClass = 'status-style-cocok';
+        else if (normStatus === 'dikembalikan') dropdownClass = 'status-style-dikembalikan';
+        else if (normStatus === 'ditutup') dropdownClass = 'status-style-ditutup';
+
+        return `
+          <tr>
+            <td class="text-muted fw-bold">${formattedId}</td>
+            <td>
+              <div class="fw-bold text-dark" style="font-size: 1.05rem;">${escapeHtml(item.nama_barang || 'Tanpa Nama')}</div>
+              <small class="text-secondary">${escapeHtml((item.deskripsi || '').slice(0, 45))}${item.deskripsi && item.deskripsi.length > 45 ? '...' : ''}</small>
+            </td>
+            <td><span class="badge bg-light text-dark border px-2 py-1">${escapeHtml(item.kategori || '-')}</span></td>
+            <td><span class="text-secondary small">${escapeHtml(item.tanggal || '-')}</span></td>
+            <td><span class="text-dark small">${escapeHtml(item.lokasi || '-')}</span></td>
+            <td>${jenisBadge}</td>
+            <td>
+              <!-- Interactive Dropdown Langsung di Tabel -->
+              <select class="form-select form-select-sm status-dropdown-table ${dropdownClass}" onchange="quickUpdateStatus(${item.id}, this.value, this)">
+                <option value="aktif" ${normStatus === 'aktif' ? 'selected' : ''}>Aktif</option>
+                <option value="cocok/ditemukan" ${normStatus === 'cocok/ditemukan' ? 'selected' : ''}>Cocok/Ditemukan</option>
+                <option value="dikembalikan" ${normStatus === 'dikembalikan' ? 'selected' : ''}>Dikembalikan</option>
+                <option value="ditutup" ${normStatus === 'ditutup' ? 'selected' : ''}>Ditutup</option>
+              </select>
+            </td>
+            <td class="text-end">
+              <div class="d-inline-flex gap-2">
+                <!-- Tombol Edit Sesuai Permintaan -->
+                <button type="button" class="btn-action-edit" onclick="openEditModal(${item.id})" title="Edit Laporan">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span>Edit</span>
+                </button>
+                <!-- Tombol Hapus Sesuai Permintaan -->
+                <button type="button" class="btn-action-delete" onclick="openHapusModal(${item.id})" title="Hapus Laporan">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Hapus</span>
+                </button>
+                <!-- Link Kelola Detail -->
+                <a href="detail_kelola_status.html?id=${item.id}" class="btn-action-detail" title="Detail Lengkap">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </a>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Quick Update Status via Dropdown di Tabel
+    async function quickUpdateStatus(itemId, newStatus, selectElement) {
+      const oldStyleClass = selectElement.className;
+      selectElement.disabled = true;
+
+      try {
+        const { error } = await supabaseClient
+          .from('items')
+          .update({ status: newStatus })
+          .eq('id', itemId);
+
+        if (error) throw error;
+
+        // Perbarui data lokal
+        const it = allItems.find(i => i.id === itemId);
+        if (it) it.status = newStatus;
+
+        // Ganti styling kelas dropdown
+        selectElement.className = 'form-select form-select-sm status-dropdown-table';
+        if (newStatus === 'aktif') selectElement.classList.add('status-style-aktif');
+        else if (newStatus === 'cocok/ditemukan') selectElement.classList.add('status-style-cocok');
+        else if (newStatus === 'dikembalikan') selectElement.classList.add('status-style-dikembalikan');
+        else if (newStatus === 'ditutup') selectElement.classList.add('status-style-ditutup');
+
+        const labelMap = {
+          'aktif': 'Aktif',
+          'cocok/ditemukan': 'Cocok/Ditemukan',
+          'dikembalikan': 'Dikembalikan',
+          'ditutup': 'Ditutup'
+        };
+        showFeedback(`Status laporan L${String(itemId).padStart(3, '0')} berhasil diubah menjadi "${labelMap[newStatus]}".`);
+      } catch (err) {
+        alert('Gagal memperbarui status: ' + err.message);
+        selectElement.className = oldStyleClass;
+      } finally {
+        selectElement.disabled = false;
+      }
+    }
+
+    function openTambahModal() {
+      populateCategoryDropdowns();
+      document.getElementById('formTambahLaporan').reset();
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('addTanggal').value = today;
+      document.getElementById('addStatus').value = 'aktif';
+      document.getElementById('addNamaPelapor').value = session.name || 'Petugas Kampus';
+      modalTambahBs.show();
+    }
+
+    async function handleSimpanTambahLaporan(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnAddSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+
+      const tipe = document.getElementById('addTipe').value;
+      const nama = document.getElementById('addNamaBarang').value.trim();
+      const kategori = document.getElementById('addKategori').value;
+      const tanggal = document.getElementById('addTanggal').value;
+      const lokasi = document.getElementById('addLokasi').value.trim();
+      const status = document.getElementById('addStatus').value;
+      const ciri = document.getElementById('addCiri').value.trim();
+      const namaPelapor = document.getElementById('addNamaPelapor').value.trim();
+      const kontak = document.getElementById('addKontak').value.trim();
+      const fotoUrl = document.getElementById('addFotoUrl').value.trim();
+
+      const combinedDeskripsi = `${ciri} | Pelapor: ${namaPelapor} | Kontak: ${kontak}`;
+
+      try {
+        const payload = {
+          nama_barang: nama,
+          kategori: kategori,
+          jenis: tipe,
+          tanggal: tanggal,
+          lokasi: lokasi,
+          status: status,
+          deskripsi: combinedDeskripsi,
+          foto_url: fotoUrl || null,
+          pelapor_id: session.id || 1
+        };
+
+        const { error } = await supabaseClient.from('items').insert([payload]);
+        if (error) throw error;
+
+        modalTambahBs.hide();
+        document.getElementById('formTambahLaporan').reset();
+        showFeedback(`Laporan barang "${nama}" berhasil ditambahkan.`);
+        await loadItems();
+      } catch (err) {
+        alert('Gagal menambahkan laporan: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Simpan Laporan';
+      }
+    }
+
+    function openEditModal(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      populateCategoryDropdowns();
+
+      document.getElementById('editItemId').value = item.id;
+      document.getElementById('editTipe').value = (item.jenis || 'Ditemukan').toLowerCase() === 'hilang' ? 'Hilang' : 'Ditemukan';
+      document.getElementById('editNamaBarang').value = item.nama_barang || '';
+      document.getElementById('editKategori').value = item.kategori || activeCategories[0]?.nama || 'Lain-lain';
+      document.getElementById('editTanggal').value = item.tanggal || '';
+      document.getElementById('editLokasi').value = item.lokasi || '';
+      document.getElementById('editStatus').value = normalizeStatus(item.status);
+      document.getElementById('editFotoUrl').value = item.foto_url || '';
+
+      let deskripsi = item.deskripsi || '';
+      let kontak = '';
+      if (deskripsi.includes('Kontak:')) {
+        const parts = deskripsi.split('Kontak:');
+        kontak = parts[1].trim();
+        deskripsi = parts[0].replace(/\| Pelapor:.*$/, '').replace(/\|$/, '').trim();
+      }
+      document.getElementById('editCiri').value = deskripsi;
+      document.getElementById('editKontak').value = kontak || '081234567890';
+
+      modalEditBs.show();
+    }
+
+    async function handleSimpanEditLaporan(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnEditSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Memperbarui...';
+
+      const id = Number(document.getElementById('editItemId').value);
+      const tipe = document.getElementById('editTipe').value;
+      const nama = document.getElementById('editNamaBarang').value.trim();
+      const kategori = document.getElementById('editKategori').value;
+      const tanggal = document.getElementById('editTanggal').value;
+      const lokasi = document.getElementById('editLokasi').value.trim();
+      const status = document.getElementById('editStatus').value;
+      const ciri = document.getElementById('editCiri').value.trim();
+      const kontak = document.getElementById('editKontak').value.trim();
+      const fotoUrl = document.getElementById('editFotoUrl').value.trim();
+
+      const combinedDeskripsi = `${ciri} | Kontak: ${kontak}`;
+
+      try {
+        const updatePayload = {
+          nama_barang: nama,
+          kategori: kategori,
+          jenis: tipe,
+          tanggal: tanggal,
+          lokasi: lokasi,
+          status: status,
+          deskripsi: combinedDeskripsi
+        };
+        if (fotoUrl) {
+          updatePayload.foto_url = fotoUrl;
+        }
+
+        const { error } = await supabaseClient
+          .from('items')
+          .update(updatePayload)
+          .eq('id', id);
+
+        if (error) throw error;
+
+        modalEditBs.hide();
+        showFeedback(`Laporan L${String(id).padStart(3, '0')} (${nama}) berhasil diperbarui.`);
+        await loadItems();
+      } catch (err) {
+        alert('Gagal memperbarui laporan: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Perbarui Laporan';
+      }
+    }
+
+    function openHapusModal(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      itemToDeleteId = id;
+      const formattedId = `L${String(item.id).padStart(3, '0')}`;
+      document.getElementById('textKonfirmasiHapus').innerHTML = `
+        Apakah Anda yakin ingin menghapus laporan <strong>"${escapeHtml(item.nama_barang || 'Barang')}"</strong> (${formattedId})?
+      `;
+
+      document.getElementById('btnKonfirmasiHapusEksekusi').onclick = eksekusiHapusLaporan;
+      modalHapusBs.show();
+    }
+
+    async function eksekusiHapusLaporan() {
+      if (!itemToDeleteId) return;
+
+      const btn = document.getElementById('btnKonfirmasiHapusEksekusi');
+      btn.disabled = true;
+      btn.textContent = 'Menghapus...';
+
+      try {
+        const { error } = await supabaseClient
+          .from('items')
+          .delete()
+          .eq('id', itemToDeleteId);
+
+        if (error) throw error;
+
+        modalHapusBs.hide();
+        showFeedback(`Laporan L${String(itemToDeleteId).padStart(3, '0')} berhasil dihapus dari sistem.`);
+        itemToDeleteId = null;
+        await loadItems();
+      } catch (err) {
+        alert('Gagal menghapus laporan: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Ya, Hapus Laporan';
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

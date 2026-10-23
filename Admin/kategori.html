@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kategori Barang - Panel Admin FoundIt! Politeknik Negeri Batam</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --admin-primary: #0f172a;
+      --admin-accent: #0f8a77;
+      --admin-accent-hover: #0c7262;
+      --bg-page: #f8fafc;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    .admin-sidebar {
+      width: 270px;
+      background-color: #ffffff;
+      border-right: 1.5px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding: 28px 18px;
+    }
+    .admin-brand {
+      padding: 0 8px 24px;
+      border-bottom: 1.5px solid var(--border-color);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-brand-badge {
+      width: 42px;
+      height: 42px;
+      background-color: var(--admin-accent);
+      color: #ffffff;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .admin-brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 3px;
+    }
+    .admin-brand-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .admin-nav-item {
+      margin-bottom: 6px;
+    }
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      color: #475569;
+      font-size: 1.02rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .admin-nav-link:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .admin-nav-link.active {
+      background-color: var(--admin-accent);
+      color: #ffffff;
+    }
+    .admin-sidebar-footer {
+      border-top: 1.5px solid var(--border-color);
+      padding: 20px 10px 0;
+    }
+    .admin-user-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .admin-user-role {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .admin-logout-btn {
+      color: #dc2626;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .admin-logout-btn:hover {
+      text-decoration: underline;
+    }
+
+    .admin-content {
+      flex-grow: 1;
+      padding: 38px 48px;
+      display: flex;
+      flex-direction: column;
+    }
+    .breadcrumb-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .page-title {
+      font-size: 2.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .page-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Buttons */
+    .btn-admin-primary {
+      background-color: var(--admin-accent);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 22px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-admin-primary:hover {
+      background-color: var(--admin-accent-hover);
+      color: #ffffff;
+    }
+
+    .btn-action-edit {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-action-edit:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-action-delete {
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      padding: 6px 14px;
+      border: 1px solid #fecaca;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-action-delete:hover {
+      background: #fca5a5;
+      color: #7f1d1d;
+    }
+
+    .badge-status-btn {
+      cursor: pointer;
+      border: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .badge-status-aktif {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-status-aktif:hover {
+      background-color: #a7f3d0;
+    }
+    .badge-status-nonaktif {
+      background-color: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+    }
+    .badge-status-nonaktif:hover {
+      background-color: #e2e8f0;
+    }
+
+    .table-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+      overflow: hidden;
+    }
+    .table-custom {
+      margin-bottom: 0;
+      width: 100%;
+    }
+    .table-custom th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-size: 0.98rem;
+      font-weight: 700;
+      padding: 18px 22px;
+      border-bottom: 1.5px solid var(--border-color);
+    }
+    .table-custom td {
+      padding: 18px 22px;
+      vertical-align: middle;
+      font-size: 1.02rem;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .table-custom tr:last-child td {
+      border-bottom: none;
+    }
+
+    .form-control-custom, .form-select-custom {
+      width: 100%;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 1.02rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+    }
+    .form-control-custom:focus, .form-select-custom:focus {
+      border-color: var(--admin-accent);
+      box-shadow: 0 0 0 3px rgba(15, 138, 119, 0.15);
+    }
+
+    .search-box-wrap {
+      max-width: 380px;
+      position: relative;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div>
+          <div class="admin-brand-title">FoundIt!</div>
+          <div class="admin-brand-subtitle">Panel Admin Politeknik Negeri Batam</div>
+        </div>
+      </div>
+
+      <ul class="admin-nav">
+        <li class="admin-nav-item">
+          <a href="dashboard_admin.html" class="admin-nav-link">Dashboard</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="kelola_barang.html" class="admin-nav-link">Kelola Barang</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="kategori.html" class="admin-nav-link active">Kategori</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="pelapor.html" class="admin-nav-link">Data Pelapor</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="rekap.html" class="admin-nav-link">Rekap Data</a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-title">Administrator</div>
+        <div class="admin-user-role" id="adminRoleDisplay">Petugas Kampus</div>
+        <a onclick="logoutAdmin()" class="admin-logout-btn">Keluar</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <div class="breadcrumb-text">
+        <span>FoundIt! Admin</span> / <span>Data Master</span> / <span>Kategori Barang</span>
+      </div>
+
+      <!-- Alert Notification Area -->
+      <div id="feedbackAlert" class="alert d-none mb-4 py-3 px-4" style="border-radius: 12px; font-weight: 500;"></div>
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+          <h1 class="page-title">Kategori Barang</h1>
+          <p class="page-subtitle mb-0">Kelola master data kategori pengelompokan barang hilang dan temuan di kampus Polibatam.</p>
+        </div>
+        <div>
+          <!-- Tombol Tambah Kategori Sesuai Permintaan -->
+          <button type="button" class="btn-admin-primary" data-bs-toggle="modal" data-bs-target="#modalTambahKategori">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Tambah Kategori</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Info Bar -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+        <div class="search-box-wrap flex-grow-1">
+          <input type="text" id="searchKategori" class="form-control-custom" placeholder="Cari nama atau deskripsi kategori..." onkeyup="filterKategoriTable()" />
+        </div>
+        <div class="text-muted small fw-semibold" id="totalKategoriText">
+          Menampilkan 0 kategori
+        </div>
+      </div>
+
+      <!-- Table Card -->
+      <div class="table-card">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th style="width: 70px;">No</th>
+              <th style="width: 260px;">Nama Kategori</th>
+              <th>Deskripsi Pengelompokan</th>
+              <th style="width: 150px;" class="text-center">Jumlah Laporan</th>
+              <th style="width: 140px;" class="text-center">Status</th>
+              <th style="width: 170px;" class="text-end">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="kategoriTableBody">
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">Memuat data kategori...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footnote Aturan Sistem Section 10 -->
+      <div class="mt-4 p-3 bg-white rounded-3 border small text-muted">
+        <strong>Aturan Validasi & Integritas Master Data:</strong>
+        Kategori dengan status <em>Aktif</em> akan muncul pada formulir pelaporan barang. Jika sebuah kategori sudah memiliki riwayat transaksi laporan, sistem menjaga integritas data dengan membatasi penghapusan langsung dan menyarankan opsi nonaktif.
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Tambah Kategori -->
+  <div class="modal fade" id="modalTambahKategori" tabindex="-1" aria-labelledby="modalTambahKategoriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.12);">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold" id="modalTambahKategoriLabel">Tambah Kategori Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formTambahKategori" onsubmit="handleTambahKategori(event)">
+          <div class="modal-body px-4 py-3">
+            <div class="mb-3">
+              <label for="inputNamaKategori" class="form-label fw-bold text-dark small">Nama Kategori <span class="text-danger">*</span></label>
+              <input type="text" id="inputNamaKategori" class="form-control-custom" placeholder="Contoh: Alat Tulis & Buku" required />
+            </div>
+            <div class="mb-3">
+              <label for="inputDescKategori" class="form-label fw-bold text-dark small">Deskripsi Pengelompokan <span class="text-danger">*</span></label>
+              <textarea id="inputDescKategori" class="form-control-custom" rows="3" placeholder="Contoh: Buku catatan, kalkulator ilmiah, modul praktikum" required></textarea>
+            </div>
+            <div class="mb-2">
+              <label for="selectStatusKategori" class="form-label fw-bold text-dark small">Status Kategori <span class="text-danger">*</span></label>
+              <select id="selectStatusKategori" class="form-select-custom">
+                <option value="Aktif" selected>Aktif (Dapat dipilih di form pelaporan)</option>
+                <option value="Nonaktif">Nonaktif (Disembunyikan dari form pelaporan)</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer border-top px-4 py-3 bg-light" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+            <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+            <button type="submit" class="btn-admin-primary px-4 py-2">Simpan Kategori</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Kategori -->
+  <div class="modal fade" id="modalEditKategori" tabindex="-1" aria-labelledby="modalEditKategoriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.12);">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold" id="modalEditKategoriLabel">Edit Kategori</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formEditKategori" onsubmit="handleSimpanEditKategori(event)">
+          <input type="hidden" id="editKategoriId" />
+          <div class="modal-body px-4 py-3">
+            <div class="mb-3">
+              <label for="editNamaKategori" class="form-label fw-bold text-dark small">Nama Kategori <span class="text-danger">*</span></label>
+              <input type="text" id="editNamaKategori" class="form-control-custom" required />
+            </div>
+            <div class="mb-3">
+              <label for="editDescKategori" class="form-label fw-bold text-dark small">Deskripsi Pengelompokan <span class="text-danger">*</span></label>
+              <textarea id="editDescKategori" class="form-control-custom" rows="3" required></textarea>
+            </div>
+            <div class="mb-2">
+              <label for="editStatusKategori" class="form-label fw-bold text-dark small">Status Kategori <span class="text-danger">*</span></label>
+              <select id="editStatusKategori" class="form-select-custom">
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer border-top px-4 py-3 bg-light" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+            <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+            <button type="submit" class="btn-admin-primary px-4 py-2">Perbarui Kategori</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Hapus Kategori -->
+  <div class="modal fade" id="modalHapusKategori" tabindex="-1" aria-labelledby="modalHapusKategoriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.12);">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold text-danger" id="modalHapusKategoriLabel">Konfirmasi Penghapusan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-3" id="modalHapusKategoriBody">
+          <!-- Dinamis diisi JS -->
+        </div>
+        <div class="modal-footer border-top px-4 py-3 bg-light" id="modalHapusKategoriFooter" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+          <!-- Dinamis diisi JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+    if (!session || session.role !== 'admin') {
+      window.location.href = 'login_admin.html';
+    } else {
+      document.getElementById('adminRoleDisplay').textContent = `${session.name || 'Admin'} · Petugas`;
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('foundit_session');
+      window.location.href = 'login_admin.html';
+    }
+
+    let categories = [];
+    let reportCounts = {};
+    let modalTambahBs = null;
+    let modalEditBs = null;
+    let modalHapusBs = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      modalTambahBs = new bootstrap.Modal(document.getElementById('modalTambahKategori'));
+      modalEditBs = new bootstrap.Modal(document.getElementById('modalEditKategori'));
+      modalHapusBs = new bootstrap.Modal(document.getElementById('modalHapusKategori'));
+      initCategories();
+    });
+
+    function showFeedback(message, type = 'success') {
+      const alertBox = document.getElementById('feedbackAlert');
+      alertBox.textContent = message;
+      alertBox.className = `alert alert-${type} mb-4 py-3 px-4`;
+      alertBox.classList.remove('d-none');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        alertBox.classList.add('d-none');
+      }, 5000);
+    }
+
+    async function initCategories() {
+      categories = getStoredCategories();
+      await fetchItemCounts();
+      renderCategoryTable();
+    }
+
+    async function fetchItemCounts() {
+      try {
+        const { data: items, error } = await supabaseClient.from('items').select('kategori');
+        reportCounts = {};
+        if (items) {
+          items.forEach(it => {
+            const k = (it.kategori || '').trim();
+            if (k) {
+              reportCounts[k] = (reportCounts[k] || 0) + 1;
+            }
+          });
+        }
+      } catch (err) {
+        console.warn('Gagal memuat count items dari Supabase:', err);
+      }
+    }
+
+    function renderCategoryTable(filteredList = null) {
+      const list = filteredList !== null ? filteredList : categories;
+      const tbody = document.getElementById('kategoriTableBody');
+      const infoText = document.getElementById('totalKategoriText');
+      infoText.textContent = `Menampilkan ${list.length} dari ${categories.length} kategori`;
+
+      if (list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center py-5 text-muted">
+              Data kategori tidak ditemukan.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = list.map((cat, idx) => {
+        const total = reportCounts[cat.nama] || 0;
+        const isAktif = (cat.status || 'Aktif').toLowerCase() === 'aktif';
+        const statusBadgeClass = isAktif ? 'badge-status-aktif' : 'badge-status-nonaktif';
+        const statusIcon = isAktif ? '●' : '○';
+
+        return `
+          <tr>
+            <td class="text-secondary fw-bold">${idx + 1}</td>
+            <td>
+              <strong style="font-size: 1.05rem;" class="text-dark">${escapeHtml(cat.nama)}</strong>
+            </td>
+            <td>
+              <span class="text-muted" style="font-size: 0.96rem;">${escapeHtml(cat.desc || '-')}</span>
+            </td>
+            <td class="text-center">
+              <span class="badge bg-light text-dark border px-3 py-2 fw-bold" style="font-size: 0.95rem;">
+                ${total} Laporan
+              </span>
+            </td>
+            <td class="text-center">
+              <button type="button" class="badge-status-btn ${statusBadgeClass}" onclick="toggleStatusCategory(${cat.id})" title="Klik untuk beralih status Aktif / Nonaktif">
+                <span>${statusIcon}</span>
+                <span>${isAktif ? 'Aktif' : 'Nonaktif'}</span>
+              </button>
+            </td>
+            <td class="text-end">
+              <div class="d-inline-flex gap-2">
+                <button type="button" class="btn-action-edit" onclick="openEditCategory(${cat.id})" title="Edit Kategori">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span>Edit</span>
+                </button>
+                <button type="button" class="btn-action-delete" onclick="openDeleteCategory(${cat.id})" title="Hapus Kategori">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterKategoriTable() {
+      const q = document.getElementById('searchKategori').value.toLowerCase().trim();
+      if (!q) {
+        renderCategoryTable();
+        return;
+      }
+      const filtered = categories.filter(c => 
+        (c.nama || '').toLowerCase().includes(q) || 
+        (c.desc || '').toLowerCase().includes(q)
+      );
+      renderCategoryTable(filtered);
+    }
+
+    function handleTambahKategori(e) {
+      e.preventDefault();
+      const nama = document.getElementById('inputNamaKategori').value.trim();
+      const desc = document.getElementById('inputDescKategori').value.trim();
+      const status = document.getElementById('selectStatusKategori').value;
+
+      if (!nama || !desc) {
+        alert('Field nama kategori dan deskripsi wajib diisi.');
+        return;
+      }
+
+      // Cek duplikasi nama
+      const duplicate = categories.some(c => c.nama.toLowerCase() === nama.toLowerCase());
+      if (duplicate) {
+        alert(`Kategori dengan nama "${nama}" sudah terdaftar.`);
+        return;
+      }
+
+      const newId = categories.length > 0 ? Math.max(...categories.map(c => Number(c.id) || 0)) + 1 : 1;
+      const newCat = {
+        id: newId,
+        nama: nama,
+        desc: desc,
+        status: status || 'Aktif'
+      };
+
+      categories.push(newCat);
+      saveStoredCategories(categories);
+
+      modalTambahBs.hide();
+      document.getElementById('formTambahKategori').reset();
+      renderCategoryTable();
+      showFeedback(`Kategori "${nama}" berhasil ditambahkan.`);
+    }
+
+    function toggleStatusCategory(id) {
+      const cat = categories.find(c => c.id === id);
+      if (!cat) return;
+
+      const currentStatus = (cat.status || 'Aktif').toLowerCase();
+      const newStatus = currentStatus === 'aktif' ? 'Nonaktif' : 'Aktif';
+      cat.status = newStatus;
+      saveStoredCategories(categories);
+      renderCategoryTable();
+      showFeedback(`Status kategori "${cat.nama}" diubah menjadi "${newStatus}".`);
+    }
+
+    function openEditCategory(id) {
+      const cat = categories.find(c => c.id === id);
+      if (!cat) return;
+
+      document.getElementById('editKategoriId').value = cat.id;
+      document.getElementById('editNamaKategori').value = cat.nama;
+      document.getElementById('editDescKategori').value = cat.desc || '';
+      document.getElementById('editStatusKategori').value = cat.status || 'Aktif';
+
+      modalEditBs.show();
+    }
+
+    function handleSimpanEditKategori(e) {
+      e.preventDefault();
+      const id = Number(document.getElementById('editKategoriId').value);
+      const nama = document.getElementById('editNamaKategori').value.trim();
+      const desc = document.getElementById('editDescKategori').value.trim();
+      const status = document.getElementById('editStatusKategori').value;
+
+      const catIndex = categories.findIndex(c => c.id === id);
+      if (catIndex === -1) return;
+
+      const oldNama = categories[catIndex].nama;
+      categories[catIndex].nama = nama;
+      categories[catIndex].desc = desc;
+      categories[catIndex].status = status;
+
+      saveStoredCategories(categories);
+      modalEditBs.hide();
+      renderCategoryTable();
+      showFeedback(`Kategori "${nama}" berhasil diperbarui.`);
+    }
+
+    function openDeleteCategory(id) {
+      const cat = categories.find(c => c.id === id);
+      if (!cat) return;
+
+      const totalItems = reportCounts[cat.nama] || 0;
+      const body = document.getElementById('modalHapusKategoriBody');
+      const footer = document.getElementById('modalHapusKategoriFooter');
+
+      if (totalItems > 0) {
+        // Aturan FR-10: Jika data master masih dipakai transaksi, tolak penghapusan atau sarankan nonaktif
+        body.innerHTML = `
+          <div class="alert alert-warning py-3 px-3 mb-3" style="border-radius: 10px;">
+            <strong>Data Master Terikat Transaksi!</strong><br />
+            Kategori <strong>"${escapeHtml(cat.nama)}"</strong> saat ini digunakan oleh <strong>${totalItems} laporan barang</strong> aktif di kampus.
+          </div>
+          <p class="text-secondary mb-0">
+            Sesuai aturan integritas basis data, kategori yang telah dipakai dalam transaksi tidak dapat dihapus permanen. Sebagai gantinya, Anda dapat mengubah statusnya menjadi <strong>Nonaktif</strong> agar tidak lagi muncul sebagai pilihan laporan baru.
+          </p>
+        `;
+        footer.innerHTML = `
+          <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+          <button type="button" class="btn-admin-primary px-3 py-2" onclick="setKategoriNonaktifFromModal(${cat.id})">Ubah ke Nonaktif</button>
+        `;
+      } else {
+        // Bebas dihapus
+        body.innerHTML = `
+          <p class="text-dark mb-2">
+            Apakah Anda yakin ingin menghapus kategori <strong>"${escapeHtml(cat.nama)}"</strong>?
+          </p>
+          <p class="text-muted small mb-0">
+            Kategori ini belum memiliki transaksi laporan terkait sehingga aman untuk dihapus permanen dari sistem.
+          </p>
+        `;
+        footer.innerHTML = `
+          <button type="button" class="btn btn-secondary px-3 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+          <button type="button" class="btn btn-danger px-3 py-2 fw-bold" style="border-radius: 8px;" onclick="eksekusiHapusKategori(${cat.id})">Ya, Hapus Kategori</button>
+        `;
+      }
+
+      modalHapusBs.show();
+    }
+
+    function setKategoriNonaktifFromModal(id) {
+      const cat = categories.find(c => c.id === id);
+      if (cat) {
+        cat.status = 'Nonaktif';
+        saveStoredCategories(categories);
+        renderCategoryTable();
+        modalHapusBs.hide();
+        showFeedback(`Kategori "${cat.nama}" telah diubah statusnya menjadi Nonaktif.`);
+      }
+    }
+
+    function eksekusiHapusKategori(id) {
+      const cat = categories.find(c => c.id === id);
+      const nama = cat ? cat.nama : '';
+      categories = categories.filter(c => c.id !== id);
+      saveStoredCategories(categories);
+      renderCategoryTable();
+      modalHapusBs.hide();
+      showFeedback(`Kategori "${nama}" berhasil dihapus.`);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

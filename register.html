@@ -3,87 +3,237 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daftar Akun Mahasiswa - FoundIt!</title>
+  <title>Registrasi - FoundIt! Politeknik Negeri Batam</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: 'Inter', sans-serif; min-height: 100vh; background-color: #f8f9fa; }
-    .bg-foundit-gradient { background: linear-gradient(135deg, #0d5c52 0%, #09423b 50%, #052925 100%); }
-    .btn-foundit { background-color: #0f8a77; color: #ffffff; border: none; }
-    .btn-foundit:hover { background-color: #0c7262; color: #ffffff; }
-    .text-foundit { color: #0f8a77; }
-    .form-control:focus { border-color: #0f8a77; box-shadow: 0 0 0 0.25rem rgba(15, 138, 119, 0.15); }
+    :root {
+      --primary-color: #0f8a77;
+      --primary-hover: #0c7262;
+      --bg-page: #f8fafc;
+      --border-color: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+    }
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .top-navbar {
+      background-color: #ffffff;
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 16px 0;
+    }
+    .brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .brand-logo-badge {
+      width: 42px;
+      height: 42px;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .institution-text {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .auth-card {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 48px;
+      box-shadow: 0 10px 32px rgba(15, 23, 42, 0.04);
+      width: 100%;
+      max-width: 540px;
+    }
+    .auth-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .auth-subtitle {
+      color: var(--text-muted);
+      font-size: 1.12rem;
+      margin-bottom: 8px;
+    }
+    .required-legend {
+      font-size: 0.92rem;
+      color: #dc2626;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+    .form-label {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .form-control {
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      min-height: 52px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(15, 138, 119, 0.15);
+    }
+    .form-hint {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+    .btn-foundit {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.12rem;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      min-height: 54px;
+      transition: background-color 0.15s ease;
+    }
+    .btn-foundit:hover {
+      background-color: var(--primary-hover);
+      color: #ffffff;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
 </head>
 <body>
-  <div class="container-fluid min-vh-100 d-flex flex-column p-0">
-    <div class="row g-0 flex-grow-1">
-      <div class="col-lg-5 bg-foundit-gradient text-white p-4 p-lg-5 d-flex flex-column justify-content-between position-relative">
-        <div class="d-flex align-items-center gap-3">
-          <div class="rounded-3 d-flex align-items-center justify-content-center fw-bold shadow" style="width: 42px; height: 42px; background-color: #2dd4bf; color: #052925;">
-            🔍
-          </div>
-          <span class="fs-4 fw-bold">FoundIt!</span>
+
+  <!-- Header Atas Sesuai Wireframe Layar 02 -->
+  <header class="top-navbar">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <div class="brand-logo-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
         </div>
-        <div class="my-5 py-lg-4" style="max-width: 420px;">
-          <h1 class="display-6 fw-bold mb-3">Bergabung dengan Portal Kampus</h1>
-          <p class="text-white-50">Daftarkan akun Anda untuk mempermudah pelaporan dan pelacakan barang hilang maupun temuan di area kampus.</p>
-        </div>
-        <div class="text-white-50 small">Sistem Resmi Kampus &middot; Terintegrasi Database</div>
+        <span class="brand-title">FoundIt!</span>
       </div>
+      <span class="institution-text">Politeknik Negeri Batam</span>
+    </div>
+  </header>
 
-      <div class="col-lg-7 bg-white d-flex align-items-center justify-content-center p-4 p-sm-5">
-        <div class="w-100" style="max-width: 460px;">
-          <div class="mb-4">
-            <h2 class="fs-3 fw-bold text-dark">Daftar Akun Mahasiswa</h2>
-            <p class="text-muted small">Lengkapi formulir registrasi di bawah ini</p>
-          </div>
+  <!-- Area Konten Registrasi -->
+  <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-center py-5 px-3">
+    <div class="auth-card">
+      <h1 class="auth-title">Registrasi</h1>
+      <p class="auth-subtitle">Daftarkan data mahasiswa untuk membuat laporan.</p>
+      <div class="required-legend">* Wajib diisi</div>
 
-          <div id="registerAlert" class="alert d-none small mb-3" role="alert"></div>
+      <div id="registerAlert" class="alert d-none small mb-3 py-2 px-3" role="alert"></div>
 
-          <form onsubmit="handleRegister(event)" class="vstack gap-3">
-            <div class="row g-2">
-              <div class="col-sm-6">
-                <label class="form-label small fw-semibold text-secondary">Nama Lengkap</label>
-                <input type="text" id="regName" required class="form-control py-2" placeholder="Nama Anda" />
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label small fw-semibold text-secondary">NIM</label>
-                <input type="text" id="regNIM" required class="form-control py-2" placeholder="NIM Kampus" />
-              </div>
-            </div>
-
-            <div class="row g-2">
-              <div class="col-sm-6">
-                <label class="form-label small fw-semibold text-secondary">Email Kampus</label>
-                <input type="email" id="regEmail" required class="form-control py-2" placeholder="nama@student.ac.id" />
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label small fw-semibold text-secondary">No. Telepon / WA</label>
-                <input type="tel" id="regPhone" required class="form-control py-2" placeholder="08xxxxxxxxxx" />
-              </div>
-            </div>
-
-            <div>
-              <label class="form-label small fw-semibold text-secondary">Password</label>
-              <input type="password" id="regPassword" required minlength="6" class="form-control py-2" placeholder="Minimal 6 karakter" />
-            </div>
-
-            <button type="submit" id="btnSubmit" class="btn btn-foundit fw-semibold py-2 w-100 shadow-sm">
-              Daftar Sekarang
-            </button>
-          </form>
-
-          <p class="text-center small text-muted mt-4 mb-0">
-            Sudah memiliki akun?
-            <a href="login.html" class="fw-semibold text-decoration-none text-foundit ms-1">Masuk di sini</a>
-          </p>
+      <form onsubmit="handleRegister(event)" class="vstack gap-3">
+        <div>
+          <label for="regName" class="form-label">Nama lengkap *</label>
+          <input 
+            type="text" 
+            id="regName" 
+            class="form-control" 
+            placeholder="Masukkan nama lengkap" 
+            required 
+          />
         </div>
+
+        <div>
+          <label for="regNIM" class="form-label">NIM *</label>
+          <input 
+            type="text" 
+            id="regNIM" 
+            class="form-control" 
+            placeholder="Masukkan NIM" 
+            required 
+          />
+        </div>
+
+        <div>
+          <label for="regPhone" class="form-label">Kontak WhatsApp *</label>
+          <input 
+            type="tel" 
+            id="regPhone" 
+            class="form-control" 
+            placeholder="Contoh: 081234567890" 
+            required 
+          />
+          <p class="form-hint">Nomor aktif, 10–15 digit.</p>
+        </div>
+
+        <div>
+          <label for="regPassword" class="form-label">Password *</label>
+          <input 
+            type="password" 
+            id="regPassword" 
+            class="form-control" 
+            placeholder="••••••••" 
+            required 
+            minlength="6" 
+          />
+        </div>
+
+        <div>
+          <label for="regConfirmPassword" class="form-label">Konfirmasi password *</label>
+          <input 
+            type="password" 
+            id="regConfirmPassword" 
+            class="form-control" 
+            placeholder="••••••••" 
+            required 
+            minlength="6" 
+          />
+          <p class="form-hint">Harus sama dengan password.</p>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="btn btn-foundit w-100 mt-2">
+          Daftar
+        </button>
+      </form>
+
+      <div class="text-start mt-4 pt-1">
+        <span class="small text-muted">Sudah memiliki akun?</span>
+        <a href="login.html" class="small fw-semibold text-decoration-none" style="color: var(--primary-color);">Masuk</a>
       </div>
     </div>
-  </div>
+  </main>
 
   <script>
     async function handleRegister(event) {
@@ -93,13 +243,30 @@
 
       const name = document.getElementById('regName').value.trim();
       const nim = document.getElementById('regNIM').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
       const phone = document.getElementById('regPhone').value.trim();
       const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+      // Validasi konfirmasi password
+      if (password !== confirmPassword) {
+        alertBox.textContent = 'Konfirmasi password tidak sesuai. Harus sama dengan password.';
+        alertBox.className = 'alert alert-danger small mb-3 py-2 px-3';
+        alertBox.classList.remove('d-none');
+        return;
+      }
+
+      // Validasi nomor telepon/WA (10 - 15 digit angka)
+      const phoneClean = phone.replace(/[^0-9]/g, '');
+      if (phoneClean.length < 10 || phoneClean.length > 15) {
+        alertBox.textContent = 'Nomor WhatsApp tidak valid. Masukkan nomor aktif 10–15 digit.';
+        alertBox.className = 'alert alert-danger small mb-3 py-2 px-3';
+        alertBox.classList.remove('d-none');
+        return;
+      }
 
       if (nim.toLowerCase() === 'admin') {
-        alertBox.textContent = 'NIM "admin" tidak dapat didaftarkan kembali!';
-        alertBox.className = 'alert alert-danger small mb-3';
+        alertBox.textContent = 'NIM "admin" tidak dapat didaftarkan kembali.';
+        alertBox.className = 'alert alert-danger small mb-3 py-2 px-3';
         alertBox.classList.remove('d-none');
         return;
       }
@@ -107,43 +274,60 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Memproses...';
 
-      // Cek apakah NIM sudah ada di Supabase
-      const { data: existingUser } = await supabaseClient
-        .from('users')
-        .select('nim')
-        .eq('nim', nim)
-        .maybeSingle();
+      try {
+        // Cek apakah NIM sudah terdaftar
+        const { data: existingUser } = await supabaseClient
+          .from('users')
+          .select('nim')
+          .eq('nim', nim)
+          .maybeSingle();
 
-      if (existingUser) {
-        alertBox.textContent = 'NIM ini sudah terdaftar! Silakan langsung login.';
-        alertBox.className = 'alert alert-warning small mb-3';
+        if (existingUser) {
+          alertBox.textContent = 'NIM ini sudah terdaftar. Silakan langsung masuk.';
+          alertBox.className = 'alert alert-warning small mb-3 py-2 px-3';
+          alertBox.classList.remove('d-none');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Daftar';
+          return;
+        }
+
+        // Masukkan data mahasiswa baru ke tabel users
+        const { error } = await supabaseClient
+          .from('users')
+          .insert([
+            {
+              nim: nim,
+              name: name,
+              phone: phoneClean,
+              password: password,
+              role: 'mahasiswa'
+            }
+          ]);
+
+        if (error) {
+          alertBox.textContent = 'Pendaftaran gagal: ' + error.message;
+          alertBox.className = 'alert alert-danger small mb-3 py-2 px-3';
+          alertBox.classList.remove('d-none');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Daftar';
+          return;
+        }
+
+        alertBox.textContent = 'Pendaftaran berhasil. Mengalihkan ke halaman masuk...';
+        alertBox.className = 'alert alert-success small mb-3 py-2 px-3';
+        alertBox.classList.remove('d-none');
+
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1000);
+
+      } catch (err) {
+        alertBox.textContent = 'Terjadi kesalahan sistem: ' + err.message;
+        alertBox.className = 'alert alert-danger small mb-3 py-2 px-3';
         alertBox.classList.remove('d-none');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Daftar Sekarang';
-        return;
+        submitBtn.textContent = 'Daftar';
       }
-
-      // Masukkan data ke tabel users
-      const { error } = await supabaseClient
-        .from('users')
-        .insert([{ nim, name, email, phone, password, role: 'mahasiswa' }]);
-
-      if (error) {
-        alertBox.textContent = 'Gagal mendaftar: ' + error.message;
-        alertBox.className = 'alert alert-danger small mb-3';
-        alertBox.classList.remove('d-none');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Daftar Sekarang';
-        return;
-      }
-
-      alertBox.textContent = 'Pendaftaran berhasil! Mengalihkan ke login...';
-      alertBox.className = 'alert alert-success small mb-3';
-      alertBox.classList.remove('d-none');
-
-      setTimeout(() => {
-        window.location.href = 'login.html';
-      }, 1000);
     }
   </script>
 </body>

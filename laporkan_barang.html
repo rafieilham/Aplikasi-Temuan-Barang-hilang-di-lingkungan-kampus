@@ -3,351 +3,1170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Formulir Pelaporan Barang - FoundIt!</title>
+  <title>Formulir Pelaporan Barang - FoundIt! Platform Kampus</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+    :root {
+      --primary-color: #0f8a77;
+      --primary-hover: #0c7262;
+      --primary-mint: #2dd4bf;
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --footer-navy: #0b1329;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
     
-    .navbar-custom { background-color: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 14px 0; }
-    .nav-link-custom { color: #475569; font-weight: 500; font-size: 0.92rem; text-decoration: none; padding: 6px 12px; }
-    .nav-link-custom:hover { color: #0f8a77; }
-    .nav-link-custom.active { color: #0f8a77; font-weight: 600; }
+    /* Responsive Wide Container untuk Layar Besar */
+    @media (min-width: 1400px) {
+      .container, .container-lg, .container-xl, .container-xxl {
+        max-width: 1480px;
+      }
+    }
+    @media (min-width: 1800px) {
+      .container, .container-lg, .container-xl, .container-xxl {
+        max-width: 1620px;
+      }
+    }
 
-    .form-wrapper-card {
+    /* Top Navbar Sesuai Wireframe Foto */
+    .navbar-custom {
       background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 36px 40px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
     }
-
-    /* Toggle Status */
-    .status-btn {
-      padding: 9px 24px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      border: 1px solid #e2e8f0;
-      background-color: #f8fafc;
-      color: #64748b;
-      cursor: pointer;
+    .navbar-container {
+      width: 100%;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
-    .status-btn.active {
-      background-color: #0f8a77;
+    @media (min-width: 768px) {
+      .navbar-container {
+        padding: 0 40px;
+      }
+    }
+    @media (min-width: 1400px) {
+      .navbar-container {
+        padding: 0 64px;
+      }
+    }
+    .navbar-brand-wrap {
+      flex: 0 0 auto;
+    }
+    .brand-logo-badge {
+      width: 44px;
+      height: 44px;
+      background-color: var(--primary-color);
       color: #ffffff;
-      border-color: #0f8a77;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(15, 138, 119, 0.25);
+      flex-shrink: 0;
+    }
+    .brand-text-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .brand-campus-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      background-color: #e6f7f4;
+      border: 1px solid rgba(15, 138, 119, 0.2);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    /* Upload Area */
-    .upload-area {
-      border: 2px dashed #2dd4bf;
+    /* Navbar Center Links */
+    .navbar-nav-center {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    @media (min-width: 1400px) {
+      .navbar-nav-center {
+        gap: 48px;
+      }
+    }
+    .nav-link-custom {
+      color: #475569;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      padding: 8px 4px;
+      white-space: nowrap; /* Mencegah teks terpotong atau turun baris */
+      position: relative;
+      transition: color 0.15s ease;
+      letter-spacing: -0.01em;
+    }
+    .nav-link-custom:hover {
+      color: var(--primary-color);
+    }
+    .nav-link-custom.active {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    .nav-link-custom.active::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 3px;
+    }
+
+    /* Navbar Right Actions */
+    .navbar-user-wrap {
+      flex: 0 0 auto;
+    }
+    .btn-notification {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-notification:hover {
+      background: #e2e8f0;
+    }
+    .notif-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 9px;
+      height: 9px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+    }
+
+    /* User Profile Chip */
+    .user-profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .user-profile-chip:hover {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #0f8a77;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(15, 138, 119, 0.25);
+    }
+    .user-info-text {
+      line-height: 1.25;
+      text-align: left;
+    }
+    .user-name-label {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+    .user-sub-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-nav {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-top: 32px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .breadcrumb-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .breadcrumb-nav a:hover {
+      color: var(--primary-color);
+    }
+    .breadcrumb-nav .active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    /* Page Header */
+    .page-main-title {
+      font-size: 2.45rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .page-sub-title {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 860px;
+      line-height: 1.6;
+    }
+
+    /* Form Card Container Sesuai Screenshot */
+    .main-form-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 10px 32px rgba(15, 23, 42, 0.04);
+      padding: 48px;
+      margin-bottom: 64px;
+    }
+
+    /* Toggle Status Pelaporan Pill Switcher */
+    .status-toggle-wrap {
+      margin-bottom: 28px;
+    }
+    .status-toggle-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .status-toggle-group {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 5px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+    }
+    .btn-status-toggle {
+      border: none;
+      background: transparent;
+      padding: 12px 28px;
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: #64748b;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-status-toggle.active {
+      background: var(--primary-color);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(15, 138, 119, 0.25);
+    }
+
+    /* Form Fields */
+    .form-field-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .form-field-label .required-star {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+    .form-control-custom, .form-select-custom {
+      width: 100%;
+      border: 1.5px solid var(--border-color);
       border-radius: 12px;
-      background-color: #f0fdfa;
-      min-height: 230px;
+      padding: 14px 18px;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      font-family: inherit;
+    }
+    .form-control-custom:focus, .form-select-custom:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(15, 138, 119, 0.15);
+    }
+    .form-control-custom::placeholder {
+      color: #94a3b8;
+    }
+
+    /* Mint Dashed Upload Box Sesuai Screenshot */
+    .upload-dropzone {
+      border: 2px dashed #5eead4;
+      background-color: #f0fdf9;
+      border-radius: 16px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      min-height: 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       position: relative;
-      overflow: hidden;
-      padding: 20px;
-      text-align: center;
     }
-    .upload-preview-img {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      object-fit: cover;
+    .upload-dropzone:hover {
+      background-color: #e6fbf5;
+      border-color: var(--primary-color);
     }
-    .tips-box {
-      background-color: #ecfdf5;
-      color: #065f46;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 0.8rem;
-      margin-top: 14px;
+    .upload-icon-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background-color: #ccfbf1;
+      color: var(--primary-color);
       display: flex;
-      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .upload-text-main {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 6px;
+    }
+    .upload-text-sub {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-bottom: 0;
+    }
+    .img-uploaded-preview {
+      max-width: 100%;
+      max-height: 250px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .btn-remove-photo {
+      margin-top: 14px;
+      background: #fee2e2;
+      color: #991b1b;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 8px 18px;
+      cursor: pointer;
     }
 
-    .form-label-custom { font-size: 0.82rem; font-weight: 600; color: #1e293b; margin-bottom: 6px; }
-    .form-control-custom { border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 14px; font-size: 0.88rem; color: #1e293b; }
-    .form-control-custom:focus { border-color: #0f8a77; box-shadow: 0 0 0 0.2rem rgba(15, 138, 119, 0.15); }
-    
-    .btn-submit-lapor { background-color: #0f8a77; color: #ffffff; border: none; border-radius: 8px; font-weight: 600; font-size: 0.88rem; padding: 10px 24px; }
-    .btn-submit-lapor:hover { background-color: #0c7262; color: #ffffff; }
+    /* Mint Tips Alert Box Sesuai Screenshot */
+    .tips-box {
+      background-color: #e6f9f4;
+      border: 1px solid #99f6e4;
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-top: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 1.02rem;
+      color: #065f46;
+      line-height: 1.6;
+    }
+    .tips-box svg {
+      flex-shrink: 0;
+      color: var(--primary-color);
+      margin-top: 3px;
+    }
 
-    .footer-dark { background-color: #0b1329; color: #94a3b8; padding: 55px 0 25px; }
-    .footer-dark a { color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+    /* Agreement Checkbox Sesuai Screenshot */
+    .agreement-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-top: 28px;
+      margin-bottom: 38px;
+      font-size: 1.05rem;
+      color: #334155;
+      line-height: 1.55;
+    }
+    .agreement-wrap input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--primary-color);
+      margin-top: 3px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Action Buttons Row */
+    .action-buttons-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      padding-top: 20px;
+    }
+    .btn-form-cancel {
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      font-weight: 700;
+      font-size: 1.08rem;
+      border-radius: 12px;
+      padding: 14px 32px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-form-cancel:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    .btn-form-submit {
+      border: none;
+      background: var(--primary-color);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.08rem;
+      border-radius: 12px;
+      padding: 14px 40px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(15, 138, 119, 0.25);
+    }
+    .btn-form-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Footer (Dark Navy Sesuai Screenshot) */
+    .footer-custom {
+      background-color: var(--footer-navy);
+      color: #94a3b8;
+      padding: 60px 0 32px 0;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+    .footer-brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .footer-desc {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      max-width: 320px;
+      margin-top: 14px;
+    }
+    .footer-col-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .footer-divider {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin: 40px 0 24px 0;
+    }
+    .social-icon-link {
+      color: #94a3b8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+    .social-icon-link:hover {
+      color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .main-form-card {
+        padding: 24px 18px;
+      }
+      .page-main-title {
+        font-size: 1.75rem;
+      }
+      .action-buttons-row {
+        flex-direction: column-reverse;
+      }
+      .btn-form-cancel, .btn-form-submit {
+        width: 100%;
+      }
+    }
   </style>
-
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar-custom">
-    <div class="container d-flex align-items-center justify-content-between">
-      <a href="dashboard_mahasiswa.html" class="d-flex align-items-center gap-2 text-decoration-none">
-        <div style="width: 32px; height: 32px; background-color: #0f8a77; border-radius: 8px;" class="d-flex align-items-center justify-content-center text-white fw-bold">
-          🔍
-        </div>
-        <span class="fs-5 fw-bold text-dark">FoundIt!</span>
-      </a>
-
-      <div class="d-none d-md-flex align-items-center gap-3">
-        <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
-        <a href="dashboard_mahasiswa.html#katalogArea" class="nav-link-custom">Katalog Barang</a>
-        <a href="laporkan_barang.html" class="nav-link-custom active">Laporkan Barang</a>
-        <a href="#" class="nav-link-custom">Tentang</a>
-      </div>
-
-      <div class="d-flex align-items-center gap-2">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Avatar" class="rounded-circle border" style="width: 38px; height: 38px; object-fit: cover;" />
-        <div class="text-start d-none d-sm-block">
-          <div class="fw-semibold text-dark small leading-none" id="navName">Mahasiswa</div>
-          <div class="text-muted" style="font-size: 0.72rem;" id="navNIM">NIM: -</div>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- FORM CONTAINER -->
-  <div class="container my-5" style="max-width: 960px;">
-    <!-- Breadcrumb -->
-    <div class="small text-muted mb-2">
-      Beranda &gt; Laporkan Barang &gt; <strong class="text-dark">Formulir Pelaporan</strong>
-    </div>
-    
-    <h3 class="fw-bold text-dark mb-1">Formulir Pelaporan Barang</h3>
-    <p class="text-muted small mb-4">Isi detail informasi barang yang hilang atau ditemukan agar platform dapat melakukan pencocokan otomatis secara cerdas.</p>
-
-    <div id="formAlert" class="alert d-none small mb-4" role="alert"></div>
-
-    <form onsubmit="handleKirimLaporan(event)" class="form-wrapper-card">
+  <!-- Top Navbar Sesuai Wireframe Foto -->
+  <header class="navbar-custom">
+    <div class="navbar-container">
       
-      <!-- Status Pelaporan Toggle -->
-      <div class="mb-4">
-        <label class="form-label-custom d-block">Status Pelaporan <span class="text-danger">*</span></label>
-        <div class="d-flex gap-2">
-          <button type="button" class="status-btn active" id="btnTemuan" onclick="pilihStatus('temuan')">Ditemukan (Found)</button>
-          <button type="button" class="status-btn" id="btnHilang" onclick="pilihStatus('hilang')">Hilang (Lost)</button>
+      <!-- 1. Left: Logo Brand -->
+      <div class="navbar-brand-wrap">
+        <a href="dashboard_mahasiswa.html" class="d-flex align-items-center gap-3 text-decoration-none">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">FoundIt!</span>
+            <span class="brand-campus-badge">Polibatam</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 2. Center: Navigation Menu Links -->
+      <nav class="navbar-nav-center d-none d-lg-flex align-items-center">
+        <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
+        <a href="daftar_laporan.html" class="nav-link-custom">Katalog Barang</a>
+        <a href="laporkan_barang.html" class="nav-link-custom active">Laporkan Barang</a>
+        <a href="dashboard_mahasiswa.html#tentangKami" class="nav-link-custom">Tentang</a>
+      </nav>
+
+      <!-- 3. Right: Notification & User Profile -->
+      <div class="navbar-user-wrap d-flex align-items-center gap-3">
+        <!-- Bell Icon -->
+        <div class="btn-notification" title="Notifikasi">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notif-dot"></span>
+        </div>
+
+        <!-- User Dropdown -->
+        <div class="dropdown">
+          <div class="user-profile-chip" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-avatar" id="avatarInitial">B</div>
+            <div class="user-info-text d-none d-sm-block">
+              <div class="user-name-label" id="userNameDisplay">Budi Santoso</div>
+              <div class="user-sub-label" id="userNimDisplay">NIM: 1301210001</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary ms-1">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2 mt-2" style="border-radius: 12px; min-width: 220px; font-size: 1rem;">
+            <li>
+              <a class="dropdown-item py-2 fw-semibold" href="laporan_saya.html">
+                Laporan Saya
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item py-2 fw-semibold" href="daftar_laporan.html">
+                Katalog Barang
+              </a>
+            </li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li>
+              <a class="dropdown-item py-2 text-danger fw-semibold" href="javascript:void(0)" onclick="logout()">
+                Keluar
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container-xl px-3 px-lg-4">
+    
+    <!-- Breadcrumb Sesuai Screenshot -->
+    <nav class="breadcrumb-nav">
+      <a href="dashboard_mahasiswa.html">Beranda</a>
+      <span>&rsaquo;</span>
+      <a href="laporkan_barang.html">Laporkan Barang</a>
+      <span>&rsaquo;</span>
+      <span class="active">Formulir Pelaporan</span>
+    </nav>
+
+    <!-- Page Title & Subtitle Sesuai Screenshot -->
+    <div>
+      <h1 class="page-main-title">Formulir Pelaporan Barang</h1>
+      <p class="page-sub-title">
+        Isi detail informasi barang yang hilang atau ditemukan agar platform dapat melakukan pencocokan otomatis secara cerdas.
+      </p>
+    </div>
+
+    <!-- Alert Box Notifikasi Form -->
+    <div id="formAlertBox" class="alert d-none py-3 px-4 mb-4" style="border-radius: 12px;" role="alert"></div>
+
+    <!-- Main Card Container Sesuai Screenshot -->
+    <div class="main-form-card">
+      
+      <!-- Status Pelaporan Switcher: Ditemukan (Found) vs Hilang (Lost) -->
+      <div class="status-toggle-wrap">
+        <label class="status-toggle-label">
+          Status Pelaporan <span class="text-danger">*</span>
+        </label>
+        <div class="status-toggle-group">
+          <button type="button" id="btnToggleTemuan" class="btn-status-toggle active" onclick="setStatusPelaporan('temuan')">
+            Ditemukan (Found)
+          </button>
+          <button type="button" id="btnToggleHilang" class="btn-status-toggle" onclick="setStatusPelaporan('hilang')">
+            Hilang (Lost)
+          </button>
         </div>
       </div>
 
-      <hr class="text-muted my-4" />
+      <hr class="my-4" style="border-color: #f1f5f9;">
 
-      <div class="row g-4">
-        <!-- Kolom Kiri: Upload Foto -->
-        <div class="col-lg-5">
-          <label class="form-label-custom">Foto Barang <span class="text-danger">*</span></label>
-          <div class="upload-area" id="uploadDropArea" onclick="document.getElementById('inputFoto').click()">
-            <img id="previewImg" class="upload-preview-img d-none" alt="Preview Foto" />
-            <div id="uploadPlaceholder">
-              <div style="font-size: 2.2rem; color: #0f8a77;" class="mb-2">📷</div>
-              <div class="fw-bold small" style="color: #0f8a77;">Klik untuk unggah atau seret foto</div>
-              <div class="text-muted" style="font-size: 0.75rem;">PNG, JPG, JPEG (Maks. 5MB)</div>
+      <!-- Form Inputs -->
+      <form id="laporForm" onsubmit="handleFormSubmit(event)">
+        <!-- Hidden input jenis laporan -->
+        <input type="hidden" id="jenisLaporan" value="temuan" />
+
+        <div class="row g-4 g-lg-5">
+          
+          <!-- Kolom Kiri: Foto Barang & Tips Sesuai Screenshot -->
+          <div class="col-lg-5 col-md-12">
+            <label class="form-field-label">
+              Foto Barang <span class="required-star">*</span>
+            </label>
+
+            <!-- Mint Dashed Dropzone -->
+            <div class="upload-dropzone" id="dropzoneArea" onclick="document.getElementById('fotoFileInput').click()">
+              <input 
+                type="file" 
+                id="fotoFileInput" 
+                accept="image/png, image/jpeg, image/jpg" 
+                class="d-none" 
+                onchange="handleImageSelection(event)" 
+              />
+              
+              <div id="dropzoneEmpty">
+                <div class="upload-icon-circle">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                </div>
+                <div class="upload-text-main">Klik untuk unggah atau seret foto</div>
+                <div class="upload-text-sub">PNG, JPG, JPEG (Maks. 5MB)</div>
+              </div>
+
+              <!-- Preview State -->
+              <div id="dropzonePreview" class="d-none w-100 text-center">
+                <img id="previewImageTag" src="" alt="Pratinjau Foto" class="img-uploaded-preview mb-2" />
+                <br>
+                <button type="button" class="btn-remove-photo" onclick="event.stopPropagation(); removeSelectedImage();">
+                  Hapus / Ganti Foto
+                </button>
+              </div>
             </div>
-            <input type="file" id="inputFoto" accept="image/*" class="d-none" onchange="bacaFoto(this)" />
+
+            <!-- Mint Tips Box Sesuai Screenshot -->
+            <div class="tips-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <div>
+                <strong>Tips:</strong> Pastikan foto jelas, memperlihatkan ciri khas barang secara mendetail, dan memiliki pencahayaan yang cukup.
+              </div>
+            </div>
+
           </div>
 
-          <div class="tips-box">
-            <span>💡</span>
-            <div><strong>Tips:</strong> Pastikan foto jelas, memperlihatkan ciri khas barang secara mendetail, dan memiliki pencahayaan yang cukup.</div>
-          </div>
-        </div>
-
-        <!-- Kolom Kanan: Detail Input -->
-        <div class="col-lg-7">
-          <div class="vstack gap-3">
-            <div>
-              <label class="form-label-custom">Nama Barang <span class="text-danger">*</span></label>
-              <input type="text" id="namaBarang" required class="form-control form-control-custom" placeholder="Contoh: Kunci Motor Honda Vario, Dompet Coklat Braun Buffel" />
+          <!-- Kolom Kanan: Detail Informasi Barang Sesuai Screenshot -->
+          <div class="col-lg-7 col-md-12">
+            
+            <!-- Nama Barang -->
+            <div class="mb-4">
+              <label for="namaBarangInput" class="form-field-label">
+                Nama Barang <span class="required-star">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="namaBarangInput" 
+                class="form-control-custom" 
+                placeholder="Contoh: Kunci Motor Honda Vario, Dompet Coklat Braun Buffel" 
+                required 
+              />
             </div>
 
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <label class="form-label-custom">Kategori Barang <span class="text-danger">*</span></label>
-                <select id="kategoriBarang" required class="form-select form-control-custom">
-                  <option value="" disabled selected>Pilih Kategori</option>
-                  <option value="Aksesoris & Dompet">Aksesoris &amp; Dompet</option>
-                  <option value="Elektronik & Gadget">Elektronik &amp; Gadget</option>
-                  <option value="Kartu & Dokumen">Kartu &amp; Dokumen</option>
-                  <option value="Kunci & Kendaraan">Kunci &amp; Kendaraan</option>
-                  <option value="Pakaian & Tas">Pakaian &amp; Tas</option>
+            <!-- Kategori & Tanggal (2 Kolom) -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="kategoriSelect" class="form-field-label">
+                  Kategori Barang <span class="required-star">*</span>
+                </label>
+                <select id="kategoriSelect" class="form-select-custom" required>
+                  <option value="" disabled selected>Pilih kategori</option>
+                  <option value="Aksesoris & Dompet">Aksesoris & Dompet</option>
+                  <option value="Elektronik & Gadget">Elektronik & Gadget</option>
+                  <option value="Dokumen & Identitas">Dokumen & Identitas</option>
+                  <option value="Pakaian & Jaket">Pakaian & Jaket</option>
+                  <option value="Kunci & Kendaraan">Kunci & Kendaraan</option>
+                  <option value="Perlengkapan Kuliah">Perlengkapan Kuliah</option>
+                  <option value="Lain-lain">Lain-lain</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="tanggalInput" id="labelTanggal" class="form-field-label">
+                  Tanggal Ditemukan <span class="required-star">*</span>
+                </label>
+                <input 
+                  type="date" 
+                  id="tanggalInput" 
+                  class="form-control-custom" 
+                  required 
+                />
+              </div>
+            </div>
+
+            <!-- Lokasi Kampus & Lokasi Spesifik (2 Kolom) -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="lokasiKampusSelect" class="form-field-label">
+                  Lokasi Kampus <span class="required-star">*</span>
+                </label>
+                <select id="lokasiKampusSelect" class="form-select-custom" required>
+                  <option value="" disabled selected>Pilih lokasi</option>
+                  <option value="Gedung Kuliah Bersama (GKB)">Gedung Kuliah Bersama (GKB)</option>
+                  <option value="Gedung Utama / Rektorat">Gedung Utama / Rektorat</option>
+                  <option value="Perpustakaan Pusat">Perpustakaan Pusat</option>
+                  <option value="Kantin Utama">Kantin Utama</option>
+                  <option value="Area Parkir Barat">Area Parkir Barat</option>
+                  <option value="Gedung Laboratorium">Gedung Laboratorium</option>
+                  <option value="Tower A">Tower A</option>
+                  <option value="Tower B">Tower B</option>
+                  <option value="Masjid Kampus">Masjid Kampus</option>
                   <option value="Lainnya">Lainnya</option>
                 </select>
               </div>
-              <div class="col-sm-6">
-                <label class="form-label-custom" id="labelTanggal">Tanggal Ditemukan <span class="text-danger">*</span></label>
-                <input type="date" id="tanggalKejadian" required class="form-control form-control-custom" />
+              <div class="col-md-6">
+                <label for="lokasiSpesifikInput" class="form-field-label">
+                  Lokasi Spesifik / Ruangan <span class="required-star">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="lokasiSpesifikInput" 
+                  class="form-control-custom" 
+                  placeholder="Contoh: Meja no. 4 Kantin Lantai 1" 
+                  required 
+                />
               </div>
             </div>
 
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <label class="form-label-custom">Lokasi Kampus <span class="text-danger">*</span></label>
-                <select id="lokasiKampus" required class="form-select form-control-custom">
-                  <option value="" disabled selected>Pilih Gedung</option>
-                  <option value="Gedung Kuliah Bersama (GKB)">Gedung Kuliah Bersama (GKB)</option>
-                  <option value="Gedung Perkuliahan Utama">Gedung Perkuliahan Utama</option>
-                  <option value="Perpustakaan Pusat">Perpustakaan Pusat</option>
-                  <option value="Kantin & Foodcourt">Kantin &amp; Foodcourt</option>
-                  <option value="Area Parkir Kampus">Area Parkir Kampus</option>
-                </select>
-              </div>
-              <div class="col-sm-6">
-                <label class="form-label-custom">Lokasi Spesifik / Ruangan</label>
-                <input type="text" id="lokasiSpesifik" class="form-control form-control-custom" placeholder="Contoh: Meja no. 4 Kantin Lantai 1" />
-              </div>
+            <!-- Deskripsi & Ciri Ciri Tambahan -->
+            <div class="mb-4">
+              <label for="deskripsiInput" class="form-field-label">
+                Deskripsi & Ciri Ciri Tambahan
+              </label>
+              <textarea 
+                id="deskripsiInput" 
+                class="form-control-custom" 
+                rows="4" 
+                placeholder="Tulis rincian fisik seperti warna, gantungan kunci, goresan tertentu, isi dompet, atau keadaan spesifik saat ditemukan..."
+              ></textarea>
             </div>
 
-            <div>
-              <label class="form-label-custom">Deskripsi &amp; Ciri Ciri Tambahan</label>
-              <textarea id="deskripsiBarang" rows="3" class="form-control form-control-custom" placeholder="Tulis rincian fisik seperti warna, gantungan kunci, goresan tertentu, isi dompet, atau keadaan spesifik saat ditemukan..."></textarea>
+            <!-- Kontak WhatsApp / ID Telegram untuk Klaim -->
+            <div class="mb-4">
+              <label for="kontakInput" class="form-field-label">
+                Kontak WhatsApp / ID Telegram untuk Klaim <span class="required-star">*</span>
+              </label>
+              <input 
+                type="tel" 
+                id="kontakInput" 
+                class="form-control-custom" 
+                placeholder="081301210001" 
+                required 
+              />
             </div>
 
-            <div>
-              <label class="form-label-custom">Kontak WhatsApp / ID Telegram untuk Klaim <span class="text-danger">*</span></label>
-              <input type="text" id="kontakPelapor" required class="form-control form-control-custom" placeholder="081234567890" />
+            <!-- Checkbox Persetujuan Sesuai Screenshot -->
+            <div class="agreement-wrap">
+              <input type="checkbox" id="agreementCheck" required />
+              <label for="agreementCheck" style="cursor: pointer;">
+                Saya menyatakan bahwa informasi di atas adalah benar dan saya bertanggung jawab atas barang temuan ini.
+              </label>
             </div>
+
+            <!-- Tombol Aksi Bawah: Batal & Kembali / Kirim Laporan -->
+            <div class="action-buttons-row">
+              <a href="dashboard_mahasiswa.html" class="btn-form-cancel">
+                Batal & Kembali
+              </a>
+              <button type="submit" id="btnSubmitForm" class="btn-form-submit">
+                Kirim Laporan
+              </button>
+            </div>
+
           </div>
+
+        </div>
+      </form>
+
+    </div>
+
+  </main>
+
+  <!-- Footer Dark Navy Sesuai Desain Polibatam -->
+  <footer class="footer-custom">
+    <div class="container-xl px-3 px-lg-4">
+      <div class="row g-4 justify-content-between">
+        
+        <!-- Kolom 1: Brand & Penjelasan -->
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2">
+            <div class="brand-logo-badge" style="background-color: var(--primary-mint); color: #032b24;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <span class="footer-brand-title">FoundIt! Polibatam</span>
+          </div>
+          <p class="footer-desc">
+            Sistem informasi penanganan barang hilang terintegrasi, membantu menjaga kebersamaan dan integritas mahasiswa Politeknik Negeri Batam.
+          </p>
+        </div>
+
+        <!-- Kolom 2: Navigasi -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <div class="footer-col-title">Navigasi</div>
+          <ul class="footer-links">
+            <li><a href="dashboard_mahasiswa.html">Beranda</a></li>
+            <li><a href="daftar_laporan.html">Katalog Barang</a></li>
+            <li><a href="laporkan_barang.html">Laporkan Barang</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Bantuan & Layanan Polibatam -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <div class="footer-col-title">Bantuan & Layanan</div>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)">Panduan Klaim Barang</a></li>
+            <li><a href="javascript:void(0)">Syarat & Ketentuan</a></li>
+            <li><a href="javascript:void(0)">Posko Keamanan (Gedung Utama)</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4: Sistem Resmi Kampus Polibatam -->
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-col-title">Sistem Keamanan</div>
+          <div class="security-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+            <span>Layanan Resmi Kampus Polibatam</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Garis Pemisah & Hak Cipta -->
+      <div class="footer-divider"></div>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          FoundIt! 2025 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
+        </div>
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
         </div>
       </div>
 
-      <div class="form-check small my-4">
-        <input class="form-check-input" type="checkbox" required id="checkSetuju" checked />
-        <label class="form-check-label text-muted" for="checkSetuju">
-          Saya menyatakan bahwa informasi di atas adalah benar dan saya bertanggung jawab atas barang temuan/hilang ini.
-        </label>
-      </div>
-
-      <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-        <a href="dashboard_mahasiswa.html" class="btn btn-light border px-4 py-2 small fw-semibold">Batal &amp; Kembali</a>
-        <button type="submit" id="btnSubmitLaporan" class="btn-submit-lapor">Kirim Laporan</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="footer-dark">
-    <div class="container">
-      <div class="d-flex flex-wrap justify-content-between align-items-center small text-white-50">
-        <div>FoundIt! 2025 – Universitas XYZ. Hak Cipta Dilindungi.</div>
-        <div>Terhubung Supabase Database</div>
-      </div>
     </div>
   </footer>
 
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    // 1. Sesi Mahasiswa
-    const session = JSON.parse(localStorage.getItem('foundit_session'));
-    if (!session || session.role !== 'mahasiswa') {
-      alert('Silakan login sebagai mahasiswa terlebih dahulu.');
+    // Cek Sesi Pengguna
+    const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+    if (!session) {
       window.location.href = 'login.html';
     } else {
-      document.getElementById('navName').textContent = session.name;
-      document.getElementById('navNIM').textContent = 'NIM: ' + session.nim;
+      const name = session.name || 'Pengguna';
+      document.getElementById('userNameDisplay').textContent = name;
+      document.getElementById('userNimDisplay').textContent = session.nim ? 'NIM: ' + session.nim : 'Mahasiswa Aktif';
+      document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
+
+      if (session.phone) {
+        document.getElementById('kontakInput').value = session.phone;
+      }
     }
 
-    document.getElementById('tanggalKejadian').valueAsDate = new Date();
+    // Default tanggal hari ini
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('tanggalInput').value = today;
 
-    let statusTerpilih = 'temuan';
-    let base64Foto = '';
+    // Render kategori aktif dari master data
+    try {
+      const activeCats = getStoredCategories().filter(c => (c.status || 'Aktif').toLowerCase() === 'aktif');
+      if (activeCats.length > 0) {
+        document.getElementById('kategoriSelect').innerHTML = 
+          '<option value="" disabled selected>Pilih kategori</option>' +
+          activeCats.map(c => `<option value="${c.nama}">${c.nama}</option>`).join('');
+      }
+    } catch (e) {
+      console.warn('Gagal memuat kategori dinamis:', e);
+    }
 
-    function pilihStatus(status) {
-      statusTerpilih = status;
-      if (status === 'temuan') {
-        document.getElementById('btnTemuan').className = 'status-btn active';
-        document.getElementById('btnHilang').className = 'status-btn';
-        document.getElementById('labelTanggal').textContent = 'Tanggal Ditemukan *';
+    function logout() {
+      localStorage.removeItem('foundit_session');
+      window.location.href = 'login.html';
+    }
+
+    // Switcher status pelaporan
+    function setStatusPelaporan(jenis) {
+      document.getElementById('jenisLaporan').value = jenis;
+      const btnTemuan = document.getElementById('btnToggleTemuan');
+      const btnHilang = document.getElementById('btnToggleHilang');
+      const labelTanggal = document.getElementById('labelTanggal');
+
+      if (jenis === 'temuan') {
+        btnTemuan.classList.add('active');
+        btnHilang.classList.remove('active');
+        labelTanggal.innerHTML = 'Tanggal Ditemukan <span class="required-star">*</span>';
       } else {
-        document.getElementById('btnTemuan').className = 'status-btn';
-        document.getElementById('btnHilang').className = 'status-btn active';
-        document.getElementById('labelTanggal').textContent = 'Tanggal Hilang *';
+        btnHilang.classList.add('active');
+        btnTemuan.classList.remove('active');
+        labelTanggal.innerHTML = 'Tanggal Kejadian Hilang <span class="required-star">*</span>';
       }
     }
 
-    // 2. Baca Foto & Konversi ke Base64 (Pratinjau Langsung)
-    function bacaFoto(input) {
-      if (input.files && input.files[0]) {
-        const file = input.files[0];
+    // Manajemen Upload & Pratinjau Foto
+    let fotoBase64 = null;
 
-        // Validasi ukuran (maks 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-          alert('Ukuran file maksimal 5MB!');
-          return;
-        }
+    function handleImageSelection(e) {
+      const file = e.target.files[0];
+      if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          base64Foto = e.target.result;
-          const preview = document.getElementById('previewImg');
-          preview.src = base64Foto;
-          preview.classList.remove('d-none');
-          document.getElementById('uploadPlaceholder').classList.add('d-none');
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    // 3. Simpan Laporan ke Supabase
-    async function handleKirimLaporan(event) {
-      event.preventDefault();
-      const alertBox = document.getElementById('formAlert');
-      const submitBtn = document.getElementById('btnSubmitLaporan');
-
-      const nama = document.getElementById('namaBarang').value.trim();
-      const kategori = document.getElementById('kategoriBarang').value;
-      const tanggal = document.getElementById('tanggalKejadian').value;
-      const kampus = document.getElementById('lokasiKampus').value;
-      const spesifik = document.getElementById('lokasiSpesifik').value.trim();
-      const lokasi = spesifik ? `${kampus} (${spesifik})` : kampus;
-      const deskripsi = document.getElementById('deskripsiBarang').value.trim();
-      const kontak = document.getElementById('kontakPelapor').value.trim();
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Menyimpan...';
-
-      const { data, error } = await supabaseClient
-        .from('items')
-        .insert([
-          {
-            nama_barang: nama,
-            kategori: kategori,
-            tanggal: tanggal,
-            lokasi: lokasi,
-            deskripsi: deskripsi ? `${deskripsi} | Kontak: ${kontak}` : `Kontak: ${kontak}`,
-            jenis: statusTerpilih,
-            status: 'aktif',
-            foto_url: base64Foto || null,
-            pelapor_id: session.id
-          }
-        ]);
-
-      if (error) {
-        alertBox.textContent = 'Gagal menyimpan: ' + error.message;
-        alertBox.className = 'alert alert-danger small mb-4';
-        alertBox.classList.remove('d-none');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Kirim Laporan';
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Ukuran file foto maksimal adalah 5 MB.');
         return;
       }
 
-      alertBox.textContent = 'Laporan berhasil disimpan! Mengalihkan ke beranda...';
-      alertBox.className = 'alert alert-success small mb-4';
-      alertBox.classList.remove('d-none');
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        fotoBase64 = evt.target.result;
+        document.getElementById('previewImageTag').src = fotoBase64;
+        document.getElementById('dropzoneEmpty').classList.add('d-none');
+        document.getElementById('dropzonePreview').classList.remove('d-none');
+      };
+      reader.readAsDataURL(file);
+    }
 
-      setTimeout(() => {
-        window.location.href = 'dashboard_mahasiswa.html';
-      }, 900);
+    function removeSelectedImage() {
+      fotoBase64 = null;
+      document.getElementById('fotoFileInput').value = '';
+      document.getElementById('dropzonePreview').classList.add('d-none');
+      document.getElementById('dropzoneEmpty').classList.remove('d-none');
+    }
+
+    // Drag and drop event listeners
+    const dropArea = document.getElementById('dropzoneArea');
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = '#dcfce7';
+      }, false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = '#f0fdf9';
+      }, false);
+    });
+    dropArea.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        document.getElementById('fotoFileInput').files = files;
+        handleImageSelection({ target: { files: files } });
+      }
+    });
+
+    // Form Submission
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('formAlertBox');
+      const submitBtn = document.getElementById('btnSubmitForm');
+
+      const jenis = document.getElementById('jenisLaporan').value;
+      const nama = document.getElementById('namaBarangInput').value.trim();
+      const kategori = document.getElementById('kategoriSelect').value;
+      const tanggal = document.getElementById('tanggalInput').value;
+      const lokasiKampus = document.getElementById('lokasiKampusSelect').value;
+      const lokasiSpesifik = document.getElementById('lokasiSpesifikInput').value.trim();
+      const deskripsi = document.getElementById('deskripsiInput').value.trim();
+      const kontak = document.getElementById('kontakInput').value.trim();
+
+      const gabunganLokasi = lokasiSpesifik ? `${lokasiKampus} - ${lokasiSpesifik}` : lokasiKampus;
+
+      // Validasi nomor kontak
+      const kontakClean = kontak.replace(/[^0-9]/g, '');
+      if (kontakClean.length < 10 || kontakClean.length > 15) {
+        alertBox.textContent = 'Nomor kontak WhatsApp/Telegram harus aktif dan terdiri dari 10–15 digit.';
+        alertBox.className = 'alert alert-danger py-3 px-4 mb-4';
+        alertBox.classList.remove('d-none');
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengirim Laporan...';
+
+      try {
+        const fullDeskripsi = deskripsi ? `${deskripsi} | Kontak: ${kontakClean}` : `Kontak: ${kontakClean}`;
+
+        const { error } = await supabaseClient
+          .from('items')
+          .insert([
+            {
+              nama_barang: nama,
+              kategori: kategori,
+              tanggal: tanggal,
+              lokasi: gabunganLokasi,
+              deskripsi: fullDeskripsi,
+              jenis: jenis,
+              status: 'aktif',
+              foto_url: fotoBase64 || null,
+              pelapor_id: session.id
+            }
+          ]);
+
+        if (error) throw error;
+
+        alertBox.textContent = 'Laporan barang berhasil dikirim dan tersimpan di sistem.';
+        alertBox.className = 'alert alert-success py-3 px-4 mb-4';
+        alertBox.classList.remove('d-none');
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+
+        setTimeout(() => {
+          window.location.href = 'dashboard_mahasiswa.html';
+        }, 1000);
+
+      } catch (err) {
+        alertBox.textContent = 'Gagal menyimpan laporan. Silakan coba kembali: ' + err.message;
+        alertBox.className = 'alert alert-danger py-3 px-4 mb-4';
+        alertBox.classList.remove('d-none');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Kirim Laporan';
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+      }
     }
   </script>
 </body>

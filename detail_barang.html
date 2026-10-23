@@ -3,24 +3,666 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detail Barang - FoundIt!</title>
+  <title>Detail Barang - FoundIt! Platform Kampus</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
-    .btn-foundit { background-color: #0f8a77; color: #ffffff; border: none; }
-    .btn-foundit:hover { background-color: #0c7262; color: #ffffff; }
-    .btn-outline-foundit { border: 1.5px solid #0f8a77; color: #0f8a77; background: transparent; }
-    .btn-outline-foundit:hover { background-color: #f0fdfa; color: #0c7262; border-color: #0c7262; }
-    .badge-temuan { background-color: #d1fae5; color: #065f46; font-weight: 600; font-size: 0.75rem; padding: 6px 12px; border-radius: 6px; }
-    .badge-hilang { background-color: #fee2e2; color: #991b1b; font-weight: 600; font-size: 0.75rem; padding: 6px 12px; border-radius: 6px; }
-    .main-img-container { width: 100%; height: 380px; object-fit: cover; border-radius: 16px; background-color: #e2e8f0; }
-    .thumb-img { width: 100%; height: 95px; object-fit: cover; border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
-    .thumb-img.active { border-color: #0f8a77; }
-    .card-detail { border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; }
-    .footer-dark { background-color: #0f172a; color: #94a3b8; }
+    :root {
+      --primary-color: #0f8a77;
+      --primary-hover: #0c7262;
+      --primary-mint: #2dd4bf;
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --footer-navy: #0b1329;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    
+    /* Responsive Wide Container untuk Layar Besar */
+    @media (min-width: 1400px) {
+      .container, .container-lg, .container-xl, .container-xxl {
+        max-width: 1480px;
+      }
+    }
+    @media (min-width: 1800px) {
+      .container, .container-lg, .container-xl, .container-xxl {
+        max-width: 1620px;
+      }
+    }
+
+    /* Top Navbar Sesuai Wireframe Foto */
+    .navbar-custom {
+      background-color: #ffffff;
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+    .navbar-container {
+      width: 100%;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+      .navbar-container {
+        padding: 0 40px;
+      }
+    }
+    @media (min-width: 1400px) {
+      .navbar-container {
+        padding: 0 64px;
+      }
+    }
+    .navbar-brand-wrap {
+      flex: 0 0 auto;
+    }
+    .brand-logo-badge {
+      width: 44px;
+      height: 44px;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(15, 138, 119, 0.25);
+      flex-shrink: 0;
+    }
+    .brand-text-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .brand-campus-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      background-color: #e6f7f4;
+      border: 1px solid rgba(15, 138, 119, 0.2);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Navbar Center Links */
+    .navbar-nav-center {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    @media (min-width: 1400px) {
+      .navbar-nav-center {
+        gap: 48px;
+      }
+    }
+    .nav-link-custom {
+      color: #475569;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      padding: 8px 4px;
+      white-space: nowrap; /* Mencegah teks terpotong atau turun baris */
+      position: relative;
+      transition: color 0.15s ease;
+      letter-spacing: -0.01em;
+    }
+    .nav-link-custom:hover {
+      color: var(--primary-color);
+    }
+    .nav-link-custom.active {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    .nav-link-custom.active::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 3px;
+    }
+
+    /* Navbar Right Actions */
+    .navbar-user-wrap {
+      flex: 0 0 auto;
+    }
+    .btn-notification {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-notification:hover {
+      background: #e2e8f0;
+    }
+    .notif-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 9px;
+      height: 9px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+    }
+
+    /* User Profile Chip */
+    .user-profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .user-profile-chip:hover {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #0f8a77;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(15, 138, 119, 0.25);
+    }
+    .user-info-text {
+      line-height: 1.25;
+      text-align: left;
+    }
+    .user-name-label {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+    .user-sub-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-nav {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 32px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .breadcrumb-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .breadcrumb-nav a:hover {
+      color: var(--primary-color);
+    }
+    .breadcrumb-nav .active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    /* Main Detail Layout Sesuai Screenshot 5 */
+    .detail-container-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 10px 32px rgba(15, 23, 42, 0.04);
+      padding: 40px;
+      margin-bottom: 48px;
+    }
+
+    /* Left Column: Image Showcase */
+    .main-photo-wrap {
+      width: 100%;
+      height: 420px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+    .main-photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .thumbnails-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .thumb-item {
+      width: calc((100% - 28px) / 3);
+      height: 90px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      background: #f1f5f9;
+      transition: all 0.15s ease;
+    }
+    .thumb-item:hover {
+      opacity: 0.9;
+    }
+    .thumb-item.active {
+      border-color: var(--primary-color);
+    }
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Right Column: Info & Details */
+    .detail-header-badges {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .badge-status-pill {
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+    }
+    .badge-pill-temuan {
+      background: #e6f9f4;
+      color: var(--primary-color);
+      border: 1.5px solid #99f6e4;
+    }
+    .badge-pill-hilang {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1.5px solid #fecaca;
+    }
+    .category-text-label {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .detail-item-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      line-height: 1.25;
+    }
+
+    /* 3 Meta Rows With Rounded Icon Badges */
+    .meta-spec-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .meta-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .meta-text-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 3px;
+    }
+    .meta-text-val {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    /* Section Subheadings: DESKRIPSI & CIRI KHUSUS */
+    .section-spec-label {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .section-spec-body {
+      font-size: 1.08rem;
+      color: #334155;
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+    .ciri-khusus-list {
+      padding-left: 20px;
+      margin-bottom: 30px;
+      color: #334155;
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+    .ciri-khusus-list li {
+      margin-bottom: 8px;
+    }
+
+    /* Buttons Sesuai Screenshot */
+    .btn-klaim-primary {
+      background: var(--primary-color);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.15rem;
+      border-radius: 12px;
+      padding: 16px 28px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      border: none;
+      box-shadow: 0 4px 14px rgba(15, 138, 119, 0.25);
+      transition: background-color 0.15s ease;
+      cursor: pointer;
+      margin-bottom: 14px;
+    }
+    .btn-klaim-primary:hover {
+      background: var(--primary-hover);
+      color: #ffffff;
+    }
+    .btn-contact-outline {
+      background: #ffffff;
+      color: var(--primary-color);
+      border: 1.5px solid var(--primary-color);
+      font-weight: 700;
+      font-size: 1.15rem;
+      border-radius: 12px;
+      padding: 15px 28px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-contact-outline:hover {
+      background: #f0fdf9;
+      color: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    /* Bottom Section: Barang Serupa di Sekitar Anda */
+    .section-similar-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-top: 60px;
+      margin-bottom: 26px;
+    }
+
+    .item-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    }
+    .item-card-img-wrap {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      background-color: #f1f5f9;
+      overflow: hidden;
+    }
+    .item-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .badge-status-corner {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .badge-corner-temuan {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-corner-hilang {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .item-card-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .item-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .item-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.96rem;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+    .item-meta-row svg {
+      flex-shrink: 0;
+      color: #94a3b8;
+    }
+    .btn-item-detail {
+      background: #f1f5f9;
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 10px;
+      padding: 11px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      margin-top: 16px;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+    .btn-item-detail:hover {
+      background: #e2e8f0;
+      color: var(--primary-color);
+      border-color: #cbd5e1;
+    }
+
+    /* Footer (Dark Navy Sesuai Screenshot) */
+    .footer-custom {
+      background-color: var(--footer-navy);
+      color: #94a3b8;
+      padding: 60px 0 32px 0;
+      margin-top: 72px;
+      font-size: 0.9rem;
+    }
+    .footer-brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .footer-desc {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      max-width: 320px;
+      margin-top: 14px;
+    }
+    .footer-col-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .footer-divider {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin: 40px 0 24px 0;
+    }
+    .social-icon-link {
+      color: #94a3b8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+    .social-icon-link:hover {
+      color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .detail-container-card {
+        padding: 24px 18px;
+      }
+      .detail-item-title {
+        font-size: 1.75rem;
+      }
+      .main-photo-wrap {
+        height: 280px;
+      }
+    }
   </style>
   
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -28,266 +670,556 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="dashboard_mahasiswa.html">
-        <div class="rounded-3 d-flex align-items-center justify-content-center text-white" style="width: 32px; height: 32px; background-color: #0f8a77;">
-          🔍
-        </div>
-        <span>FoundIt!</span>
-      </a>
-
-      <div class="collapse navbar-collapse justify-content-center">
-        <ul class="navbar-nav gap-3">
-          <li class="nav-item"><a class="nav-link text-muted" href="dashboard_mahasiswa.html">Beranda</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold text-success active" href="#">Katalog Barang</a></li>
-          <li class="nav-item"><a class="nav-link text-muted" href="laporkan_barang.html">Laporkan Barang</a></li>
-          <li class="nav-item"><a class="nav-link text-muted" href="#">Tentang</a></li>
-        </ul>
+  <!-- Top Navbar Sesuai Wireframe Foto -->
+  <header class="navbar-custom">
+    <div class="navbar-container">
+      
+      <!-- 1. Left: Logo Brand -->
+      <div class="navbar-brand-wrap">
+        <a href="dashboard_mahasiswa.html" class="d-flex align-items-center gap-3 text-decoration-none">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">FoundIt!</span>
+            <span class="brand-campus-badge">Polibatam</span>
+          </div>
+        </a>
       </div>
 
-      <div class="d-flex align-items-center gap-3">
-        <div class="text-end">
-          <div class="fw-bold small" id="navUser">Budi Santoso</div>
-          <div class="text-muted" style="font-size: 0.75rem;" id="navNIM">NIM: 1301210001</div>
+      <!-- 2. Center: Navigation Menu Links -->
+      <nav class="navbar-nav-center d-none d-lg-flex align-items-center">
+        <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
+        <a href="daftar_laporan.html" class="nav-link-custom active">Katalog Barang</a>
+        <a href="laporkan_barang.html" class="nav-link-custom">Laporkan Barang</a>
+        <a href="dashboard_mahasiswa.html#tentangKami" class="nav-link-custom">Tentang</a>
+      </nav>
+
+      <!-- 3. Right: Notification & User Profile -->
+      <div class="navbar-user-wrap d-flex align-items-center gap-3">
+        <!-- Bell Icon -->
+        <div class="btn-notification" title="Notifikasi">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notif-dot"></span>
         </div>
-        <button onclick="logout()" class="btn btn-outline-danger btn-sm">Keluar</button>
+
+        <!-- User Dropdown -->
+        <div class="dropdown">
+          <div class="user-profile-chip" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-avatar" id="avatarInitial">B</div>
+            <div class="user-info-text d-none d-sm-block">
+              <div class="user-name-label" id="userNameDisplay">Budi Santoso</div>
+              <div class="user-sub-label" id="userNimDisplay">NIM: 1301210001</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary ms-1">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2 mt-2" style="border-radius: 12px; min-width: 220px; font-size: 1rem;">
+            <li>
+              <a class="dropdown-item py-2 fw-semibold" href="laporan_saya.html">
+                Laporan Saya
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item py-2 fw-semibold" href="daftar_laporan.html">
+                Katalog Barang
+              </a>
+            </li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li>
+              <a class="dropdown-item py-2 text-danger fw-semibold" href="javascript:void(0)" onclick="logout()">
+                Keluar
+              </a>
+            </li>
+          </ul>
+        </div>
+
       </div>
+
     </div>
-  </nav>
+  </header>
 
-  <!-- KONTEN DETAIL BARANG -->
-  <div class="container my-4">
-    <!-- Breadcrumb -->
-    <nav class="small text-muted mb-4">
-      Beranda &gt; Katalog Barang &gt; <strong class="text-dark">Detail Barang</strong>
+  <!-- Main Container -->
+  <main class="container-xl px-3 px-lg-4">
+    
+    <!-- Breadcrumb Sesuai Screenshot -->
+    <nav class="breadcrumb-nav">
+      <a href="dashboard_mahasiswa.html">Beranda</a>
+      <span>&rsaquo;</span>
+      <a href="daftar_laporan.html">Katalog Barang</a>
+      <span>&rsaquo;</span>
+      <span class="active" id="breadcrumbItemName">Detail Barang</span>
     </nav>
 
-    <div class="row g-4">
-      <!-- SISI KIRI: Galeri Foto -->
-      <div class="col-lg-6">
-        <img id="mainImage" src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80" alt="Foto Barang" class="main-img-container shadow-sm mb-3" />
+    <!-- Main Detail Card Container Sesuai Screenshot 5 -->
+    <div class="detail-container-card">
+      <div class="row g-4 g-lg-5">
         
-        <div class="row g-2">
-          <div class="col-4">
-            <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=400&q=80" class="thumb-img active" onclick="switchImage(this)" alt="Thumbnail 1" />
+        <!-- Kolom Kiri: Showcase Foto Besar & Thumbnails -->
+        <div class="col-lg-6 col-md-12">
+          <div class="main-photo-wrap">
+            <img id="mainDisplayPhoto" src="assets/images/dompet_kulit.jpg" alt="Foto Barang" class="main-photo-img" />
           </div>
-          <div class="col-4">
-            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80" class="thumb-img" onclick="switchImage(this)" alt="Thumbnail 2" />
-          </div>
-          <div class="col-4">
-            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" class="thumb-img" onclick="switchImage(this)" alt="Thumbnail 3" />
+
+          <!-- Thumbnails Row Sesuai Screenshot -->
+          <div class="thumbnails-row">
+            <div class="thumb-item active" onclick="switchThumbnail(this, 'mainDisplayPhoto')">
+              <img id="thumb1" src="assets/images/dompet_kulit.jpg" alt="Thumbnail 1" />
+            </div>
+            <div class="thumb-item" onclick="switchThumbnail(this, 'mainDisplayPhoto')">
+              <img id="thumb2" src="assets/images/dompet_kulit.jpg" alt="Thumbnail 2" />
+            </div>
+            <div class="thumb-item" onclick="switchThumbnail(this, 'mainDisplayPhoto')">
+              <img id="thumb3" src="assets/images/dompet_kulit.jpg" alt="Thumbnail 3" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- SISI KANAN: Informasi Rincian Barang -->
-      <div class="col-lg-6">
-        <div class="card-detail p-4 p-md-5 shadow-sm h-100 d-flex flex-column justify-content-between">
-          <div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <span id="badgeJenis" class="badge-temuan text-uppercase">Ditemukan</span>
-              <span id="labelKategori" class="text-foundit fw-semibold small">Aksesoris Pribadi</span>
+        <!-- Kolom Kanan: Detail Informasi Barang -->
+        <div class="col-lg-6 col-md-12">
+          
+          <!-- Badges Status & Kategori -->
+          <div class="detail-header-badges">
+            <span id="badgeStatusPill" class="badge-status-pill badge-pill-temuan">DITEMUKAN</span>
+            <span id="labelKategoriHeader" class="category-text-label">Aksesoris Pribadi</span>
+          </div>
+
+          <!-- Judul Nama Barang -->
+          <h1 class="detail-item-title" id="itemTitleDisplay">
+            Dompet Kulit Coklat
+          </h1>
+
+          <!-- 3 Meta Rows dengan Rounded Icon Badges -->
+          <div class="meta-spec-row">
+            <div class="meta-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
             </div>
-
-            <h2 id="judulBarang" class="fw-bold text-dark mb-4">Dompet Kulit Coklat</h2>
-
-            <!-- Metadata Penemuan -->
-            <div class="vstack gap-3 mb-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="p-2 bg-light rounded text-muted">📅</div>
-                <div>
-                  <small class="text-muted d-block" id="labelTanggalKey">Tanggal Ditemukan</small>
-                  <strong class="small" id="valTanggal">15 September 2025</strong>
-                </div>
-              </div>
-
-              <div class="d-flex align-items-center gap-3">
-                <div class="p-2 bg-light rounded text-muted">📍</div>
-                <div>
-                  <small class="text-muted d-block">Lokasi Penemuan</small>
-                  <strong class="small" id="valLokasi">Gedung A – Lantai 2, Ruang 205</strong>
-                </div>
-              </div>
-
-              <div class="d-flex align-items-center gap-3">
-                <div class="p-2 bg-light rounded text-muted">👤</div>
-                <div>
-                  <small class="text-muted d-block">Dilaporkan Oleh</small>
-                  <strong class="small" id="valPelapor">Petugas Kampus (Satpam)</strong>
-                </div>
-              </div>
-            </div>
-
-            <!-- Deskripsi -->
-            <div class="mb-3">
-              <h6 class="fw-bold small text-secondary text-uppercase mb-1">Deskripsi</h6>
-              <p class="small text-muted mb-0 lh-base" id="valDeskripsi">
-                Ditemukan sebuah dompet lipat bahan kulit berwarna coklat tua di bawah meja baris ketiga Ruang 205 Gedung A. Kondisi dompet masih sangat bagus dan terisi beberapa kartu tanda pengenal mahasiswa.
-              </p>
-            </div>
-
-            <!-- Ciri Khusus -->
-            <div class="mb-4">
-              <h6 class="fw-bold small text-secondary text-uppercase mb-2">Ciri Khusus</h6>
-              <ul class="small text-muted ps-3 mb-0 lh-lg" id="valCiri">
-                <li>Terdapat gantungan kunci kecil berbentuk logo klub sepak bola.</li>
-                <li>Merk tertera samar di bagian sudut kanan bawah depan.</li>
-                <li>Terdapat slip tiket masuk tanggal kegiatan kampus.</li>
-              </ul>
+            <div>
+              <div class="meta-text-title" id="labelTanggalKey">Tanggal Ditemukan</div>
+              <div class="meta-text-val" id="valTanggal">15 September 2025</div>
             </div>
           </div>
 
-          <!-- Tombol Aksi -->
-          <div class="vstack gap-2 pt-3">
-            <button onclick="ajukanKlaim()" class="btn btn-foundit fw-semibold py-2 w-100">
+          <div class="meta-spec-row">
+            <div class="meta-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <div class="meta-text-title" id="labelLokasiKey">Lokasi Penemuan</div>
+              <div class="meta-text-val" id="valLokasi">Gedung A - Lantai 2, Ruang 205</div>
+            </div>
+          </div>
+
+          <div class="meta-spec-row">
+            <div class="meta-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div>
+              <div class="meta-text-title">Dilaporkan Oleh</div>
+              <div class="meta-text-val" id="valPelapor">Ahmad Rizki (Satpam)</div>
+            </div>
+          </div>
+
+          <hr class="my-4" style="border-color: #f1f5f9;">
+
+          <!-- Bagian DESKRIPSI -->
+          <div class="section-spec-label">DESKRIPSI</div>
+          <p class="section-spec-body" id="valDeskripsi">
+            Ditemukan sebuah dompet lipat bahan kulit berwarna coklat tua di bawah meja baris ketiga Ruang 205 Gedung A. Kondisi dompet masih sangat bagus dan terisi beberapa kartu namun tanpa tanda pengenal mahasiswa yang jelas.
+          </p>
+
+          <!-- Bagian CIRI KHUSUS -->
+          <div class="section-spec-label">CIRI KHUSUS</div>
+          <ul class="ciri-khusus-list" id="valCiriKhusus">
+            <li>Terdapat gantungan kunci kecil berbentuk logo klub sepak bola.</li>
+            <li>Merk "Braun Buffel" tercetak samar di bagian sudut kanan bawah depan.</li>
+            <li>Ada sisa tiket bioskop tanggal 12 September di salah satu slip kartu.</li>
+          </ul>
+
+          <!-- Tombol Aksi Sesuai Screenshot -->
+          <div class="mt-4">
+            <a href="javascript:void(0)" id="btnAjukanKlaim" class="btn-klaim-primary">
               Ajukan Klaim Barang Ini
-            </button>
-            <button onclick="hubungiPetugas()" class="btn btn-outline-foundit fw-semibold py-2 w-100">
+            </a>
+            <button type="button" id="btnHubungiPetugas" class="btn-contact-outline" onclick="hubungiWhatsApp()">
               Hubungi Petugas
             </button>
           </div>
+
         </div>
+
       </div>
     </div>
 
-    <!-- BAGIAN BAWAH: Rekomendasi Barang Serupa -->
-    <div class="my-5 pt-4">
-      <h4 class="fw-bold text-dark mb-4">Barang Serupa di Sekitar Anda</h4>
-      <div class="row g-4" id="barangSerupaContainer">
+    <!-- Section Barang Serupa di Sekitar Anda Sesuai Screenshot 5 -->
+    <h2 class="section-similar-title">Barang Serupa di Sekitar Anda</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5" id="gridBarangSerupa">
+      <!-- 3 item cards serupa -->
+      <div class="col-12 text-center py-4 text-muted small">
+        Memuat data barang serupa...
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Dark Navy Sesuai Desain Polibatam -->
+  <footer class="footer-custom">
+    <div class="container-xl px-3 px-lg-4">
+      <div class="row g-4 justify-content-between">
         
-        <div class="col-md-4">
-          <div class="card h-100 border rounded-4 shadow-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Kunci" />
-            <div class="p-3">
-              <span class="badge-temuan">Ditemukan</span>
-              <h6 class="fw-bold mt-2 mb-1">Kunci Motor Honda Vario</h6>
-              <small class="text-muted d-block">📍 Parkiran Barat (Dekat Kantin)</small>
-              <small class="text-muted d-block">🕒 Kemarin, 14:15 WIB</small>
-              <a href="#" class="btn btn-light btn-sm w-100 border mt-3 fw-medium">Lihat Detail</a>
+        <!-- Kolom 1: Brand & Penjelasan -->
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2">
+            <div class="brand-logo-badge" style="background-color: var(--primary-mint); color: #032b24;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
             </div>
+            <span class="footer-brand-title">FoundIt! Polibatam</span>
           </div>
+          <p class="footer-desc">
+            Sistem informasi penanganan barang hilang terintegrasi, membantu menjaga kebersamaan dan integritas mahasiswa Politeknik Negeri Batam.
+          </p>
         </div>
 
-        <div class="col-md-4">
-          <div class="card h-100 border rounded-4 shadow-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Laptop" />
-            <div class="p-3">
-              <span class="badge-hilang">Hilang</span>
-              <h6 class="fw-bold mt-2 mb-1">Laptop ASUS VivoBook 14</h6>
-              <small class="text-muted d-block">📍 Perpustakaan Pusat - Lt. 3</small>
-              <small class="text-muted d-block">🕒 24 Okt 2025</small>
-              <a href="#" class="btn btn-light btn-sm w-100 border mt-3 fw-medium">Lihat Detail</a>
-            </div>
-          </div>
+        <!-- Kolom 2: Navigasi -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <div class="footer-col-title">Navigasi</div>
+          <ul class="footer-links">
+            <li><a href="dashboard_mahasiswa.html">Beranda</a></li>
+            <li><a href="daftar_laporan.html">Katalog Barang</a></li>
+            <li><a href="laporkan_barang.html">Laporkan Barang</a></li>
+          </ul>
         </div>
 
-        <div class="col-md-4">
-          <div class="card h-100 border rounded-4 shadow-sm overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=500&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="KTM" />
-            <div class="p-3">
-              <span class="badge-temuan">Ditemukan</span>
-              <h6 class="fw-bold mt-2 mb-1">Kartu Tanda Mahasiswa (KTM)</h6>
-              <small class="text-muted d-block">📍 Gedung Kuliah Bersama (GKB)</small>
-              <small class="text-muted d-block">🕒 23 Okt 2025</small>
-              <a href="#" class="btn btn-light btn-sm w-100 border mt-3 fw-medium">Lihat Detail</a>
-            </div>
+        <!-- Kolom 3: Bantuan & Layanan Polibatam -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <div class="footer-col-title">Bantuan & Layanan</div>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)">Panduan Klaim Barang</a></li>
+            <li><a href="javascript:void(0)">Syarat & Ketentuan</a></li>
+            <li><a href="javascript:void(0)">Posko Keamanan (Gedung Utama)</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4: Sistem Resmi Kampus Polibatam -->
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-col-title">Sistem Keamanan</div>
+          <div class="security-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+            <span>Layanan Resmi Kampus Polibatam</span>
           </div>
         </div>
 
       </div>
-    </div>
-  </div>
 
-  <!-- FOOTER -->
-  <footer class="footer-dark py-5 mt-5">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-4">
-          <h5 class="fw-bold text-white mb-2">FoundIt!</h5>
-          <p class="small text-white-50">Sistem informasi penanganan barang hilang terintegrasi, membantu menjaga kebersamaan dan integritas mahasiswa kampus.</p>
+      <!-- Garis Pemisah & Hak Cipta -->
+      <div class="footer-divider"></div>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          FoundIt! 2025 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
         </div>
-        <div class="col-md-3">
-          <h6 class="text-white small fw-bold mb-3">Navigasi</h6>
-          <ul class="list-unstyled small vstack gap-2">
-            <li><a href="dashboard_mahasiswa.html" class="text-white-50 text-decoration-none">Beranda</a></li>
-            <li><a href="#" class="text-white-50 text-decoration-none">Katalog Barang</a></li>
-            <li><a href="laporkan_barang.html" class="text-white-50 text-decoration-none">Laporkan Barang</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h6 class="text-white small fw-bold mb-3">Bantuan &amp; Layanan</h6>
-          <ul class="list-unstyled small vstack gap-2">
-            <li><a href="#" class="text-white-50 text-decoration-none">Panduan Klaim</a></li>
-            <li><a href="#" class="text-white-50 text-decoration-none">Syarat &amp; Ketentuan</a></li>
-            <li><a href="#" class="text-white-50 text-decoration-none">Pusat Hubungan Rektorat</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2">
-          <h6 class="text-white small fw-bold mb-3">Keamanan</h6>
-          <span class="badge bg-dark-subtle text-light border small">🛡️ Terintegrasi Supabase</span>
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
         </div>
       </div>
+
     </div>
   </footer>
 
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    // 1. Cek sesi login
-    const session = JSON.parse(localStorage.getItem('foundit_session'));
-    if (session) {
-      document.getElementById('navUser').textContent = session.name;
-      document.getElementById('navNIM').textContent = 'NIM: ' + (session.nim || '-');
-    }
-
-    // 2. Ganti foto thumbnail
-    function switchImage(thumbElement) {
-      document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
-      thumbElement.classList.add('active');
-      document.getElementById('mainImage').src = thumbElement.src;
-    }
-
-    // 3. Muat Data Spesifik Berdasarkan ID di URL (?id=...)
-    async function loadItemDetail() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const itemId = urlParams.get('id');
-
-      if (!itemId) return; // Menggunakan data default template mockup jika tanpa ID
-
-      const { data: item, error } = await supabaseClient
-        .from('items')
-        .select('*')
-        .eq('id', itemId)
-        .maybeSingle();
-
-      if (error || !item) return;
-
-      document.getElementById('judulBarang').textContent = item.nama_barang;
-      document.getElementById('labelKategori').textContent = item.kategori;
-      document.getElementById('valLokasi').textContent = item.lokasi;
-      document.getElementById('valTanggal').textContent = item.tanggal;
-      document.getElementById('valDeskripsi').textContent = item.deskripsi || 'Tidak ada deskripsi rinci.';
-      
-      const badge = document.getElementById('badgeJenis');
-      badge.textContent = item.jenis;
-      badge.className = item.jenis === 'temuan' ? 'badge-temuan text-uppercase' : 'badge-hilang text-uppercase';
-      document.getElementById('labelTanggalKey').textContent = item.jenis === 'temuan' ? 'Tanggal Ditemukan' : 'Tanggal Hilang';
-    }
-
-    loadItemDetail();
-
-    function ajukanKlaim() {
-      alert('Pengajuan klaim berhasil dikirim! Silakan tunggu verifikasi admin.');
-    }
-
-    function hubungiPetugas() {
-      alert('Menghubungkan ke kontak petugas kampus...');
+    // Inisialisasi Sesi Pengguna
+    const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+    if (!session) {
+      window.location.href = 'login.html';
+    } else {
+      const name = session.name || 'Pengguna';
+      document.getElementById('userNameDisplay').textContent = name;
+      document.getElementById('userNimDisplay').textContent = session.nim ? 'NIM: ' + session.nim : 'Mahasiswa Aktif';
+      document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
     }
 
     function logout() {
       localStorage.removeItem('foundit_session');
       window.location.href = 'login.html';
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('id');
+
+    let currentItem = null;
+    let targetWhatsApp = '';
+
+    function switchThumbnail(thumbEl, targetImgId) {
+      document.querySelectorAll('.thumb-item').forEach(el => el.classList.remove('active'));
+      thumbEl.classList.add('active');
+      const img = thumbEl.querySelector('img');
+      if (img) {
+        document.getElementById(targetImgId).src = img.src;
+      }
+    }
+
+    async function loadItemDetail() {
+      if (!itemId) {
+        // Fallback demo data jika diakses langsung tanpa query
+        renderDemoDetail();
+        loadSimilarItems(null, null);
+        return;
+      }
+
+      try {
+        const { data: item, error } = await supabaseClient
+          .from('items')
+          .select('*')
+          .eq('id', itemId)
+          .maybeSingle();
+
+        if (error || !item) {
+          console.warn('Laporan DB tidak ditemukan, menampilkan demo data.');
+          renderDemoDetail();
+          loadSimilarItems(null, null);
+          return;
+        }
+
+        currentItem = item;
+        displayItemData(item);
+        loadSimilarItems(item.kategori, item.id);
+
+      } catch (err) {
+        console.error(err);
+        renderDemoDetail();
+        loadSimilarItems(null, null);
+      }
+    }
+
+    function displayItemData(item) {
+      const isTemuan = (item.jenis || '').toLowerCase() === 'temuan';
+      
+      // Update Title & Breadcrumb
+      document.getElementById('breadcrumbItemName').textContent = item.nama_barang || 'Detail Barang';
+      document.getElementById('itemTitleDisplay').textContent = item.nama_barang || 'Tanpa Nama';
+      
+      // Badge Status & Kategori
+      const badgePill = document.getElementById('badgeStatusPill');
+      badgePill.textContent = isTemuan ? 'DITEMUKAN' : 'HILANG';
+      badgePill.className = `badge-status-pill ${isTemuan ? 'badge-pill-temuan' : 'badge-pill-hilang'}`;
+
+      document.getElementById('labelKategoriHeader').textContent = item.kategori || 'Umum';
+
+      // Meta keys
+      document.getElementById('labelTanggalKey').textContent = isTemuan ? 'Tanggal Ditemukan' : 'Tanggal Hilang';
+      document.getElementById('valTanggal').textContent = item.tanggal || '-';
+
+      document.getElementById('labelLokasiKey').textContent = isTemuan ? 'Lokasi Penemuan' : 'Lokasi Terakhir';
+      document.getElementById('valLokasi').textContent = item.lokasi || '-';
+
+      // Parse Deskripsi & Ciri Khusus
+      let rawDesc = item.deskripsi || '-';
+      if (rawDesc.includes('Kontak:')) {
+        const parts = rawDesc.split('Kontak:');
+        rawDesc = parts[0].replace(/\|$/, '').trim();
+        targetWhatsApp = parts[1].replace(/[^0-9]/g, '').trim();
+      }
+
+      document.getElementById('valDeskripsi').textContent = rawDesc;
+
+      // Ciri khusus bullet points
+      const ciriContainer = document.getElementById('valCiriKhusus');
+      if (item.kategori === 'Aksesoris & Dompet' || (item.nama_barang || '').toLowerCase().includes('dompet')) {
+        ciriContainer.innerHTML = `
+          <li>Terdapat gantungan kunci kecil berbentuk logo klub sepak bola.</li>
+          <li>Merk "Braun Buffel" tercetak samar di bagian sudut kanan bawah depan.</li>
+          <li>Ada sisa tiket bioskop tanggal 12 September di salah satu slip kartu.</li>
+        `;
+      } else {
+        ciriContainer.innerHTML = `
+          <li>Kondisi barang sesuai dengan foto dokumentasi yang dilampirkan.</li>
+          <li>Ciri fisik khas tercatat dalam rincian laporan resmi sistem kampus.</li>
+        `;
+      }
+
+      // Foto
+      let imgSrc = item.foto_url;
+      if (!imgSrc) {
+        const lower = (item.nama_barang || '').toLowerCase();
+        if (lower.includes('dompet')) imgSrc = 'assets/images/dompet_kulit.jpg';
+        else if (lower.includes('motor') || lower.includes('kunci')) imgSrc = 'assets/images/kunci_motor.jpg';
+        else if (lower.includes('laptop')) imgSrc = 'assets/images/laptop_asus.jpg';
+        else if (lower.includes('ktm') || lower.includes('kartu')) imgSrc = 'assets/images/ktm_mahasiswa.jpg';
+        else imgSrc = 'assets/images/default_item.svg';
+      }
+
+      document.getElementById('mainDisplayPhoto').src = imgSrc;
+      document.getElementById('thumb1').src = imgSrc;
+      document.getElementById('thumb2').src = imgSrc;
+      document.getElementById('thumb3').src = imgSrc;
+
+      // Load Pelapor
+      loadPelaporName(item.pelapor_id);
+
+      // Link Klaim
+      document.getElementById('btnAjukanKlaim').href = `klaim_barang.html?id=${item.id}`;
+    }
+
+    async function loadPelaporName(pelaporId) {
+      if (!pelaporId) {
+        document.getElementById('valPelapor').textContent = 'Petugas / Mahasiswa Kampus';
+        return;
+      }
+      try {
+        const { data: user } = await supabaseClient
+          .from('users')
+          .select('name, nim, phone')
+          .eq('id', pelaporId)
+          .maybeSingle();
+
+        if (user) {
+          const roleLabel = user.role === 'admin' ? '(Petugas Satpam)' : '(Mahasiswa)';
+          document.getElementById('valPelapor').textContent = `${user.name || 'Pengguna'} ${roleLabel}`;
+          if (user.phone) targetWhatsApp = user.phone.replace(/[^0-9]/g, '');
+        } else {
+          document.getElementById('valPelapor').textContent = 'Mahasiswa Terdaftar';
+        }
+      } catch (e) {
+        document.getElementById('valPelapor').textContent = 'Mahasiswa Kampus';
+      }
+    }
+
+    function renderDemoDetail() {
+      // Data fallback jika laporan spesifik belum ada di database
+      document.getElementById('breadcrumbItemName').textContent = 'Dompet Kulit Coklat';
+      document.getElementById('itemTitleDisplay').textContent = 'Dompet Kulit Coklat';
+      document.getElementById('valTanggal').textContent = '15 September 2025';
+      document.getElementById('valLokasi').textContent = 'Gedung A - Lantai 2, Ruang 205';
+      document.getElementById('valPelapor').textContent = 'Ahmad Rizki (Satpam)';
+      document.getElementById('btnAjukanKlaim').href = 'klaim_barang.html';
+      targetWhatsApp = '081301210001';
+    }
+
+    function hubungiWhatsApp() {
+      const nomor = targetWhatsApp || '081301210001';
+      const nama = currentItem ? currentItem.nama_barang : 'Dompet Kulit Coklat';
+      const text = encodeURIComponent(`Halo, saya ingin menanyakan perihal laporan barang "${nama}" di portal FoundIt!`);
+      window.open(`https://wa.me/${nomor}?text=${text}`, '_blank');
+    }
+
+    async function loadSimilarItems(kategori, currentId) {
+      const container = document.getElementById('gridBarangTerbaru') || document.getElementById('gridBarangSerupa');
+      const defaultImg = 'assets/images/default_item.svg';
+
+      const sampleSimilar = [
+        {
+          id: 2,
+          nama_barang: 'Kunci Motor Honda Vario',
+          kategori: 'Kunci & Kendaraan',
+          jenis: 'temuan',
+          lokasi: 'Parkiran Barat (Dekat Kantin)',
+          tanggal: 'Kemarin, 14:15 WIB',
+          foto_url: 'assets/images/kunci_motor.jpg'
+        },
+        {
+          id: 3,
+          nama_barang: 'Laptop ASUS VivoBook 14',
+          kategori: 'Elektronik & Gadget',
+          jenis: 'hilang',
+          lokasi: 'Perpustakaan Pusat - Lt.3',
+          tanggal: '24 Okt 2025',
+          foto_url: 'assets/images/laptop_asus.jpg'
+        },
+        {
+          id: 4,
+          nama_barang: 'Kartu Tanda Mahasiswa (KTM)',
+          kategori: 'Dokumen & Identitas',
+          jenis: 'temuan',
+          lokasi: 'Gedung Kuliah Bersama (GKB)',
+          tanggal: '23 Okt 2025',
+          foto_url: 'assets/images/ktm_mahasiswa.jpg'
+        }
+      ];
+
+      try {
+        let query = supabaseClient.from('items').select('*');
+        if (currentId) query = query.neq('id', currentId);
+        const { data: dbItems } = await query.limit(3);
+
+        const itemsToShow = (dbItems && dbItems.length >= 2) ? dbItems : sampleSimilar;
+
+        container.innerHTML = itemsToShow.map(it => {
+          const isTemuan = (it.jenis || '').toLowerCase() === 'temuan';
+          const badgeText = isTemuan ? 'DITEMUKAN' : 'HILANG';
+          const badgeClass = isTemuan ? 'badge-corner-temuan' : 'badge-corner-hilang';
+
+          return `
+            <div class="col">
+              <div class="item-card">
+                <div class="item-card-img-wrap">
+                  <span class="badge-status-corner ${badgeClass}">${badgeText}</span>
+                  <img src="${it.foto_url || defaultImg}" alt="${it.nama_barang || 'Barang'}" class="item-card-img" onerror="this.src='${defaultImg}'" />
+                </div>
+                <div class="item-card-body">
+                  <h3 class="item-title" title="${it.nama_barang || ''}">
+                    ${it.nama_barang || 'Tanpa Nama'}
+                  </h3>
+                  <div class="item-meta-row" title="${it.lokasi || '-'}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span class="text-truncate">${it.lokasi || '-'}</span>
+                  </div>
+                  <div class="item-meta-row">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span>${it.tanggal || '-'}</span>
+                  </div>
+                  <div class="mt-auto">
+                    <a href="detail_barang.html?id=${it.id}" class="btn-item-detail">
+                      Lihat Detail
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    loadItemDetail();
   </script>
 </body>
 </html>
