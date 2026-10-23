@@ -431,7 +431,7 @@
           <p class="page-subtitle mb-0">Pemeriksaan, pembaruan status laporan (Aktif, Cocok/Ditemukan, Dikembalikan, Ditutup), serta operasi CRUD laporan barang.</p>
         </div>
         <div>
-          <!-- Tombol Tambah Laporan Sesuai Permintaan -->
+          <!-- Tombol Tambah Laporan -->
           <button type="button" class="btn-admin-primary" onclick="openTambahModal()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -465,7 +465,7 @@
             </select>
           </div>
           <div class="col-lg-2 col-md-6 col-sm-6">
-            <!-- Dropdown Filter 4 Status Sesuai FR-04 -->
+            <!-- Filter Status Laporan -->
             <label for="filterStatus" class="form-label small fw-bold text-secondary mb-1">Status Laporan</label>
             <select id="filterStatus" class="form-select-custom" onchange="applyFilters()">
               <option value="semua">Semua Status</option>
@@ -842,7 +842,7 @@
             </td>
             <td class="text-end">
               <div class="d-inline-flex gap-2">
-                <!-- Tombol Edit Sesuai Permintaan -->
+                <!-- Tombol Edit Laporan -->
                 <button type="button" class="btn-action-edit" onclick="openEditModal(${item.id})" title="Edit Laporan">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -850,7 +850,7 @@
                   </svg>
                   <span>Edit</span>
                 </button>
-                <!-- Tombol Hapus Sesuai Permintaan -->
+                <!-- Tombol Hapus Laporan -->
                 <button type="button" class="btn-action-delete" onclick="openHapusModal(${item.id})" title="Hapus Laporan">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>

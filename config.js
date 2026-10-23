@@ -35,7 +35,7 @@ function saveStoredCategories(cats) {
   localStorage.setItem('foundit_categories', JSON.stringify(cats));
 }
 
-// 4 Status Resmi Sesuai FR-04:
+// Pilihan Status Laporan
 // Aktif, Cocok/Ditemukan, Dikembalikan, Ditutup
 const STATUS_OPTIONS = [
   { value: 'aktif', label: 'Aktif', badgeClass: 'badge-aktif' },
