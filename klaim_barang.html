@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verifikasi &amp; Ajukan Klaim Barang - FoundIt! Polibatam</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; font-size: 1.05rem; line-height: 1.6; }
+    
+    /* Responsive Wide Container untuk Layar Besar */
+    @media (min-width: 1400px) {
+      .container, .container-lg, .container-xl, .container-xxl {
+        max-width: 1480px;
+      }
+    }
+    @media (min-width: 1800px) {
+      .container, .container-lg, .container-xl, .container-xxl {
+        max-width: 1620px;
+      }
+    }
+
+    /* Top Navbar Sesuai Wireframe Foto */
+    .navbar-custom {
+      background-color: #ffffff;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+    .navbar-container {
+      width: 100%;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+      .navbar-container {
+        padding: 0 40px;
+      }
+    }
+    @media (min-width: 1400px) {
+      .navbar-container {
+        padding: 0 64px;
+      }
+    }
+    .navbar-brand-wrap { flex: 0 0 auto; }
+    .brand-logo-badge {
+      width: 44px;
+      height: 44px;
+      background-color: #0f8a77;
+      color: #ffffff;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(15, 138, 119, 0.25);
+      flex-shrink: 0;
+    }
+    .brand-text-group { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .brand-campus-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0f8a77;
+      background-color: #e6f7f4;
+      border: 1px solid rgba(15, 138, 119, 0.2);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .navbar-nav-center {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    @media (min-width: 1400px) {
+      .navbar-nav-center { gap: 48px; }
+    }
+    .nav-link-custom {
+      color: #475569;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      padding: 8px 4px;
+      white-space: nowrap;
+      position: relative;
+      transition: color 0.15s ease;
+      letter-spacing: -0.01em;
+    }
+    .nav-link-custom:hover { color: #0f8a77; }
+    .nav-link-custom.active { color: #0f8a77; font-weight: 700; }
+    .nav-link-custom.active::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: #0f8a77;
+      border-radius: 3px;
+    }
+    .navbar-user-wrap { flex: 0 0 auto; }
+    
+    .card-klaim {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+      padding: 32px;
+    }
+    
+    .badge-temuan { background-color: #d1fae5; color: #065f46; font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 8px; }
+    .badge-hilang { background-color: #fee2e2; color: #991b1b; font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 8px; }
+    
+    .item-preview-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 14px;
+      background-color: #f1f5f9;
+    }
+    
+    .upload-area {
+      border: 2px dashed #0f8a77;
+      border-radius: 14px;
+      background-color: #f0fdfa;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      text-align: center;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .upload-area:hover {
+      background-color: #ccfbf1;
+      border-color: #0c7262;
+    }
+    .upload-preview-img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+    }
+    
+    .btn-foundit { background-color: #0f8a77; color: #ffffff; border: none; font-size: 1.08rem; font-weight: 700; border-radius: 12px; padding: 14px 28px; }
+    .btn-foundit:hover { background-color: #0c7262; color: #ffffff; }
+    
+    .form-label-custom { font-size: 1.02rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: block; }
+    .form-control-custom { border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; font-size: 1.05rem; color: #1e293b; min-height: 50px; }
+    .form-control-custom:focus { border-color: #0f8a77; box-shadow: 0 0 0 0.2rem rgba(15, 138, 119, 0.15); }
+    
+    .alert-polibatam {
+      background-color: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      border-radius: 12px;
+      font-size: 1rem;
+      padding: 16px 20px;
+    }
+    
+    .footer-dark { background-color: #0b1329; color: #94a3b8; padding: 60px 0 32px; }
+  </style>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+
+  <!-- Top Navbar Sesuai Wireframe Foto -->
+  <header class="navbar-custom">
+    <div class="navbar-container">
+      
+      <!-- 1. Left: Logo Brand -->
+      <div class="navbar-brand-wrap">
+        <a href="dashboard_mahasiswa.html" class="d-flex align-items-center gap-3 text-decoration-none">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">FoundIt!</span>
+            <span class="brand-campus-badge">Polibatam</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 2. Center: Navigation Menu Links -->
+      <nav class="navbar-nav-center d-none d-lg-flex align-items-center">
+        <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
+        <a href="daftar_laporan.html" class="nav-link-custom">Katalog Barang</a>
+        <a href="laporkan_barang.html" class="nav-link-custom">Laporkan Barang</a>
+        <a href="dashboard_mahasiswa.html#tentangKami" class="nav-link-custom">Tentang</a>
+      </nav>
+
+      <!-- 3. Right: User Info & Back Button -->
+      <div class="navbar-user-wrap d-flex align-items-center gap-3">
+        <div class="text-end d-none d-sm-block">
+          <div class="fw-bold text-dark" style="font-size: 0.95rem;" id="navUser">Mahasiswa</div>
+          <div class="text-muted" style="font-size: 0.8rem;" id="navNIM">NIM: -</div>
+        </div>
+        <a id="btnNavBack" href="dashboard_mahasiswa.html" class="btn btn-outline-secondary px-3 py-2 fw-bold" style="border-radius: 8px; font-size: 0.95rem;">
+          Batal &amp; Kembali
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- KONTEN FORM KLAIM -->
+  <div class="container my-5" style="max-width: 1060px;">
+    
+    <!-- BREADCRUMB -->
+    <nav class="small text-muted mb-3">
+      <a href="dashboard_mahasiswa.html" class="text-decoration-none text-muted">Portal Beranda</a> &gt; 
+      <a id="linkDetailBreadcrumb" href="detail_barang.html" class="text-decoration-none text-muted">Detail Barang</a> &gt; 
+      <strong class="text-dark">Verifikasi &amp; Formulir Klaim</strong>
+    </nav>
+
+    <div class="mb-4">
+      <h3 class="fw-bold text-dark mb-1">Formulir Verifikasi &amp; Klaim Kepemilikan Barang</h3>
+      <p class="text-muted small mb-0">Lengkapi data verifikasi dan unggah foto bukti autentik untuk memastikan barang ini diserahkan kepada pemilik yang sah.</p>
+    </div>
+
+    <!-- Alert Notifikasi Status Klaim Sebelumnya -->
+    <div id="klaimStatusBanner" class="alert d-none small mb-4" role="alert"></div>
+    <div id="klaimAlert" class="alert d-none small mb-4" role="alert"></div>
+
+    <div class="row g-4">
+      
+      <!-- SISI KIRI: RINGKASAN BARANG YANG DIKLAIM -->
+      <div class="col-lg-4">
+        <div class="card-klaim p-4 sticky-top" style="top: 20px; z-index: 10;">
+          <h6 class="fw-bold text-dark border-bottom pb-2 mb-3 d-flex align-items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+              <path d="m3.3 7 8.7 5 8.7-5"></path>
+              <path d="M12 22V12"></path>
+            </svg>
+            <span>Informasi Barang</span>
+          </h6>
+          
+          <img id="summaryFoto" src="assets/images/default_item.svg" alt="Foto Barang" class="item-preview-img mb-3 shadow-sm" />
+          
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span id="summaryBadgeJenis" class="badge-temuan text-uppercase">Memuat...</span>
+            <small id="summaryKategori" class="text-muted fw-semibold">-</small>
+          </div>
+
+          <h5 id="summaryNama" class="fw-bold text-dark mb-3">Memuat nama barang...</h5>
+
+          <div class="vstack gap-2 small text-secondary mb-3">
+            <div>
+              <span class="text-muted d-block" style="font-size: 0.75rem;">Tanggal Terdata:</span>
+              <strong class="text-dark" id="summaryTanggal">-</strong>
+            </div>
+            <div>
+              <span class="text-muted d-block" style="font-size: 0.75rem;">Lokasi Kampus:</span>
+              <strong class="text-dark" id="summaryLokasi">-</strong>
+            </div>
+            <div>
+              <span class="text-muted d-block" style="font-size: 0.75rem;">Dilaporkan Oleh:</span>
+              <strong class="text-dark" id="summaryPelapor">-</strong>
+            </div>
+            <div>
+              <span class="text-muted d-block" style="font-size: 0.75rem;">Status Laporan:</span>
+              <span class="badge bg-secondary text-uppercase" id="summaryStatusVal">Aktif</span>
+            </div>
+          </div>
+
+          <div class="alert-polibatam p-3 mt-3">
+            <div class="fw-bold mb-1 d-flex align-items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span>Catatan Keamanan Kampus:</span>
+            </div>
+            <div style="font-size: 0.78rem;" class="lh-sm">
+              Sistem mencatat identitas NIM Anda. Segala bentuk klaim palsu akan diteruskan ke Pengelola Ketertiban Kampus Polibatam.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SISI KANAN: FORMULIR VERIFIKASI PENGURUSAN KLAIM -->
+      <div class="col-lg-8">
+        <form id="formKlaim" onsubmit="handleKirimKlaim(event)" class="card-klaim p-4 p-md-5">
+          <div class="border-bottom pb-3 mb-4">
+            <h5 class="fw-bold text-dark mb-1" id="formHeaderTitle">Verifikasi Identitas &amp; Bukti Kepemilikan</h5>
+            <p class="text-muted small mb-0">Isi data di bawah dengan benar agar pihak pelapor / admin kampus dapat memverifikasi kepemilikan Anda.</p>
+          </div>
+
+          <div class="vstack gap-3">
+            
+            <!-- IDENTITAS PENGEKLAIM (TERKUNCI DARI SESI LOGIN) -->
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label-custom">Nama Lengkap Pengeklaim</label>
+                <input type="text" id="klaimNama" required class="form-control form-control-custom bg-light" readonly />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">NIM Pengeklaim (Terdaftar)</label>
+                <input type="text" id="klaimNIM" required class="form-control form-control-custom bg-light" readonly />
+              </div>
+            </div>
+
+            <!-- KONTAK WHATSAPP AKTIF -->
+            <div>
+              <label class="form-label-custom">Nomor Kontak / WhatsApp Aktif <span class="text-danger">*</span></label>
+              <input type="tel" id="klaimKontak" required class="form-control form-control-custom" placeholder="Contoh: 081234567890 (Pastikan aktif di WhatsApp)" />
+              <small class="text-muted" style="font-size: 0.75rem;">Petugas atau pelapor akan menghubungi Anda melalui kontak ini untuk verifikasi langsung.</small>
+            </div>
+
+            <!-- DESKRIPSI CIRI KHUSUS BUKTI KEPEMILIKAN -->
+            <div>
+              <label class="form-label-custom">
+                Deskripsi Ciri Khusus / Bukti Kepemilikan Spesifik <span class="text-danger">*</span>
+              </label>
+              <textarea id="klaimBukti" required rows="4" class="form-control form-control-custom" placeholder="Jelaskan secara rinci ciri-ciri barang yang hanya diketahui oleh Anda sebagai pemilik asli, contoh:
+- Nomor seri / IMEI (jika HP atau laptop)
+- Isi detail dalam dompet/tas (kartu yang ada di dalam, pecahan uang, gantungan)
+- Goresan khusus, stiker yang tertempel, atau warna casing
+- Perkiraan waktu dan tempat Anda menyadari barang tersebut hilang"></textarea>
+              <small class="text-muted" style="font-size: 0.75rem;">Semakin spesifik informasi yang Anda berikan, semakin cepat klaim Anda disetujui.</small>
+            </div>
+
+            <!-- UNGGAH FOTO BUKTI KEPEMILIKAN -->
+            <div>
+              <label class="form-label-custom">
+                Foto Bukti Kepemilikan <span class="text-danger">*</span>
+              </label>
+              
+              <div class="upload-area" id="dropAreaFotoBukti" onclick="document.getElementById('inputFotoBukti').click()">
+                <img id="previewFotoBukti" class="upload-preview-img d-none" alt="Preview Foto Bukti" />
+                <div id="placeholderFotoBukti">
+                  <div class="mb-2">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                      <circle cx="12" cy="13" r="3"></circle>
+                    </svg>
+                  </div>
+                  <div class="fw-bold small" style="color: #0f8a77;">Klik untuk Unggah Foto Bukti</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">Nota Pembelian, Foto Barang Sebelumnya, Kotak/Dus, atau Foto KTM Anda</div>
+                  <div class="badge bg-light text-secondary border mt-2" style="font-size: 0.7rem;">JPG / PNG / JPEG (Maks. 5MB)</div>
+                </div>
+                <input type="file" id="inputFotoBukti" accept="image/*" class="d-none" onchange="prosesFotoBukti(this)" />
+              </div>
+
+              <div id="btnHapusFotoWrapper" class="text-end mt-2 d-none">
+                <button type="button" class="btn btn-outline-danger btn-sm py-1 px-3 d-inline-flex align-items-center gap-1.5" onclick="resetFotoBukti()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Ganti / Hapus Foto Bukti</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- PERNYATAAN KEJUJURAN -->
+            <div class="form-check mt-3 p-3 bg-light rounded-3 border">
+              <input class="form-check-input ms-0 me-2" type="checkbox" required id="checkPernyataanKlaim" checked />
+              <label class="form-check-label small text-secondary lh-sm" for="checkPernyataanKlaim">
+                Saya menyatakan dengan sebenarnya bahwa barang ini adalah milik saya secara sah. Saya bersedia membawa Kartu Tanda Mahasiswa (KTM) asli saat pengambilan fisik di kampus Polibatam.
+              </label>
+            </div>
+
+            <!-- Pesan status tepat di atas tombol submit -->
+            <div id="formBottomAlert" class="alert d-none small mb-0" role="alert"></div>
+
+            <!-- TOMBOL AKSI -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pt-3 border-top mt-2">
+              <div id="claimExtraActions"></div>
+              <div class="d-flex gap-2 ms-auto">
+                <a id="btnBatalBawah" href="detail_barang.html" class="btn btn-light border px-4 py-2 small fw-semibold">
+                  Batal
+                </a>
+                <button type="submit" id="btnKirimKlaim" class="btn btn-foundit fw-semibold px-4 py-2 shadow-sm">
+                  Ajukan Klaim Sekarang
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL SUKSES -->
+  <div class="modal fade" id="modalSuksesKlaim" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4 border-0 shadow" style="border-radius: 16px;">
+        <div class="my-3">
+          <div style="width: 64px; height: 64px; background-color: #d1fae5; color: #059669; border-radius: 50%;" class="d-inline-flex align-items-center justify-content-center mb-3">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h4 class="fw-bold text-dark mb-2">Pengajuan Klaim Berhasil Dikirim!</h4>
+          <p class="text-muted small px-3 mb-4">
+            Bukti kepemilikan Anda telah tercatat di sistem Polibatam. Status barang kini beralih menjadi <strong>DALAM KLAIM</strong> untuk proses verifikasi.
+          </p>
+          <div class="p-3 bg-light rounded-3 text-start small mb-4">
+            <div class="fw-semibold text-dark mb-1">Prosedur Pengambilan:</div>
+            <ul class="mb-0 ps-3 text-secondary">
+              <li>Hubungi pelapor via WhatsApp atau tunggu peninjauan dari pengelola kampus.</li>
+              <li>Bawa <strong>KTM asli</strong> saat verifikasi dan serah terima fisik barang.</li>
+            </ul>
+          </div>
+          <div class="d-grid gap-2">
+            <button onclick="window.location.href=`detail_barang.html?id=${itemId}&klaim_sukses=1`" class="btn btn-foundit fw-semibold py-2">
+              Lihat Status Laporan Barang Sekarang &rarr;
+            </button>
+            <a href="dashboard_mahasiswa.html" class="btn btn-light border small py-2">
+              Kembali ke Beranda
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Dark Navy Sesuai Desain Polibatam -->
+  <footer class="footer-dark" style="background-color: #0b1329; color: #94a3b8; padding: 60px 0 32px 0;">
+    <div class="container-xl px-3 px-lg-4">
+      <div class="row g-4 justify-content-between">
+        
+        <!-- Kolom 1: Brand & Penjelasan -->
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2">
+            <div style="width: 42px; height: 42px; background-color: #2dd4bf; color: #032b24; border-radius: 12px;" class="d-inline-flex align-items-center justify-content-center">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <span class="fs-4 fw-bold text-white">FoundIt! Polibatam</span>
+          </div>
+          <p class="text-secondary small mt-3" style="line-height: 1.6; max-width: 320px; font-size: 0.95rem;">
+            Sistem informasi penanganan barang hilang terintegrasi, membantu menjaga kebersamaan dan integritas mahasiswa Politeknik Negeri Batam.
+          </p>
+        </div>
+
+        <!-- Kolom 2: Navigasi -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <div class="fw-bold text-white mb-3 text-uppercase" style="font-size: 1rem;">Navigasi</div>
+          <ul class="list-unstyled vstack gap-2 text-secondary" style="font-size: 0.95rem;">
+            <li><a href="dashboard_mahasiswa.html" class="text-decoration-none text-secondary">Beranda</a></li>
+            <li><a href="daftar_laporan.html" class="text-decoration-none text-secondary">Katalog Barang</a></li>
+            <li><a href="laporkan_barang.html" class="text-decoration-none text-secondary">Laporkan Barang</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Bantuan & Layanan Polibatam -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <div class="fw-bold text-white mb-3 text-uppercase" style="font-size: 1rem;">Bantuan & Layanan</div>
+          <ul class="list-unstyled vstack gap-2 text-secondary" style="font-size: 0.95rem;">
+            <li><a href="javascript:void(0)" class="text-decoration-none text-secondary">Panduan Klaim Barang</a></li>
+            <li><a href="javascript:void(0)" class="text-decoration-none text-secondary">Syarat & Ketentuan</a></li>
+            <li><a href="javascript:void(0)" class="text-decoration-none text-secondary">Posko Keamanan (Gedung Utama)</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4: Sistem Resmi Kampus Polibatam -->
+        <div class="col-lg-3 col-md-6">
+          <div class="fw-bold text-white mb-3 text-uppercase" style="font-size: 1rem;">Sistem Keamanan</div>
+          <div class="d-inline-flex align-items-center gap-2 text-white fw-semibold" style="font-size: 0.98rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+            <span>Layanan Resmi Kampus Polibatam</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Garis Pemisah & Hak Cipta -->
+      <div class="border-top border-secondary border-opacity-25 my-4 pt-3 d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          FoundIt! 2025 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
+        </div>
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // 1. Cek Sesi Mahasiswa
+    const session = JSON.parse(localStorage.getItem('foundit_session'));
+    if (!session || !session.name) {
+      alert('Silakan login terlebih dahulu untuk mengajukan klaim barang.');
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('navUser').textContent = session.name;
+      document.getElementById('navNIM').textContent = 'NIM: ' + (session.nim || '-');
+      document.getElementById('klaimNama').value = session.name;
+      document.getElementById('klaimNIM').value = session.nim || '';
+      
+      // Ambil no telepon dari session
+      if (session.phone) {
+        document.getElementById('klaimKontak').value = session.phone;
+      } else if (session.nim) {
+        // Ambil no telepon langsung dari Supabase tabel users jika belum ada di sesi
+        supabaseClient
+          .from('users')
+          .select('phone')
+          .eq('nim', session.nim)
+          .maybeSingle()
+          .then(({ data }) => {
+            if (data && data.phone && !document.getElementById('klaimKontak').value) {
+              document.getElementById('klaimKontak').value = data.phone;
+            }
+          });
+      }
+    }
+
+    // 2. Ambil Parameter ID Barang
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('id');
+
+    if (!itemId) {
+      alert('Parameter ID barang tidak ditemukan.');
+      window.location.href = 'dashboard_mahasiswa.html';
+    } else {
+      document.getElementById('btnNavBack').href = `detail_barang.html?id=${itemId}`;
+      document.getElementById('linkDetailBreadcrumb').href = `detail_barang.html?id=${itemId}`;
+      document.getElementById('btnBatalBawah').href = `detail_barang.html?id=${itemId}`;
+    }
+
+    let itemAktif = null;
+    let base64FotoBukti = '';
+
+    // 3. Muat Data Barang Terkait dari Supabase
+    async function loadItem() {
+      const parsedId = parseInt(itemId, 10);
+      const { data: item, error } = await supabaseClient
+        .from('items')
+        .select('*, users(name)')
+        .eq('id', parsedId)
+        .maybeSingle();
+
+      if (error || !item) {
+        alert('Laporan barang tidak ditemukan di sistem.');
+        window.location.href = 'dashboard_mahasiswa.html';
+        return;
+      }
+
+      itemAktif = item;
+
+      // Update badge status barang saat ini
+      const statusBadge = document.getElementById('summaryStatusVal');
+      const normStatus = normalizeStatus(item.status);
+      statusBadge.textContent = normStatus.toUpperCase();
+      if (normStatus === 'dikembalikan' || normStatus === 'ditutup') {
+        statusBadge.className = 'badge bg-success text-uppercase';
+      } else if (normStatus === 'cocok/ditemukan') {
+        statusBadge.className = 'badge bg-warning text-dark text-uppercase';
+      } else {
+        statusBadge.className = 'badge bg-primary text-uppercase';
+      }
+
+      // Periksa kondisi jika barang sudah SELESAI / DIKEMBALIKAN / DITUTUP
+      if (normStatus === 'dikembalikan' || normStatus === 'ditutup') {
+        document.getElementById('klaimStatusBanner').className = 'alert alert-danger small mb-4';
+        document.getElementById('klaimStatusBanner').innerHTML = `
+          <strong>Kasus Selesai:</strong> Barang ini telah diserahkan secara resmi atau laporan ditutup. Anda tidak dapat mengajukan klaim kembali.
+          <div class="mt-2"><a href="detail_barang.html?id=${itemId}" class="btn btn-outline-danger btn-sm">Lihat Detail Barang</a></div>
+        `;
+        document.getElementById('klaimStatusBanner').classList.remove('d-none');
+        document.getElementById('btnKirimKlaim').disabled = true;
+        document.getElementById('btnKirimKlaim').textContent = 'Klaim Tidak Tersedia';
+        return;
+      }
+
+      // Periksa kondisi jika barang sedang DALAM KLAIM / COCOK
+      if (normStatus === 'cocok/ditemukan') {
+        const isUserClaimant = session.nim && item.klaim_nim === session.nim;
+        
+        if (isUserClaimant) {
+          // Mahasiswa yang sedang login adalah pemilik klaim ini!
+          document.getElementById('klaimStatusBanner').className = 'alert alert-warning small mb-4';
+          document.getElementById('klaimStatusBanner').innerHTML = `
+            <strong>Klaim Sedang Dalam Peninjauan:</strong>
+            Bukti klaim Anda sedang dalam proses peninjauan petugas. Anda dapat memperbarui informasi atau bukti foto di bawah ini jika diperlukan.
+          `;
+          document.getElementById('klaimStatusBanner').classList.remove('d-none');
+          
+          document.getElementById('formHeaderTitle').textContent = 'Perbarui Data & Bukti Klaim Anda';
+          document.getElementById('btnKirimKlaim').textContent = 'Simpan Pembaruan Klaim';
+
+          // Isi field dengan data klaim yang sudah pernah dimasukkan
+          if (item.klaim_kontak) document.getElementById('klaimKontak').value = item.klaim_kontak;
+          if (item.klaim_bukti) document.getElementById('klaimBukti').value = item.klaim_bukti;
+          if (item.klaim_foto) {
+            base64FotoBukti = item.klaim_foto;
+            const preview = document.getElementById('previewFotoBukti');
+            preview.src = base64FotoBukti;
+            preview.classList.remove('d-none');
+            document.getElementById('placeholderFotoBukti').classList.add('d-none');
+            document.getElementById('btnHapusFotoWrapper').classList.remove('d-none');
+          }
+
+          // Tambahkan tombol untuk membatalkan klaim
+          document.getElementById('claimExtraActions').innerHTML = `
+            <button type="button" onclick="batalkanKlaimSaya()" class="btn btn-outline-danger btn-sm py-2 px-3 fw-semibold">
+              Batalkan Klaim Saya (Reset ke Aktif)
+            </button>
+          `;
+        } else {
+          // Mahasiswa lain yang sedang mengajukan klaim
+          document.getElementById('klaimStatusBanner').className = 'alert alert-warning small mb-4';
+          document.getElementById('klaimStatusBanner').innerHTML = `
+            <strong>Sedang Dalam Proses Verifikasi:</strong> Barang ini sedang dalam proses verifikasi klaim oleh mahasiswa lain. Jika klaim tidak valid, status barang akan dibuka kembali.
+            <div class="mt-2"><a href="detail_barang.html?id=${itemId}" class="btn btn-outline-secondary btn-sm">Kembali ke Detail Barang</a></div>
+          `;
+          document.getElementById('klaimStatusBanner').classList.remove('d-none');
+          document.getElementById('btnKirimKlaim').disabled = true;
+          document.getElementById('btnKirimKlaim').textContent = 'Sedang Dalam Proses Klaim Mahasiswa Lain';
+          return;
+        }
+      }
+
+      // Tampilkan ringkasan barang
+      document.getElementById('summaryNama').textContent = item.nama_barang;
+      document.getElementById('summaryKategori').textContent = item.kategori;
+      document.getElementById('summaryTanggal').textContent = item.tanggal || '-';
+      document.getElementById('summaryLokasi').textContent = item.lokasi || '-';
+      
+      if (item.users && item.users.name) {
+        document.getElementById('summaryPelapor').textContent = item.users.name;
+      } else {
+        document.getElementById('summaryPelapor').textContent = 'Mahasiswa Polibatam';
+      }
+
+      if (item.foto_url) {
+        document.getElementById('summaryFoto').src = item.foto_url;
+      }
+
+      const badge = document.getElementById('summaryBadgeJenis');
+      badge.textContent = item.jenis;
+      badge.className = item.jenis === 'temuan' ? 'badge-temuan text-uppercase' : 'badge-hilang text-uppercase';
+    }
+
+    // 4. Kompresi & Pemrosesan Foto Bukti Menggunakan HTML5 Canvas (Cepat & Ringan)
+    function prosesFotoBukti(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (file.size > 5 * 1024 * 1024) {
+          alert('Ukuran file bukti maksimal 5MB!');
+          input.value = '';
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            // Resize jika lebih besar dari 1200px agar payload Supabase sangat ringan
+            const maxDimension = 1200;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              } else {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            base64FotoBukti = canvas.toDataURL('image/jpeg', 0.82);
+
+            const preview = document.getElementById('previewFotoBukti');
+            preview.src = base64FotoBukti;
+            preview.classList.remove('d-none');
+            document.getElementById('placeholderFotoBukti').classList.add('d-none');
+            document.getElementById('btnHapusFotoWrapper').classList.remove('d-none');
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function resetFotoBukti() {
+      base64FotoBukti = '';
+      document.getElementById('inputFotoBukti').value = '';
+      document.getElementById('previewFotoBukti').classList.add('d-none');
+      document.getElementById('previewFotoBukti').src = '';
+      document.getElementById('placeholderFotoBukti').classList.remove('d-none');
+      document.getElementById('btnHapusFotoWrapper').classList.add('d-none');
+    }
+
+    // 5. Submit Klaim ke Supabase
+    async function handleKirimKlaim(event) {
+      event.preventDefault();
+      const bottomAlert = document.getElementById('formBottomAlert');
+      const submitBtn = document.getElementById('btnKirimKlaim');
+
+      const nama = document.getElementById('klaimNama').value.trim();
+      const nim = document.getElementById('klaimNIM').value.trim();
+      const kontak = document.getElementById('klaimKontak').value.trim();
+      const bukti = document.getElementById('klaimBukti').value.trim();
+
+      // Validasi Kontak
+      if (!kontak) {
+        document.getElementById('klaimKontak').focus();
+        document.getElementById('klaimKontak').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        bottomAlert.textContent = 'Harap isi nomor kontak / WhatsApp aktif Anda!';
+        bottomAlert.className = 'alert alert-danger small mb-0';
+        bottomAlert.classList.remove('d-none');
+        return;
+      }
+
+      // Validasi Bukti Teks
+      if (!bukti || bukti.length < 5) {
+        document.getElementById('klaimBukti').focus();
+        document.getElementById('klaimBukti').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        bottomAlert.textContent = 'Harap tuliskan ciri-ciri khusus atau rincian bukti barang Anda!';
+        bottomAlert.className = 'alert alert-danger small mb-0';
+        bottomAlert.classList.remove('d-none');
+        return;
+      }
+
+      // Validasi Foto Bukti
+      if (!base64FotoBukti) {
+        document.getElementById('dropAreaFotoBukti').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        bottomAlert.textContent = 'Silakan unggah foto bukti kepemilikan Anda (nota, foto barang sebelumnya, kotak barang, atau KTM).';
+        bottomAlert.className = 'alert alert-danger small mb-0';
+        bottomAlert.classList.remove('d-none');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Menyimpan Pengajuan Klaim...';
+      bottomAlert.classList.add('d-none');
+
+      const parsedId = parseInt(itemId, 10);
+
+      // Update tabel items di Supabase
+      const { data, error } = await supabaseClient
+        .from('items')
+        .update({
+          status: 'proses',
+          klaim_nama: nama || session.name,
+          klaim_nim: nim || session.nim,
+          klaim_kontak: kontak,
+          klaim_bukti: bukti,
+          klaim_foto: base64FotoBukti
+        })
+        .eq('id', parsedId)
+        .select();
+
+      if (error) {
+        bottomAlert.textContent = 'Gagal mengirim pengajuan klaim: ' + error.message;
+        bottomAlert.className = 'alert alert-danger small mb-0';
+        bottomAlert.classList.remove('d-none');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Ajukan Klaim Sekarang';
+        return;
+      }
+
+      // Tampilkan notifikasi berhasil
+      bottomAlert.textContent = 'Pengajuan klaim berhasil disimpan! Status barang kini "DALAM KLAIM".';
+      bottomAlert.className = 'alert alert-success small mb-0';
+      bottomAlert.classList.remove('d-none');
+
+      // Tampilkan Modal Sukses — navigasi dilakukan dari tombol di dalam modal
+      const modal = new bootstrap.Modal(document.getElementById('modalSuksesKlaim'));
+      modal.show();
+    }
+
+    // 6. Fungsi Batalkan Klaim Sendiri
+    async function batalkanKlaimSaya() {
+      if (!confirm('Apakah Anda yakin ingin membatalkan pengajuan klaim Anda? Status barang akan dikembalikan menjadi AKTIF.')) {
+        return;
+      }
+
+      const parsedId = parseInt(itemId, 10);
+      const { error } = await supabaseClient
+        .from('items')
+        .update({
+          status: 'aktif',
+          klaim_nama: null,
+          klaim_nim: null,
+          klaim_kontak: null,
+          klaim_bukti: null,
+          klaim_foto: null
+        })
+        .eq('id', parsedId);
+
+      if (error) {
+        alert('Gagal membatalkan klaim: ' + error.message);
+        return;
+      }
+
+      alert('Pengajuan klaim Anda telah dibatalkan. Status barang kini kembali AKTIF.');
+      window.location.href = `detail_barang.html?id=${itemId}`;
+    }
+
+    loadItem();
+  </script>
+</body>
+</html>

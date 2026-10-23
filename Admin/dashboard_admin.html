@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin - FoundIt! Politeknik Negeri Batam</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --admin-primary: #0f172a;
+      --admin-accent: #0f8a77;
+      --admin-accent-hover: #0c7262;
+      --admin-mint: #2dd4bf;
+      --bg-page: #f8fafc;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+    html {
+      font-size: 17.5px;
+    }
+    @media (min-width: 1400px) {
+      html {
+        font-size: 18.5px;
+      }
+    }
+    @media (min-width: 1800px) {
+      html {
+        font-size: 19.5px;
+      }
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    /* Sidebar Layout Sesuai Wireframe Layar 11 */
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    .admin-sidebar {
+      width: 270px;
+      background-color: #ffffff;
+      border-right: 1.5px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding: 28px 18px;
+    }
+    .admin-brand {
+      padding: 0 8px 24px;
+      border-bottom: 1.5px solid var(--border-color);
+      margin-bottom: 22px;
+    }
+    .admin-brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .admin-brand-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .admin-nav-item {
+      margin-bottom: 6px;
+    }
+    .admin-nav-link {
+      display: block;
+      padding: 12px 16px;
+      border-radius: 10px;
+      color: #475569;
+      font-size: 1.02rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .admin-nav-link:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .admin-nav-link.active {
+      background-color: var(--admin-accent);
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .admin-sidebar-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 16px 8px 0;
+    }
+    .admin-user-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 1px;
+    }
+    .admin-user-role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .admin-logout-btn {
+      color: #dc2626;
+      font-size: 0.84rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .admin-logout-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Content */
+    .admin-content {
+      flex-grow: 1;
+      padding: 36px 48px;
+      display: flex;
+      flex-direction: column;
+    }
+    .breadcrumb-text {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Stat Cards */
+    .stat-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      background-color: #ffffff;
+      padding: 24px 28px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+    }
+    .stat-label {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1;
+      margin: 0;
+    }
+
+    /* Notice text bar */
+    .stat-summary-bar {
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background-color: #ffffff;
+      padding: 16px 22px;
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+
+    /* Table Container */
+    .table-card {
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      background-color: #ffffff;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+    }
+    .table-custom {
+      margin-bottom: 0;
+      width: 100%;
+    }
+    .table-custom th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-size: 1.02rem;
+      font-weight: 700;
+      padding: 16px 20px;
+      border-bottom: 1.5px solid var(--border-color);
+    }
+    .table-custom td {
+      padding: 16px 20px;
+      vertical-align: middle;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .table-custom tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Badges */
+    .badge-jenis {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .badge-ditemukan {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .badge-hilang {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .badge-status {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .badge-aktif {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+    .badge-cocok, .badge-proses {
+      background-color: #fef3c7;
+      color: #b45309;
+    }
+    .badge-dikembalikan, .badge-selesai {
+      background-color: #dcfce7;
+      color: #15803d;
+    }
+    .badge-ditutup {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    /* Action Buttons */
+    .btn-action-kelola {
+      border: 1px solid var(--border-color);
+      background-color: #ffffff;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease;
+    }
+    .btn-action-kelola:hover {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+    }
+    .btn-nav-action {
+      border: 1px solid var(--border-color);
+      background-color: #ffffff;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease;
+    }
+    .btn-nav-action:hover {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    /* Footnote */
+    .admin-footnote {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+
+    /* Footer */
+    .footer-admin {
+      margin-top: auto;
+      border-top: 1px solid var(--border-color);
+      padding: 20px 0 0;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+  </style>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar Sesuai Wireframe Layar 11 -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-title">FoundIt!</div>
+        <div class="admin-brand-subtitle">Panel admin · Polibatam</div>
+      </div>
+
+      <ul class="admin-nav">
+        <li class="admin-nav-item">
+          <a href="dashboard_admin.html" class="admin-nav-link active">Dashboard</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="kelola_barang.html" class="admin-nav-link">Laporan Barang</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="kategori.html" class="admin-nav-link">Kategori</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="pelapor.html" class="admin-nav-link">Pelapor</a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="rekap.html" class="admin-nav-link">Rekap</a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-title">Petugas Kampus</div>
+        <div class="admin-user-role" id="adminRoleDisplay">Admin</div>
+        <a onclick="logoutAdmin()" class="admin-logout-btn">Keluar</a>
+      </div>
+    </aside>
+
+    <!-- Area Konten Utama Dashboard Admin Sesuai Wireframe Layar 11 -->
+    <main class="admin-content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-text">
+        <span>FoundIt!</span> / <span>Dashboard Admin</span>
+      </div>
+
+      <!-- Header -->
+      <div class="mb-4">
+        <h1 class="h3 fw-bold text-dark mb-1">Dashboard</h1>
+        <p class="text-muted small mb-0" id="periodeSubtitle">
+          Ringkasan laporan kampus · Periode terbaru
+        </p>
+      </div>
+
+      <!-- 4 Stat Cards Sesuai Wireframe Layar 11 -->
+      <div class="stat-card-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total laporan</div>
+          <h2 class="stat-number" id="statTotal">0</h2>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Aktif</div>
+          <h2 class="stat-number" id="statAktif">0</h2>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Cocok/Ditemukan</div>
+          <h2 class="stat-number" id="statCocok">0</h2>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Dikembalikan & Ditutup</div>
+          <h2 class="stat-number" id="statSelesai">0</h2>
+        </div>
+      </div>
+
+      <!-- Stat Summary Text Bar Sesuai Wireframe -->
+      <div class="stat-summary-bar" id="statSummaryText">
+        Memuat ringkasan laporan...
+      </div>
+
+      <!-- Section Laporan Terbaru -->
+      <div class="table-card">
+        <h2 class="h5 fw-bold text-dark mb-3">Laporan terbaru</h2>
+        <div class="table-responsive">
+          <table class="table table-custom align-middle">
+            <thead>
+              <tr>
+                <th style="width: 80px;">ID</th>
+                <th>Nama barang</th>
+                <th>Jenis</th>
+                <th>Pelapor</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+                <th style="width: 100px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tabelTerbaruBody">
+              <tr>
+                <td colspan="7" class="text-center py-4 text-muted small">
+                  Memuat data laporan terbaru...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tombol Aksi di Bawah Tabel Sesuai Wireframe Layar 11 -->
+        <div class="d-flex align-items-center gap-2 mt-3 pt-2">
+          <a href="kelola_barang.html" class="btn-nav-action">
+            Semua laporan
+          </a>
+          <a href="rekap.html" class="btn-nav-action">
+            Lihat rekap periode
+          </a>
+        </div>
+      </div>
+
+      <!-- Catatan Footnote Sesuai Wireframe Layar 11 -->
+      <div class="admin-footnote">
+        Data acuan L001 berstatus Aktif. Layar 06–08 menunjukkan alternatif momen untuk laporan yang sama, bukan tambahan data.
+      </div>
+
+      <!-- Footer Sesuai Wireframe -->
+      <footer class="footer-admin">
+        FoundIt! · Temuan barang hilang di lingkungan kampus · PRO-13
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Cek Sesi Admin
+    const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+    if (!session || session.role !== 'admin') {
+      window.location.href = 'login_admin.html';
+    } else {
+      document.getElementById('adminRoleDisplay').textContent = session.name || 'Admin';
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('foundit_session');
+      window.location.href = 'login_admin.html';
+    }
+
+    async function loadAdminDashboard() {
+      try {
+        const { data: items, error } = await supabaseClient
+          .from('items')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (error) throw error;
+        const allItems = items || [];
+
+        // Hitung statistik per 4 status & jenis
+        const total = allItems.length;
+        let aktif = 0;
+        let cocok = 0;
+        let dikembalikan = 0;
+        let ditutup = 0;
+        let hilang = 0;
+        let temuan = 0;
+
+        allItems.forEach(it => {
+          const s = normalizeStatus(it.status);
+          if (s === 'cocok/ditemukan') cocok++;
+          else if (s === 'dikembalikan') dikembalikan++;
+          else if (s === 'ditutup') ditutup++;
+          else aktif++;
+
+          const j = (it.jenis || '').toLowerCase();
+          if (j === 'hilang') hilang++;
+          else temuan++;
+        });
+
+        // Tampilkan pada Stat Cards
+        document.getElementById('statTotal').textContent = total;
+        document.getElementById('statAktif').textContent = aktif;
+        document.getElementById('statCocok').textContent = cocok;
+        document.getElementById('statSelesai').textContent = dikembalikan + ditutup;
+
+        // Tampilkan pada Notice Text Bar Sesuai Wireframe
+        document.getElementById('statSummaryText').textContent = 
+          `Tipe laporan: ${hilang} Hilang dan ${temuan} Ditemukan. Perincian 4 status: ${aktif} Aktif, ${cocok} Cocok/Ditemukan, ${dikembalikan} Dikembalikan, ${ditutup} Ditutup (Total ${total} laporan).`;
+
+        // Render tabel laporan terbaru (maksimal 6 laporan sesuai wireframe)
+        const recentItems = allItems.slice(0, 6);
+        renderRecentTable(recentItems);
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('tabelTerbaruBody').innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-4 text-danger small">
+              Gagal memuat data: ${err.message}
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    async function renderRecentTable(items) {
+      const tbody = document.getElementById('tabelTerbaruBody');
+      if (items.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-4 text-muted small">
+              Belum ada data laporan yang tercatat.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      // Ambil daftar nama pelapor dari tabel users
+      const { data: users } = await supabaseClient.from('users').select('id, name, nim');
+      const userMap = {};
+      (users || []).forEach(u => {
+        userMap[u.id] = u.name || u.nim;
+      });
+
+      tbody.innerHTML = items.map(it => {
+        const formattedId = `L${String(it.id).padStart(3, '0')}`;
+        const isTemuan = (it.jenis || '').toLowerCase() === 'temuan';
+        const jenisLabel = isTemuan ? 'Ditemukan' : 'Hilang';
+        const jenisClass = isTemuan ? 'badge-ditemukan' : 'badge-hilang';
+
+        const normStatus = normalizeStatus(it.status);
+        let statusLabel = 'Aktif';
+        let statusClass = 'badge-aktif';
+        if (normStatus === 'cocok/ditemukan') {
+          statusLabel = 'Cocok/Ditemukan';
+          statusClass = 'badge-cocok';
+        } else if (normStatus === 'dikembalikan') {
+          statusLabel = 'Dikembalikan';
+          statusClass = 'badge-dikembalikan';
+        } else if (normStatus === 'ditutup') {
+          statusLabel = 'Ditutup';
+          statusClass = 'badge-ditutup';
+        }
+
+        const pelaporNama = userMap[it.pelapor_id] || 'Mahasiswa';
+
+        return `
+          <tr>
+            <td class="text-muted fw-medium">${formattedId}</td>
+            <td><strong class="text-dark">${it.nama_barang || 'Tanpa Nama'}</strong></td>
+            <td><span class="badge-jenis ${jenisClass}">${jenisLabel}</span></td>
+            <td>${pelaporNama}</td>
+            <td>${it.tanggal || '-'}</td>
+            <td><span class="badge-status ${statusClass}">${statusLabel}</span></td>
+            <td>
+              <a href="detail_kelola_status.html?id=${it.id}" class="btn-action-kelola">
+                Kelola
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    loadAdminDashboard();
+  </script>
+</body>
+</html>
