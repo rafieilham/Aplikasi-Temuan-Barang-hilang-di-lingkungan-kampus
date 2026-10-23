@@ -42,7 +42,7 @@
       line-height: 1.6;
     }
 
-    /* Sidebar Layout Sesuai Wireframe Layar 11 */
+    /* Sidebar Layout
     .admin-wrapper {
       display: flex;
       min-height: 100vh;
@@ -312,7 +312,7 @@
 <body>
 
   <div class="admin-wrapper">
-    <!-- Sidebar Sesuai Wireframe Layar 11 -->
+    <!-- Sidebar-->
     <aside class="admin-sidebar">
       <div class="admin-brand">
         <div class="admin-brand-title">FoundIt!</div>
@@ -344,7 +344,7 @@
       </div>
     </aside>
 
-    <!-- Area Konten Utama Dashboard Admin Sesuai Wireframe Layar 11 -->
+    <!-- Area Konten Utama Dashboard Admin-->
     <main class="admin-content">
       <!-- Breadcrumb -->
       <div class="breadcrumb-text">
@@ -359,7 +359,7 @@
         </p>
       </div>
 
-      <!-- 4 Stat Cards Sesuai Wireframe Layar 11 -->
+      <!-- 4 Stat Cards-->
       <div class="stat-card-grid">
         <div class="stat-card">
           <div class="stat-label">Total laporan</div>
@@ -379,7 +379,7 @@
         </div>
       </div>
 
-      <!-- Stat Summary Text Bar Sesuai Wireframe -->
+      <!-- Stat Summary Text Bar-->
       <div class="stat-summary-bar" id="statSummaryText">
         Memuat ringkasan laporan...
       </div>
@@ -410,7 +410,7 @@
           </table>
         </div>
 
-        <!-- Tombol Aksi di Bawah Tabel Sesuai Wireframe Layar 11 -->
+        <!-- Tombol Aksi di Bawah Tabel-->
         <div class="d-flex align-items-center gap-2 mt-3 pt-2">
           <a href="kelola_barang.html" class="btn-nav-action">
             Semua laporan
@@ -421,12 +421,12 @@
         </div>
       </div>
 
-      <!-- Catatan Footnote Sesuai Wireframe Layar 11 -->
+      <!-- Catatan Laporan -->
       <div class="admin-footnote">
         Data acuan L001 berstatus Aktif. Layar 06–08 menunjukkan alternatif momen untuk laporan yang sama, bukan tambahan data.
       </div>
 
-      <!-- Footer Sesuai Wireframe -->
+      <!-- Footer-->
       <footer class="footer-admin">
         FoundIt! · Temuan barang hilang di lingkungan kampus · PRO-13
       </footer>
@@ -484,11 +484,11 @@
         document.getElementById('statCocok').textContent = cocok;
         document.getElementById('statSelesai').textContent = dikembalikan + ditutup;
 
-        // Tampilkan pada Notice Text Bar Sesuai Wireframe
+        // Tampilkan pada Notice Text Bar
         document.getElementById('statSummaryText').textContent = 
           `Tipe laporan: ${hilang} Hilang dan ${temuan} Ditemukan. Perincian 4 status: ${aktif} Aktif, ${cocok} Cocok/Ditemukan, ${dikembalikan} Dikembalikan, ${ditutup} Ditutup (Total ${total} laporan).`;
 
-        // Render tabel laporan terbaru (maksimal 6 laporan sesuai wireframe)
+        // Render tabel laporan terbaru (maksimal 6 laporan)
         const recentItems = allItems.slice(0, 6);
         renderRecentTable(recentItems);
 

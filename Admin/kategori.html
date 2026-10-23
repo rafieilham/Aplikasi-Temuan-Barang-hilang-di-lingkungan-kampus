@@ -367,7 +367,7 @@
           <p class="page-subtitle mb-0">Kelola master data kategori pengelompokan barang hilang dan temuan di kampus Polibatam.</p>
         </div>
         <div>
-          <!-- Tombol Tambah Kategori Sesuai Permintaan -->
+          <!-- Tombol Tambah Kategori -->
           <button type="button" class="btn-admin-primary" data-bs-toggle="modal" data-bs-target="#modalTambahKategori">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -735,7 +735,7 @@
       const footer = document.getElementById('modalHapusKategoriFooter');
 
       if (totalItems > 0) {
-        // Aturan FR-10: Jika data master masih dipakai transaksi, tolak penghapusan atau sarankan nonaktif
+        // Validasi jika data master masih dipakai transaksi, tolak penghapusan atau sarankan nonaktif
         body.innerHTML = `
           <div class="alert alert-warning py-3 px-3 mb-3" style="border-radius: 10px;">
             <strong>Data Master Terikat Transaksi!</strong><br />
