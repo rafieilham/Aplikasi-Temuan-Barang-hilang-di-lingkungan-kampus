@@ -556,23 +556,23 @@
               </div>
               
               <div class="p-3 rounded-3 mb-3" style="background-color: #fef2f2; border-left: 4px solid #ef4444;">
-                <div class="fw-bold text-danger small mb-1">Pusat Frekuensi Tertinggi: Gedung Utama (GU)</div>
+                <div class="fw-bold text-danger small mb-1">Pusat Frekuensi Tertinggi: Gedung PES / Gedung Utama (GU)</div>
                 <p class="text-secondary small mb-0">
-                  Gedung Utama (GU) mencatat frekuensi kehilangan tertinggi (<strong id="guPercentText">42%</strong>). Kasus terbanyak berada di Ruang Teori, Tangga Utama, dan Lobi pada jam sibuk perkuliahan.
+                  Gedung PES / Gedung Utama (GU) mencatat frekuensi kehilangan tertinggi (<strong id="guPercentText">42%</strong>). Kasus terbanyak berada di Ruang Teori, Tangga Utama, dan Area Lobi pada jam sibuk perkuliahan.
                 </p>
               </div>
 
               <div class="p-3 rounded-3 mb-3" style="background-color: #f0fdf4; border-left: 4px solid #10b981;">
-                <div class="fw-bold text-success small mb-1">Gedung Kuliah Terpadu (GKT)</div>
+                <div class="fw-bold text-success small mb-1">Tower A (Gedung Mohammad Nasir) &amp; Tower B</div>
                 <p class="text-secondary small mb-0">
-                  Menyumbang <strong id="gktPercentText">32%</strong> kasus temuan. Mayoritas perlengkapan kuliah (kalkulator, charger laptop, flashdisk) tertinggal di laboratorium komputer.
+                  Menyumbang <strong id="towerPercentText">26%</strong> kasus temuan. Mayoritas perlengkapan kuliah (kalkulator, charger laptop, flashdisk) tertinggal di laboratorium komputer dan ruang kelas.
                 </p>
               </div>
 
               <div class="p-3 rounded-3" style="background-color: #eff6ff; border-left: 4px solid #3b82f6;">
                 <div class="fw-bold text-primary small mb-1">Tindakan Preventif Pengelola</div>
                 <p class="text-secondary small mb-0">
-                  Disarankan penempatan pos serah terima barang temuan di Lobi Gedung Utama (GU) &amp; Lobi Tower A GKT untuk mempercepat penanganan barang.
+                  Disarankan penempatan pos serah terima barang temuan di Lobi Gedung PES / Gedung Utama (GU) &amp; Lobi Tower A untuk mempercepat penanganan barang.
                 </p>
               </div>
             </div>
@@ -810,40 +810,40 @@
       if (!container) return;
 
       const stats = {
-        'Gedung Utama (GU)': { count: 0, color: '#ef4444', badge: '🔥 Titik Tertinggi' },
-        'Gedung Kuliah Terpadu (GKT)': { count: 0, color: '#0f8a77', badge: '⚠️ Frekuensi Tinggi' },
-        'Perpustakaan Polibatam': { count: 0, color: '#3b82f6', badge: '📘 Area Belajar' },
-        'Area Parkiran Kampus': { count: 0, color: '#f59e0b', badge: '🛵 Area Terbuka' },
-        'Kantin & Fasilitas Umum': { count: 0, color: '#8b5cf6', badge: '🍽️ Area Publik' }
+        'Gedung PES / Gedung Utama (GU)': { count: 0, color: '#ef4444', badge: '🔥 Titik Tertinggi' },
+        'Tower A (Gedung Mohammad Nasir)': { count: 0, color: '#0f8a77', badge: '⚠️ Frekuensi Tinggi' },
+        'Tower B & Technopreneur Centre': { count: 0, color: '#8b5cf6', badge: '🏢 Lab & Ruang Kuliah' },
+        'Perpustakaan': { count: 0, color: '#3b82f6', badge: '📘 Area Belajar' },
+        'Area Parkir & Kantin': { count: 0, color: '#f59e0b', badge: '🛵 Fasilitas Umum' }
       };
 
       (items || []).forEach(it => {
         const l = (it.lokasi || '').toLowerCase();
-        if (l.includes('gedung utama') || l.includes('gu')) {
-          stats['Gedung Utama (GU)'].count++;
-        } else if (l.includes('gkt') || l.includes('kuliah terpadu') || l.includes('tower a')) {
-          stats['Gedung Kuliah Terpadu (GKT)'].count++;
+        if (l.includes('pes') || l.includes('gedung utama') || l.includes('gu')) {
+          stats['Gedung PES / Gedung Utama (GU)'].count++;
+        } else if (l.includes('tower a') || l.includes('mohammad nasir')) {
+          stats['Tower A (Gedung Mohammad Nasir)'].count++;
+        } else if (l.includes('tower b') || l.includes('technopreneur') || l.includes('tc')) {
+          stats['Tower B & Technopreneur Centre'].count++;
         } else if (l.includes('perpustakaan')) {
-          stats['Perpustakaan Polibatam'].count++;
-        } else if (l.includes('parkir')) {
-          stats['Area Parkiran Kampus'].count++;
+          stats['Perpustakaan'].count++;
         } else {
-          stats['Kantin & Fasilitas Umum'].count++;
+          stats['Area Parkir & Kantin'].count++;
         }
       });
 
       const entries = Object.entries(stats).sort((a, b) => b[1].count - a[1].count);
       const totalCount = total > 0 ? total : 1;
 
-      const guCount = stats['Gedung Utama (GU)'].count;
-      const gktCount = stats['Gedung Kuliah Terpadu (GKT)'].count;
+      const guCount = stats['Gedung PES / Gedung Utama (GU)'].count;
+      const towerCount = stats['Tower A (Gedung Mohammad Nasir)'].count + stats['Tower B & Technopreneur Centre'].count;
       const guPct = Math.round((guCount / totalCount) * 100);
-      const gktPct = Math.round((gktCount / totalCount) * 100);
+      const towerPct = Math.round((towerCount / totalCount) * 100);
 
       const guTxt = document.getElementById('guPercentText');
       if (guTxt) guTxt.textContent = `${guPct}% (${guCount} Laporan)`;
-      const gktTxt = document.getElementById('gktPercentText');
-      if (gktTxt) gktTxt.textContent = `${gktPct}% (${gktCount} Laporan)`;
+      const towerTxt = document.getElementById('towerPercentText');
+      if (towerTxt) towerTxt.textContent = `${towerPct}% (${towerCount} Laporan)`;
 
       let html = '';
       entries.forEach(([name, data], idx) => {

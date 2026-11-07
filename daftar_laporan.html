@@ -734,14 +734,17 @@
           <label for="filterLokasi" class="form-label-filter">Lokasi Kampus</label>
           <select id="filterLokasi" class="select-filter-custom">
             <option value="semua">Semua Lokasi</option>
-            <option value="Gedung Kuliah Bersama (GKB)">Gedung Kuliah Bersama (GKB)</option>
-            <option value="Gedung Utama / Rektorat">Gedung Utama / Rektorat</option>
-            <option value="Perpustakaan Pusat">Perpustakaan Pusat</option>
-            <option value="Kantin Utama">Kantin Utama</option>
-            <option value="Area Parkir Barat">Area Parkir Barat</option>
-            <option value="Tower A">Tower A</option>
+            <option value="Gedung PES / Gedung Utama (GU)">Gedung PES / Gedung Utama (GU)</option>
+            <option value="Tower A (Gedung Mohammad Nasir)">Tower A (Gedung Mohammad Nasir)</option>
             <option value="Tower B">Tower B</option>
+            <option value="Gedung Technopreneur Centre (TC)">Gedung Technopreneur Centre (TC)</option>
+            <option value="Gedung Student Center (SC)">Gedung Student Center (SC)</option>
+            <option value="Perpustakaan">Perpustakaan</option>
+            <option value="Kantin">Kantin</option>
+            <option value="Area Parkir">Area Parkir</option>
             <option value="Masjid Kampus">Masjid Kampus</option>
+            <option value="Hanggar Pesawat">Hanggar Pesawat</option>
+            <option value="Fasilitas Olahraga / Lapangan">Fasilitas Olahraga / Lapangan</option>
           </select>
         </div>
 
@@ -934,7 +937,7 @@
         kategori: 'Elektronik & Gadget',
         jenis: 'hilang',
         status: 'proses',
-        lokasi: 'Perpustakaan Pusat - Lt.3',
+        lokasi: 'Perpustakaan - Lantai 3',
         tanggal: '24 Okt 2026',
         foto_url: 'assets/images/laptop_asus.jpg'
       },
@@ -944,7 +947,7 @@
         kategori: 'Dokumen & Identitas',
         jenis: 'temuan',
         status: 'selesai',
-        lokasi: 'Gedung Kuliah Bersama (GKB)',
+        lokasi: 'Gedung PES / Gedung Utama (GU)',
         tanggal: '23 Okt 2026',
         foto_url: 'assets/images/ktm_mahasiswa.jpg'
       }
@@ -994,7 +997,38 @@
       filteredItems = allItems.filter(item => {
         const matchNama = !q || (item.nama_barang || '').toLowerCase().includes(q) || (item.deskripsi || '').toLowerCase().includes(q);
         const matchKat = kat === 'semua' || (item.kategori || '').toLowerCase().includes(kat.toLowerCase());
-        const matchLok = lok === 'semua' || (item.lokasi || '').toLowerCase().includes(lok.toLowerCase());
+        
+        let matchLok = true;
+        if (lok !== 'semua') {
+          const lLow = (item.lokasi || '').toLowerCase();
+          const target = lok.toLowerCase();
+          if (target.includes('pes') || target.includes('utama')) {
+            matchLok = lLow.includes('pes') || lLow.includes('utama') || lLow.includes('gu');
+          } else if (target.includes('tower a')) {
+            matchLok = lLow.includes('tower a') || lLow.includes('mohammad nasir');
+          } else if (target.includes('tower b')) {
+            matchLok = lLow.includes('tower b');
+          } else if (target.includes('technopreneur')) {
+            matchLok = lLow.includes('technopreneur') || lLow.includes('tc');
+          } else if (target.includes('student center')) {
+            matchLok = lLow.includes('student center') || lLow.includes('sc');
+          } else if (target.includes('perpustakaan')) {
+            matchLok = lLow.includes('perpustakaan');
+          } else if (target.includes('kantin')) {
+            matchLok = lLow.includes('kantin');
+          } else if (target.includes('parkir')) {
+            matchLok = lLow.includes('parkir');
+          } else if (target.includes('masjid')) {
+            matchLok = lLow.includes('masjid');
+          } else if (target.includes('hanggar')) {
+            matchLok = lLow.includes('hanggar');
+          } else if (target.includes('olahraga') || target.includes('lapangan')) {
+            matchLok = lLow.includes('olahraga') || lLow.includes('lapangan') || lLow.includes('gazebo');
+          } else {
+            matchLok = lLow.includes(target);
+          }
+        }
+
         const matchJen = jen === 'semua' || (item.jenis || '').toLowerCase() === jen.toLowerCase();
         const normStatus = normalizeStatus(item.status);
         const matchSta = sta === 'semua' || normStatus === sta.toLowerCase();
