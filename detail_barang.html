@@ -1151,7 +1151,11 @@
       loadPelaporName(item.pelapor_id);
 
       // Link Klaim
-      document.getElementById('btnAjukanKlaim').href = `klaim_barang.html?id=${item.id}`;
+      if (normStatus === 'dikembalikan' || normStatus === 'ditutup') {
+        document.getElementById('btnAjukanKlaim').removeAttribute('href');
+      } else {
+        document.getElementById('btnAjukanKlaim').href = `klaim_barang.html?id=${item.id}`;
+      }
     }
 
     async function loadPelaporName(pelaporId) {

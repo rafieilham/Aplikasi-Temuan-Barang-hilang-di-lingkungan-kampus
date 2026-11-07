@@ -524,7 +524,9 @@
 
       // Cek apakah status sudah final (Dikembalikan / Ditutup)
       const wrapActionBtns = document.getElementById('wrapKlaimActionButtons');
-      if (normStatus === 'dikembalikan' || normStatus === 'ditutup') {
+      const isFinal = (normStatus === 'dikembalikan' || normStatus === 'ditutup');
+
+      if (isFinal) {
         selectStatus.disabled = true;
         btnStatus.disabled = true;
         btnStatus.innerHTML = `
@@ -534,14 +536,21 @@
         btnStatus.className = 'btn btn-secondary w-100 py-3 fw-bold disabled';
         lockedAlert.classList.remove('d-none');
         document.getElementById('statusLockedLabel').textContent = normStatus === 'dikembalikan' ? 'Dikembalikan' : 'Ditutup';
-        if (wrapActionBtns) wrapActionBtns.classList.add('d-none');
       } else {
         selectStatus.disabled = false;
         btnStatus.disabled = false;
         btnStatus.textContent = 'Simpan Pembaruan Status';
         btnStatus.className = 'btn-save-status';
         lockedAlert.classList.add('d-none');
-        if (wrapActionBtns) wrapActionBtns.classList.remove('d-none');
+      }
+
+      // Tampilkan tombol verifikasi klaim hanya jika ADA data klaim dan status belum final
+      if (wrapActionBtns) {
+        if (item.klaim_nama && !isFinal) {
+          wrapActionBtns.classList.remove('d-none');
+        } else {
+          wrapActionBtns.classList.add('d-none');
+        }
       }
 
       // Tampilkan data klaim mahasiswa jika ada
