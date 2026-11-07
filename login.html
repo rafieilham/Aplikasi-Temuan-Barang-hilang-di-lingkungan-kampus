@@ -375,11 +375,11 @@
         const { data: user, error } = await supabaseClient
           .from('users')
           .select('*')
-          .eq('nim', identifier)
+          .or(`nim.eq.${identifier},email.eq.${identifier}`)
           .maybeSingle();
 
         if (error || !user) {
-          alertBox.textContent = 'NIM atau username tidak terdaftar di sistem Polibatam.';
+          alertBox.textContent = 'NIM atau email tidak terdaftar di sistem Polibatam.';
           alertBox.className = 'alert alert-danger py-3 px-4 mb-4';
           alertBox.classList.remove('d-none');
           submitBtn.disabled = false;

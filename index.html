@@ -2,12 +2,24 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=login.html" />
   <title>FoundIt! - Mengalihkan...</title>
 </head>
 <body style="background-color: #f8f9fa;">
   <script>
-    window.location.href = 'login.html';
+    try {
+      const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+      if (session && session.id) {
+        if (session.role === 'admin') {
+          window.location.href = 'admin/dashboard_admin.html';
+        } else {
+          window.location.href = 'dashboard_mahasiswa.html';
+        }
+      } else {
+        window.location.href = 'login.html';
+      }
+    } catch (e) {
+      window.location.href = 'login.html';
+    }
   </script>
 </body>
 </html>

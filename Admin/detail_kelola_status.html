@@ -247,32 +247,50 @@
         </div>
         <div>
           <div class="admin-brand-title">FoundIt!</div>
-          <div class="admin-brand-subtitle">Panel Admin Kampus</div>
+          <div class="admin-brand-subtitle">Panel Admin Politeknik Negeri Batam</div>
         </div>
       </div>
 
       <ul class="admin-nav">
         <li class="admin-nav-item">
-          <a href="dashboard_admin.html" class="admin-nav-link">Dashboard</a>
+          <a href="dashboard_admin.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Dashboard</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="kelola_barang.html" class="admin-nav-link active">Kelola Barang</a>
+          <a href="kelola_barang.html" class="admin-nav-link active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <span>Kelola Barang</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="kategori.html" class="admin-nav-link">Kategori</a>
+          <a href="kategori.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            <span>Kategori</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="pelapor.html" class="admin-nav-link">Data Pelapor</a>
+          <a href="pelapor.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Data Pelapor</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="rekap.html" class="admin-nav-link">Rekap Data</a>
+          <a href="rekap.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>Rekap Data</span>
+          </a>
         </li>
       </ul>
 
       <div class="admin-sidebar-footer">
         <div class="admin-user-title">Administrator</div>
         <div class="admin-user-role" id="adminRoleDisplay">Petugas Kampus</div>
-        <a onclick="logoutAdmin()" class="admin-logout-btn">Keluar</a>
+        <a onclick="logoutAdmin()" class="admin-logout-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Keluar</span>
+        </a>
       </div>
     </aside>
 
@@ -335,6 +353,57 @@
             <div class="info-label">Deskripsi & Ciri Khusus</div>
             <p class="text-dark mb-4" id="valDeskripsi" style="line-height: 1.7; font-size: 1.05rem;">-</p>
 
+            <!-- Section Data Klaim Mahasiswa (muncul jika ada klaim) -->
+            <div id="sectionKlaimInfo" class="d-none">
+              <hr class="my-4" style="border-color: #f1f5f9;">
+              <h5 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Data Klaim Mahasiswa
+              </h5>
+              <div class="row g-3 mb-3">
+                <div class="col-sm-6">
+                  <div class="info-label">Nama Pengeklaim</div>
+                  <div class="info-value fw-bold" id="valKlaimNama">-</div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="info-label">NIM Pengeklaim</div>
+                  <div class="info-value" id="valKlaimNim">-</div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="info-label">Kontak Pengeklaim</div>
+                <div class="info-value" id="valKlaimKontak">-</div>
+              </div>
+              <div class="mb-3">
+                <div class="info-label">Bukti Kepemilikan (Deskripsi)</div>
+                <p class="text-dark" id="valKlaimBukti" style="line-height: 1.7; font-size: 1.05rem; background-color: #f8fafc; padding: 14px 18px; border-radius: 10px; border: 1px solid #e2e8f0;">-</p>
+              </div>
+              <div class="mb-3" id="wrapKlaimFoto">
+                <div class="info-label">Foto Bukti Kepemilikan</div>
+                <img id="imgKlaimFoto" src="" alt="Foto Bukti Klaim" style="max-width: 100%; max-height: 400px; border-radius: 12px; border: 1.5px solid #e2e8f0; object-fit: contain; background-color: #f8fafc;" class="mt-2" />
+              </div>
+
+              <!-- Tombol Aksi Cepat Otomatis Khusus Verifikasi Klaim -->
+              <div id="wrapKlaimActionButtons" class="pt-3 border-top mt-3">
+                <div class="fw-bold text-dark small mb-2">Tindakan Verifikasi Klaim Mahasiswa:</div>
+                <div class="d-flex flex-wrap gap-2">
+                  <button type="button" class="btn btn-success fw-bold px-3 py-2" onclick="aksiOtomatisSetujuiKlaim()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-1"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Setujui Klaim &amp; Serahkan Barang (Otomatis Dikembalikan)
+                  </button>
+                  <button type="button" class="btn btn-outline-danger fw-semibold px-3 py-2" onclick="aksiOtomatisTolakKlaim()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="me-1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Tolak Klaim &amp; Buka Kembali (Otomatis Reset ke Aktif)
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <hr class="my-4" style="border-color: #f1f5f9;">
 
             <!-- Form Pembaruan Status Admin -->
@@ -349,9 +418,13 @@
                 <select id="selectStatusAdmin" class="form-select" style="border-radius: 10px; padding: 13px 18px; font-size: 1.05rem; font-weight: 500;">
                   <option value="aktif">Aktif (Laporan baru / proses pencarian berlangsung)</option>
                   <option value="cocok/ditemukan">Cocok/Ditemukan (Barang cocok / proses verifikasi klaim)</option>
-                  <option value="dikembalikan">Dikembalikan (Barang telah diserahkan ke pemilik sah)</option>
-                  <option value="ditutup">Ditutup (Kasus pelaporan dinyatakan selesai dan ditutup)</option>
+                  <option value="dikembalikan">Dikembalikan (Barang telah diserahkan ke pemilik sah - Final)</option>
+                  <option value="ditutup">Ditutup (Kasus pelaporan dinyatakan selesai dan ditutup - Final)</option>
                 </select>
+                <div id="statusLockedAlert" class="alert alert-secondary small mt-3 d-none" style="border-radius: 10px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-1"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <strong>Status Telah Terkunci:</strong> Laporan ini telah berstatus final (<span id="statusLockedLabel" class="fw-bold"></span>). Sesuai aturan sistem kampus, status tidak dapat diubah-ubah lagi.
+                </div>
               </div>
 
               <button type="button" id="btnUpdateStatus" class="btn-save-status" onclick="simpanStatus()">
@@ -436,9 +509,129 @@
       document.getElementById('valDeskripsi').textContent = desc || '-';
       document.getElementById('valKontak').textContent = kontak;
 
-      document.getElementById('selectStatusAdmin').value = normalizeStatus(item.status);
+      const normStatus = normalizeStatus(item.status);
+      const selectStatus = document.getElementById('selectStatusAdmin');
+      const btnStatus = document.getElementById('btnUpdateStatus');
+      const lockedAlert = document.getElementById('statusLockedAlert');
+
+      selectStatus.value = normStatus;
+
+      // Cek apakah status sudah final (Dikembalikan / Ditutup)
+      const wrapActionBtns = document.getElementById('wrapKlaimActionButtons');
+      if (normStatus === 'dikembalikan' || normStatus === 'ditutup') {
+        selectStatus.disabled = true;
+        btnStatus.disabled = true;
+        btnStatus.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Status Terkunci (${normStatus.toUpperCase()})
+        `;
+        btnStatus.className = 'btn btn-secondary w-100 py-3 fw-bold disabled';
+        lockedAlert.classList.remove('d-none');
+        document.getElementById('statusLockedLabel').textContent = normStatus === 'dikembalikan' ? 'Dikembalikan' : 'Ditutup';
+        if (wrapActionBtns) wrapActionBtns.classList.add('d-none');
+      } else {
+        selectStatus.disabled = false;
+        btnStatus.disabled = false;
+        btnStatus.textContent = 'Simpan Pembaruan Status';
+        btnStatus.className = 'btn-save-status';
+        lockedAlert.classList.add('d-none');
+        if (wrapActionBtns) wrapActionBtns.classList.remove('d-none');
+      }
+
+      // Tampilkan data klaim mahasiswa jika ada
+      if (item.klaim_nama) {
+        document.getElementById('sectionKlaimInfo').classList.remove('d-none');
+        document.getElementById('valKlaimNama').textContent = item.klaim_nama || '-';
+        document.getElementById('valKlaimNim').textContent = item.klaim_nim || '-';
+        document.getElementById('valKlaimKontak').textContent = item.klaim_kontak || '-';
+        document.getElementById('valKlaimBukti').textContent = item.klaim_bukti || '-';
+
+        if (item.klaim_foto) {
+          document.getElementById('imgKlaimFoto').src = item.klaim_foto;
+          document.getElementById('wrapKlaimFoto').classList.remove('d-none');
+        } else {
+          document.getElementById('wrapKlaimFoto').classList.add('d-none');
+        }
+      } else {
+        document.getElementById('sectionKlaimInfo').classList.add('d-none');
+      }
 
       loadPelapor(item.pelapor_id);
+    }
+
+    async function aksiOtomatisSetujuiKlaim() {
+      const alertBox = document.getElementById('statusAlert');
+      const namaKlaim = currentItem?.klaim_nama || 'mahasiswa bersangkutan';
+
+      const yakin = confirm(
+        `Konfirmasi Persetujuan Klaim:\n\nApakah Anda yakin ingin menyetujui klaim barang ini atas nama "${namaKlaim}"?\n\n• Status barang akan OTOMATIS berubah menjadi "DIKEMBALIKAN".\n• Status akan langsung TERKUNCI secara permanen (satu kali pakai).\n• Menandakan serah terima fisik barang di posko Lost & Found telah tuntas.`
+      );
+      if (!yakin) return;
+
+      const btnUpdate = document.getElementById('btnUpdateStatus');
+      btnUpdate.disabled = true;
+
+      try {
+        const { error } = await supabaseClient
+          .from('items')
+          .update({ status: 'dikembalikan' })
+          .eq('id', itemId);
+
+        if (error) throw error;
+
+        alertBox.textContent = `Klaim berhasil disetujui! Status laporan otomatis diubah menjadi "DIKEMBALIKAN" dan kini telah TERKUNCI secara permanen.`;
+        alertBox.className = 'alert alert-success small mb-4 py-3 px-4';
+        alertBox.classList.remove('d-none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        await loadItemDetail();
+      } catch (err) {
+        alertBox.textContent = 'Gagal memproses klaim: ' + err.message;
+        alertBox.className = 'alert alert-danger small mb-4 py-3 px-4';
+        alertBox.classList.remove('d-none');
+        btnUpdate.disabled = false;
+      }
+    }
+
+    async function aksiOtomatisTolakKlaim() {
+      const alertBox = document.getElementById('statusAlert');
+      const namaKlaim = currentItem?.klaim_nama || 'mahasiswa bersangkutan';
+
+      const yakin = confirm(
+        `Konfirmasi Penolakan Klaim:\n\nApakah Anda yakin ingin menolak klaim dari "${namaKlaim}"?\n\n• Status barang akan OTOMATIS kembali di-reset menjadi "AKTIF".\n• Data klaim mahasiswa ini akan dibersihkan dari sistem.\n• Laporan barang akan kembali terbuka untuk dicari atau diklaim oleh mahasiswa lain.`
+      );
+      if (!yakin) return;
+
+      const btnUpdate = document.getElementById('btnUpdateStatus');
+      btnUpdate.disabled = true;
+
+      try {
+        const { error } = await supabaseClient
+          .from('items')
+          .update({
+            status: 'aktif',
+            klaim_nama: null,
+            klaim_nim: null,
+            klaim_kontak: null,
+            klaim_bukti: null,
+            klaim_foto: null
+          })
+          .eq('id', itemId);
+
+        if (error) throw error;
+
+        alertBox.textContent = `Klaim telah ditolak. Status laporan otomatis kembali menjadi "AKTIF" dan dibuka untuk publik.`;
+        alertBox.className = 'alert alert-warning small mb-4 py-3 px-4';
+        alertBox.classList.remove('d-none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        await loadItemDetail();
+      } catch (err) {
+        alertBox.textContent = 'Gagal memproses penolakan klaim: ' + err.message;
+        alertBox.className = 'alert alert-danger small mb-4 py-3 px-4';
+        alertBox.classList.remove('d-none');
+        btnUpdate.disabled = false;
+      }
     }
 
     async function loadPelapor(pelaporId) {
@@ -471,6 +664,13 @@
       const alertBox = document.getElementById('statusAlert');
       const newStatus = document.getElementById('selectStatusAdmin').value;
 
+      // Konfirmasi khusus jika memilih status final (Satu Kali Pakai)
+      if (newStatus === 'dikembalikan' || newStatus === 'ditutup') {
+        const label = newStatus === 'dikembalikan' ? 'DIKEMBALIKAN (Barang diserahkan ke pemilik)' : 'DITUTUP (Kasus selesai & ditutup)';
+        const yakin = confirm(`Apakah Anda yakin ingin menyelesaikan laporan ini menjadi "${label}"?\n\nPERINGATAN: Tindakan ini bersifat SATU KALI PAKAI. Setelah status disimpan, status akan OTOMATIS TERKUNCI dan tidak dapat diubah lagi.`);
+        if (!yakin) return;
+      }
+
       btn.disabled = true;
       btn.textContent = 'Menyimpan...';
 
@@ -482,16 +682,18 @@
 
         if (error) throw error;
 
-        alertBox.textContent = `Status laporan berhasil diperbarui menjadi "${newStatus.toUpperCase()}".`;
+        alertBox.textContent = `Status laporan berhasil diperbarui menjadi "${newStatus.toUpperCase()}" dan kini TERKUNCI secara otomatis.`;
         alertBox.className = 'alert alert-success small mb-4 py-3 px-4';
         alertBox.classList.remove('d-none');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Muat ulang data agar tampilan status terkunci langsung aktif
+        await loadItemDetail();
 
       } catch (err) {
         alertBox.textContent = 'Gagal memperbarui status: ' + err.message;
         alertBox.className = 'alert alert-danger small mb-4 py-3 px-4';
         alertBox.classList.remove('d-none');
-      } finally {
         btn.disabled = false;
         btn.textContent = 'Simpan Pembaruan Status';
       }

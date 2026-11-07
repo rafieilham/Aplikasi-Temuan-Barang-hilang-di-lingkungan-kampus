@@ -158,7 +158,7 @@
       const { data: user, error } = await supabaseClient
         .from('users')
         .select('*')
-        .eq('nim', username)
+        .or(`nim.eq.${username},email.eq.${username}`)
         .eq('role', 'admin')
         .maybeSingle();
 

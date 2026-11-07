@@ -13,6 +13,7 @@
       --admin-primary: #0f172a;
       --admin-accent: #0f8a77;
       --admin-accent-hover: #0c7262;
+      --admin-mint: #2dd4bf;
       --bg-page: #f8fafc;
       --border-color: #e2e8f0;
       --text-main: #0f172a;
@@ -137,6 +138,9 @@
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .admin-logout-btn:hover {
       text-decoration: underline;
@@ -170,26 +174,211 @@
       background: #ffffff;
       border: 1.5px solid var(--border-color);
       border-radius: 16px;
-      padding: 32px;
+      padding: 26px 30px;
       box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
-    .btn-export-csv {
-      background: var(--admin-accent);
+    
+    .filter-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px 26px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+      margin-bottom: 24px;
+    }
+
+    .form-control-custom, .form-select-custom {
+      width: 100%;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.98rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+      min-height: 44px;
+    }
+    .form-control-custom:focus, .form-select-custom:focus {
+      border-color: var(--admin-accent);
+      box-shadow: 0 0 0 3px rgba(15, 138, 119, 0.15);
+    }
+
+    /* Buttons */
+    .btn-export-excel {
+      background: #107c41;
       color: #ffffff;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       border-radius: 10px;
-      padding: 13px 26px;
+      padding: 11px 22px;
       border: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       cursor: pointer;
       transition: background-color 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-export-excel:hover {
+      background: #0d6535;
+      color: #ffffff;
+    }
+
+    .btn-export-csv {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 11px 22px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      text-decoration: none;
     }
     .btn-export-csv:hover {
-      background: var(--admin-accent-hover);
+      background: #0369a1;
+      color: #ffffff;
+    }
+
+    .btn-print {
+      background: #ffffff;
+      color: #334155;
+      border: 1.5px solid var(--border-color);
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 11px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-print:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    /* Table Rekapitulasi Rapi & Elegan */
+    .table-rekap-container {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .table-rekap {
+      width: 100%;
+      margin-bottom: 0;
+      border-collapse: collapse;
+    }
+    .table-rekap thead th {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 14px 16px;
+      border: 1px solid #1e293b;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+    .table-rekap tbody tr {
+      transition: background-color 0.15s ease;
+    }
+    .table-rekap tbody tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .table-rekap tbody tr:hover {
+      background-color: #f1f5f9;
+    }
+    .table-rekap tbody td {
+      padding: 14px 16px;
+      vertical-align: middle;
+      font-size: 0.98rem;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .table-rekap tfoot td {
+      background-color: #f1f5f9;
+      font-weight: 800;
+      font-size: 1.02rem;
+      padding: 16px;
+      border-top: 2.5px solid #cbd5e1;
+      border-bottom: 1px solid #cbd5e1;
+    }
+
+    /* Status Badges */
+    .badge-status {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .badge-aktif {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+    .badge-cocok {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .badge-dikembalikan {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-ditutup {
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    .badge-jenis {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-jenis-temuan {
+      background-color: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-jenis-hilang {
+      background-color: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    /* Print Styles */
+    @media print {
+      .admin-sidebar, .btn-export-excel, .btn-export-csv, .btn-print, .filter-card, .breadcrumb-text {
+        display: none !important;
+      }
+      .admin-content {
+        padding: 0 !important;
+      }
+      .table-rekap thead th {
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
     }
   </style>
 
@@ -217,88 +406,209 @@
 
       <ul class="admin-nav">
         <li class="admin-nav-item">
-          <a href="dashboard_admin.html" class="admin-nav-link">Dashboard</a>
+          <a href="dashboard_admin.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Dashboard</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="kelola_barang.html" class="admin-nav-link">Kelola Barang</a>
+          <a href="kelola_barang.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <span>Kelola Barang</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="kategori.html" class="admin-nav-link">Kategori</a>
+          <a href="kategori.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            <span>Kategori</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="pelapor.html" class="admin-nav-link">Data Pelapor</a>
+          <a href="pelapor.html" class="admin-nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Data Pelapor</span>
+          </a>
         </li>
         <li class="admin-nav-item">
-          <a href="rekap.html" class="admin-nav-link active">Rekap Data</a>
+          <a href="rekap.html" class="admin-nav-link active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>Rekap Data</span>
+          </a>
         </li>
       </ul>
 
       <div class="admin-sidebar-footer">
         <div class="admin-user-title">Administrator</div>
         <div class="admin-user-role" id="adminRoleDisplay">Petugas Kampus</div>
-        <a onclick="logoutAdmin()" class="admin-logout-btn">Keluar</a>
+        <a onclick="logoutAdmin()" class="admin-logout-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Keluar</span>
+        </a>
       </div>
     </aside>
 
     <!-- Main Content -->
     <main class="admin-content">
       <div class="breadcrumb-text">
-        <span>FoundIt! Admin</span> / <span>Rekap Data</span>
+        <span>FoundIt! Admin</span> / <span>Rekap Data & Pelaporan</span>
       </div>
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
-          <h1 class="page-title">Rekap & Unduh Data Laporan</h1>
-          <p class="page-subtitle">Ekspor laporan inventaris barang hilang dan temuan untuk dokumentasi resmi Politeknik Negeri Batam.</p>
+          <h1 class="page-title">Rekapitulasi Pelaporan Barang Kampus</h1>
+          <p class="page-subtitle mb-0">Tabel ringkasan dan rekapitulasi data barang hilang &amp; temuan terintegrasi Polibatam (Modul PRO-13).</p>
         </div>
-        <div>
-          <button type="button" class="btn-export-csv" onclick="exportDataToCSV()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <div class="d-flex flex-wrap gap-2">
+          <!-- Tombol Unduh Excel Terformat Rapi -->
+          <button type="button" class="btn-export-excel" onclick="exportDataToExcel()" title="Unduh tabel berformat rapi untuk Microsoft Excel / WPS Office">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8" y1="13" x2="16" y2="13"></line>
+              <line x1="8" y1="17" x2="16" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Unduh Excel (.xls)</span>
+          </button>
+
+          <!-- Tombol Unduh CSV -->
+          <button type="button" class="btn-export-csv" onclick="exportDataToCSV()" title="Unduh data standar format CSV">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span>Unduh Laporan CSV</span>
+            <span>Unduh CSV</span>
+          </button>
+
+          <!-- Tombol Cetak / Print -->
+          <button type="button" class="btn-print" onclick="window.print()" title="Cetak laporan langsung">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            <span>Cetak</span>
           </button>
         </div>
       </div>
 
+      <!-- Ringkasan Statistik Cards -->
       <div class="card-rekap">
-        <h4 class="fw-bold text-dark mb-4">Ringkasan Statistik Laporan</h4>
-        <div class="row g-4 text-center">
-          <div class="col-md-3">
-            <div class="p-4 border rounded-3 bg-light">
-              <div class="text-secondary fw-bold" style="font-size: 0.88rem; letter-spacing: 0.04em;">TOTAL LAPORAN</div>
-              <div class="fw-bold text-dark mt-2" id="sumTotal" style="font-size: 2.6rem;">0</div>
+        <h5 class="fw-bold text-dark mb-3">Ringkasan Statistik Keseluruhan</h5>
+        <div class="row g-3 text-center">
+          <div class="col-6 col-md-3">
+            <div class="p-3 border rounded-3 bg-light">
+              <div class="text-secondary fw-bold small text-uppercase" style="letter-spacing: 0.04em;">TOTAL LAPORAN</div>
+              <div class="fw-bold text-dark mt-1 fs-3" id="sumTotal">0</div>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="p-4 border rounded-3 bg-light">
-              <div class="text-secondary fw-bold" style="font-size: 0.88rem; letter-spacing: 0.04em;">BARANG DITEMUKAN</div>
-              <div class="fw-bold text-success mt-2" id="sumTemuan" style="font-size: 2.6rem;">0</div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 border rounded-3 bg-light">
+              <div class="text-secondary fw-bold small text-uppercase" style="letter-spacing: 0.04em;">BARANG DITEMUKAN</div>
+              <div class="fw-bold text-success mt-1 fs-3" id="sumTemuan">0</div>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="p-4 border rounded-3 bg-light">
-              <div class="text-secondary fw-bold" style="font-size: 0.88rem; letter-spacing: 0.04em;">BARANG HILANG</div>
-              <div class="fw-bold text-danger mt-2" id="sumHilang" style="font-size: 2.6rem;">0</div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 border rounded-3 bg-light">
+              <div class="text-secondary fw-bold small text-uppercase" style="letter-spacing: 0.04em;">BARANG HILANG</div>
+              <div class="fw-bold text-danger mt-1 fs-3" id="sumHilang">0</div>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="p-4 border rounded-3 bg-light">
-              <div class="text-secondary fw-bold" style="font-size: 0.88rem; letter-spacing: 0.04em;">KASUS SELESAI</div>
-              <div class="fw-bold text-primary mt-2" id="sumSelesai" style="font-size: 2.6rem;">0</div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 border rounded-3 bg-light">
+              <div class="text-secondary fw-bold small text-uppercase" style="letter-spacing: 0.04em;">KASUS SELESAI</div>
+              <div class="fw-bold text-primary mt-1 fs-3" id="sumSelesai">0</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="card-rekap">
-        <h4 class="fw-bold text-dark mb-3">Petunjuk Pengunduhan</h4>
-        <p class="text-muted mb-0" style="font-size: 1.05rem; line-height: 1.7;">
-          Data yang diekspor berformat CSV standar yang dapat dibuka langsung menggunakan Microsoft Excel, Google Sheets, atau aplikasi spreadsheet lainnya. File berisi seluruh riwayat pelaporan, tanggal kejadian, kategori, lokasi spesifik di kampus Politeknik Negeri Batam, status verifikasi posko Lost & Found, dan identitas barang.
-        </p>
+      <!-- Filter Bar Rekapitulasi (Sesuai Rancangan Modul PRO-13) -->
+      <div class="filter-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            <span>Filter Data Rekapitulasi</span>
+          </h6>
+          <span class="text-muted small" id="filteredCountInfo">Menampilkan semua data</span>
+        </div>
+        
+        <div class="row g-2">
+          <div class="col-lg-3 col-md-6">
+            <label for="filterDari" class="form-label small fw-bold text-secondary mb-1">Periode Dari</label>
+            <input type="date" id="filterDari" class="form-control-custom" onchange="applyFilters()" />
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <label for="filterSampai" class="form-label small fw-bold text-secondary mb-1">Periode Sampai</label>
+            <input type="date" id="filterSampai" class="form-control-custom" onchange="applyFilters()" />
+          </div>
+          <div class="col-lg-2 col-md-4">
+            <label for="filterKategori" class="form-label small fw-bold text-secondary mb-1">Kategori</label>
+            <select id="filterKategori" class="form-select-custom" onchange="applyFilters()">
+              <option value="semua">Semua Kategori</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-4">
+            <label for="filterJenis" class="form-label small fw-bold text-secondary mb-1">Tipe</label>
+            <select id="filterJenis" class="form-select-custom" onchange="applyFilters()">
+              <option value="semua">Semua Tipe</option>
+              <option value="temuan">Temuan</option>
+              <option value="hilang">Hilang</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-4">
+            <label for="filterStatus" class="form-label small fw-bold text-secondary mb-1">Status</label>
+            <select id="filterStatus" class="form-select-custom" onchange="applyFilters()">
+              <option value="semua">Semua Status</option>
+              <option value="aktif">Aktif</option>
+              <option value="cocok/ditemukan">Cocok/Ditemukan</option>
+              <option value="dikembalikan">Dikembalikan</option>
+              <option value="ditutup">Ditutup</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="text-end mt-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary px-3" onclick="resetFilters()">
+            Reset Filter
+          </button>
+        </div>
       </div>
+
+      <!-- TABEL REKAPITULASI LAPORAN (RAPIS, TERBACA & BER-BORDER JELAS) -->
+      <div class="table-rekap-container">
+        <div class="table-responsive">
+          <table class="table-rekap" id="tabelRekapUtama">
+            <thead>
+              <tr>
+                <th style="width: 50px; text-align: center;">No.</th>
+                <th style="width: 90px; text-align: center;">ID Laporan</th>
+                <th style="min-width: 220px;">Nama Barang</th>
+                <th style="width: 160px;">Kategori</th>
+                <th style="width: 100px; text-align: center;">Tipe</th>
+                <th style="width: 120px; text-align: center;">Tanggal</th>
+                <th style="min-width: 180px;">Lokasi Kampus</th>
+                <th style="min-width: 160px;">Pelapor Laporan</th>
+                <th style="width: 140px; text-align: center;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="rekapTableBody">
+              <tr>
+                <td colspan="9" class="text-center py-5 text-muted">
+                  Memuat data rekapitulasi laporan...
+                </td>
+              </tr>
+            </tbody>
+            <tfoot id="rekapTableFoot">
+              <!-- Baris Total / Ringkasan Diisi Secara Dinamis -->
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -316,53 +626,401 @@
       window.location.href = 'login_admin.html';
     }
 
-    let reportData = [];
+    let allReportData = [];
+    let filteredData = [];
 
-    async function loadSummary() {
+    // 1. Muat Kategori untuk Dropdown Filter
+    function populateCategoryFilter() {
+      const cats = getStoredCategories();
+      const select = document.getElementById('filterKategori');
+      select.innerHTML = '<option value="semua">Semua Kategori</option>' + 
+        cats.map(c => `<option value="${escapeHtml(c.nama)}">${escapeHtml(c.nama)}</option>`).join('');
+    }
+
+    // 2. Muat Data Lengkap dari Supabase
+    async function loadReportData() {
       try {
-        const { data: items } = await supabaseClient.from('items').select('*');
-        reportData = items || [];
+        const { data: items, error } = await supabaseClient
+          .from('items')
+          .select('*, users(name, nim)')
+          .order('id', { ascending: false });
 
-        document.getElementById('sumTotal').textContent = reportData.length;
-        document.getElementById('sumTemuan').textContent = reportData.filter(i => (i.jenis || '').toLowerCase() === 'temuan').length;
-        document.getElementById('sumHilang').textContent = reportData.filter(i => (i.jenis || '').toLowerCase() === 'hilang').length;
-        document.getElementById('sumSelesai').textContent = reportData.filter(i => ['dikembalikan', 'ditutup', 'selesai'].includes(normalizeStatus(i.status))).length;
-      } catch (e) {
-        console.error(e);
+        if (error) throw error;
+        allReportData = items || [];
+
+        // Hitung statistik keseluruhan
+        document.getElementById('sumTotal').textContent = allReportData.length;
+        document.getElementById('sumTemuan').textContent = allReportData.filter(i => (i.jenis || '').toLowerCase() === 'temuan').length;
+        document.getElementById('sumHilang').textContent = allReportData.filter(i => (i.jenis || '').toLowerCase() === 'hilang').length;
+        document.getElementById('sumSelesai').textContent = allReportData.filter(i => ['dikembalikan', 'ditutup', 'selesai'].includes(normalizeStatus(i.status))).length;
+
+        applyFilters();
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('rekapTableBody').innerHTML = `
+          <tr><td colspan="9" class="text-center py-4 text-danger">Gagal memuat data: ${err.message}</td></tr>
+        `;
       }
     }
 
+    // 3. Filter Data
+    function applyFilters() {
+      const dari = document.getElementById('filterDari').value;
+      const sampai = document.getElementById('filterSampai').value;
+      const kat = document.getElementById('filterKategori').value;
+      const jen = document.getElementById('filterJenis').value;
+      const sta = document.getElementById('filterStatus').value;
+
+      filteredData = allReportData.filter(item => {
+        // Filter Tanggal
+        if (dari && item.tanggal && item.tanggal < dari) return false;
+        if (sampai && item.tanggal && item.tanggal > sampai) return false;
+
+        // Filter Kategori
+        if (kat !== 'semua' && (item.kategori || '') !== kat) return false;
+
+        // Filter Jenis / Tipe
+        if (jen !== 'semua' && (item.jenis || '').toLowerCase() !== jen.toLowerCase()) return false;
+
+        // Filter Status
+        const normStatus = normalizeStatus(item.status);
+        if (sta !== 'semua' && normStatus !== sta.toLowerCase()) return false;
+
+        return true;
+      });
+
+      document.getElementById('filteredCountInfo').textContent = 
+        `Menampilkan ${filteredData.length} dari ${allReportData.length} total laporan`;
+
+      renderTable();
+    }
+
+    function resetFilters() {
+      document.getElementById('filterDari').value = '';
+      document.getElementById('filterSampai').value = '';
+      document.getElementById('filterKategori').value = 'semua';
+      document.getElementById('filterJenis').value = 'semua';
+      document.getElementById('filterStatus').value = 'semua';
+      applyFilters();
+    }
+
+    // 4. Render Tabel dengan Format Rapi & Enak Dibaca
+    function renderTable() {
+      const tbody = document.getElementById('rekapTableBody');
+      const tfoot = document.getElementById('rekapTableFoot');
+
+      if (filteredData.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="text-center py-5 text-muted">
+              Tidak ada data laporan yang cocok dengan kriteria filter yang dipilih.
+            </td>
+          </tr>
+        `;
+        tfoot.innerHTML = '';
+        return;
+      }
+
+      // Hitung ringkasan pada data terfilter
+      let cntTemuan = 0;
+      let cntHilang = 0;
+      let cntAktif = 0;
+      let cntCocok = 0;
+      let cntDikembalikan = 0;
+      let cntDitutup = 0;
+
+      tbody.innerHTML = filteredData.map((item, index) => {
+        const repId = `L${String(item.id).padStart(3, '0')}`;
+        const isTemuan = (item.jenis || '').toLowerCase() === 'temuan';
+        
+        if (isTemuan) cntTemuan++; else cntHilang++;
+
+        const normStatus = normalizeStatus(item.status);
+        if (normStatus === 'cocok/ditemukan') cntCocok++;
+        else if (normStatus === 'dikembalikan') cntDikembalikan++;
+        else if (normStatus === 'ditutup') cntDitutup++;
+        else cntAktif++;
+
+        // Status badge
+        let statusBadge = '<span class="badge-status badge-aktif">Aktif</span>';
+        if (normStatus === 'cocok/ditemukan') {
+          statusBadge = '<span class="badge-status badge-cocok">Cocok/Ditemukan</span>';
+        } else if (normStatus === 'dikembalikan') {
+          statusBadge = '<span class="badge-status badge-dikembalikan">Dikembalikan</span>';
+        } else if (normStatus === 'ditutup') {
+          statusBadge = '<span class="badge-status badge-ditutup">Ditutup</span>';
+        }
+
+        // Jenis badge
+        const jenisBadge = isTemuan ? 
+          '<span class="badge-jenis badge-jenis-temuan">Ditemukan</span>' : 
+          '<span class="badge-jenis badge-jenis-hilang">Hilang</span>';
+
+        // Pelapor
+        let namaPelapor = '-';
+        if (item.users && item.users.name) {
+          namaPelapor = item.users.name + (item.users.nim ? ` (${item.users.nim})` : '');
+        } else if (item.deskripsi && item.deskripsi.includes('Pelapor:')) {
+          const m = item.deskripsi.match(/Pelapor:\s*([^|]+)/);
+          if (m) namaPelapor = m[1].trim();
+        }
+        if (!namaPelapor || namaPelapor === '-') namaPelapor = 'Sivitas Kampus';
+
+        return `
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; font-weight: 800; color: #0f8a77;">${repId}</td>
+            <td><strong class="text-dark">${escapeHtml(item.nama_barang || 'Tanpa Nama')}</strong></td>
+            <td><span class="text-secondary">${escapeHtml(item.kategori || 'Lain-lain')}</span></td>
+            <td style="text-align: center;">${jenisBadge}</td>
+            <td style="text-align: center; color: #334155; font-weight: 500;">${escapeHtml(item.tanggal || '-')}</td>
+            <td><span class="text-dark small">${escapeHtml(item.lokasi || '-')}</span></td>
+            <td><span class="text-secondary small">${escapeHtml(namaPelapor)}</span></td>
+            <td style="text-align: center;">${statusBadge}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Baris Total / Rekapitulasi di Bagian Bawah Tabel
+      tfoot.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-start">
+            <span class="text-dark">TOTAL LAPORAN TERFILTER:</span> 
+            <span class="badge bg-dark fs-6 ms-2">${filteredData.length} Laporan</span>
+          </td>
+          <td style="text-align: center;">
+            <div class="small fw-bold text-success">${cntTemuan} Temuan</div>
+            <div class="small fw-bold text-danger">${cntHilang} Hilang</div>
+          </td>
+          <td colspan="4" class="text-end">
+            <span class="small text-secondary me-3">
+              Rincian Status: 
+              <strong class="text-info">${cntAktif}</strong> Aktif, 
+              <strong class="text-warning">${cntCocok}</strong> Cocok/Klaim, 
+              <strong class="text-success">${cntDikembalikan}</strong> Dikembalikan, 
+              <strong class="text-muted">${cntDitutup}</strong> Ditutup
+            </span>
+          </td>
+        </tr>
+      `;
+    }
+
+    // 5. Ekspor ke Excel (.xls) dengan Styling Indah & Rapi
+    function exportDataToExcel() {
+      if (filteredData.length === 0) {
+        alert('Tidak ada data untuk diekspor.');
+        return;
+      }
+
+      const today = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+      const filename = `rekap_laporan_foundit_polibatam_${new Date().toISOString().split('T')[0]}.xls`;
+
+      // Buat template tabel HTML terformat yang didukung langsung oleh Microsoft Excel & WPS Office
+      let excelHtml = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+          <!--[if gte mso 9]>
+          <xml>
+            <x:ExcelWorkbook>
+              <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                  <x:Name>Rekap Laporan Lost and Found</x:Name>
+                  <x:WorksheetOptions>
+                    <x:DisplayGridlines/>
+                  </x:WorksheetOptions>
+                </x:ExcelWorksheet>
+              </x:ExcelWorksheets>
+            </x:ExcelWorkbook>
+          </xml>
+          <![endif]-->
+          <style>
+            body { font-family: Calibri, 'Segoe UI', Arial, sans-serif; }
+            .title { font-size: 16pt; font-weight: bold; color: #064e43; text-align: center; }
+            .subtitle { font-size: 11pt; color: #475569; text-align: center; }
+            .meta { font-size: 10pt; color: #64748b; margin-bottom: 12px; }
+            table { border-collapse: collapse; width: 100%; }
+            th { 
+              background-color: #0f8a77; 
+              color: #ffffff; 
+              font-weight: bold; 
+              font-size: 11pt; 
+              border: 1px solid #064e43; 
+              padding: 10px 14px; 
+              text-align: center; 
+            }
+            td { 
+              border: 1px solid #cbd5e1; 
+              padding: 8px 12px; 
+              font-size: 10.5pt; 
+              color: #0f172a; 
+              vertical-align: middle; 
+            }
+            .center { text-align: center; }
+            .bold { font-weight: bold; }
+            .even { background-color: #f8fafc; }
+            .total-row { 
+              background-color: #e2e8f0; 
+              font-weight: bold; 
+              font-size: 11pt; 
+              border-top: 2px solid #0f172a; 
+              border-bottom: 2px solid #0f172a; 
+            }
+            .status-aktif { color: #0284c7; font-weight: bold; }
+            .status-cocok { color: #b45309; font-weight: bold; }
+            .status-selesai { color: #047857; font-weight: bold; }
+            .status-tutup { color: #475569; font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          <div class="title">REKAPITULASI LAPORAN BARANG HILANG &amp; TEMUAN</div>
+          <div class="subtitle">Sistem Informasi FoundIt! - Politeknik Negeri Batam</div>
+          <div class="meta" style="margin-top: 8px;">Tanggal Unduh: ${today} | Oleh: ${session.name || 'Petugas Admin'}</div>
+          <br>
+          <table border="1">
+            <thead>
+              <tr>
+                <th style="width: 45px;">No.</th>
+                <th style="width: 100px;">ID Laporan</th>
+                <th style="width: 250px;">Nama Barang</th>
+                <th style="width: 170px;">Kategori</th>
+                <th style="width: 110px;">Tipe</th>
+                <th style="width: 110px;">Tanggal</th>
+                <th style="width: 230px;">Lokasi Kampus</th>
+                <th style="width: 170px;">Pelapor Laporan</th>
+                <th style="width: 140px;">Status Terkini</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      let cntTemuan = 0;
+      let cntHilang = 0;
+
+      filteredData.forEach((row, i) => {
+        const id = `L${String(row.id).padStart(3, '0')}`;
+        const isTemuan = (row.jenis || '').toLowerCase() === 'temuan';
+        if (isTemuan) cntTemuan++; else cntHilang++;
+
+        const normStatus = normalizeStatus(row.status);
+        let statusStyle = 'status-aktif';
+        let statusText = 'Aktif';
+
+        if (normStatus === 'cocok/ditemukan') {
+          statusStyle = 'status-cocok';
+          statusText = 'Cocok / Dalam Klaim';
+        } else if (normStatus === 'dikembalikan') {
+          statusStyle = 'status-selesai';
+          statusText = 'Dikembalikan';
+        } else if (normStatus === 'ditutup') {
+          statusStyle = 'status-tutup';
+          statusText = 'Ditutup';
+        }
+
+        let namaPelapor = '-';
+        if (row.users && row.users.name) {
+          namaPelapor = row.users.name;
+          if (row.users.nim) namaPelapor += ` (${row.users.nim})`;
+        } else if (row.deskripsi && row.deskripsi.includes('Pelapor:')) {
+          const m = row.deskripsi.match(/Pelapor:\s*([^|]+)/);
+          if (m) namaPelapor = m[1].trim();
+        }
+
+        const bgClass = i % 2 === 1 ? 'class="even"' : '';
+
+        excelHtml += `
+          <tr ${bgClass}>
+            <td class="center">${i + 1}</td>
+            <td class="center bold" style="color: #0f8a77;">${id}</td>
+            <td class="bold">${escapeHtml(row.nama_barang || 'Tanpa Nama')}</td>
+            <td>${escapeHtml(row.kategori || 'Lain-lain')}</td>
+            <td class="center bold" style="color: ${isTemuan ? '#047857' : '#b91c1c'};">${isTemuan ? 'Ditemukan' : 'Hilang'}</td>
+            <td class="center">${escapeHtml(row.tanggal || '-')}</td>
+            <td>${escapeHtml(row.lokasi || '-')}</td>
+            <td>${escapeHtml(namaPelapor)}</td>
+            <td class="center ${statusStyle}">${statusText}</td>
+          </tr>
+        `;
+      });
+
+      excelHtml += `
+            </tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="4" class="bold" style="padding: 12px;">TOTAL KESELURUHAN: ${filteredData.length} LAPORAN</td>
+                <td class="center bold">${cntTemuan} Temuan | ${cntHilang} Hilang</td>
+                <td colspan="4" style="text-align: right; padding: 12px;">Dokumentasi Resmi FoundIt! Politeknik Negeri Batam</td>
+              </tr>
+            </tfoot>
+          </table>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob([excelHtml], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    // 6. Ekspor ke CSV dengan UTF-8 BOM
     function exportDataToCSV() {
-      if (reportData.length === 0) {
+      if (filteredData.length === 0) {
         alert('Tidak ada data yang dapat diekspor.');
         return;
       }
 
-      let csvContent = 'data:text/csv;charset=utf-8,';
-      csvContent += 'ID Laporan,Nama Barang,Kategori,Tanggal,Lokasi,Jenis,Status\r\n';
+      // Gunakan UTF-8 BOM (\uFEFF) agar Microsoft Excel langsung membaca encoding dengan benar
+      let csvContent = '\uFEFF';
+      csvContent += 'No,ID Laporan,Nama Barang,Kategori,Tipe,Tanggal,Lokasi Kampus,Pelapor,Status Laporan\r\n';
 
-      reportData.forEach(row => {
+      filteredData.forEach((row, i) => {
         const id = `L${String(row.id).padStart(3, '0')}`;
         const nama = `"${(row.nama_barang || '').replace(/"/g, '""')}"`;
         const kat = `"${(row.kategori || '').replace(/"/g, '""')}"`;
         const tgl = `"${(row.tanggal || '').replace(/"/g, '""')}"`;
         const lok = `"${(row.lokasi || '').replace(/"/g, '""')}"`;
-        const jenis = row.jenis || '-';
-        const status = row.status || 'aktif';
+        const jenis = (row.jenis || '').toLowerCase() === 'temuan' ? 'Ditemukan' : 'Hilang';
+        const status = normalizeStatus(row.status);
 
-        csvContent += `${id},${nama},${kat},${tgl},${lok},${jenis},${status}\r\n`;
+        let pelapor = '-';
+        if (row.users && row.users.name) {
+          pelapor = row.users.name;
+        }
+        pelapor = `"${pelapor.replace(/"/g, '""')}"`;
+
+        csvContent += `${i + 1},${id},${nama},${kat},${jenis},${tgl},${lok},${pelapor},${status}\r\n`;
       });
 
-      const encodedUri = encodeURI(csvContent);
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `rekap_laporan_foundit_${new Date().toISOString().split('T')[0]}.csv`);
+      link.href = url;
+      link.download = `rekap_laporan_foundit_${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     }
 
-    loadSummary();
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    populateCategoryFilter();
+    loadReportData();
   </script>
 </body>
 </html>
