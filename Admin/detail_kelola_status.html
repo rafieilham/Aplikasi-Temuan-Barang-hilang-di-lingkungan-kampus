@@ -496,7 +496,13 @@
       badgeJenis.className = `badge-jenis ${isTemuan ? 'badge-ditemukan' : 'badge-hilang'}`;
 
       if (item.foto_url) {
-        document.getElementById('detailImg').src = item.foto_url;
+        let fUrl = item.foto_url;
+        if (fUrl.startsWith('assets/')) {
+          fUrl = '../' + fUrl;
+        }
+        const imgEl = document.getElementById('detailImg');
+        imgEl.src = fUrl;
+        imgEl.onerror = () => { imgEl.src = '../assets/images/default_item.svg'; };
       }
 
       let desc = item.deskripsi || '-';
