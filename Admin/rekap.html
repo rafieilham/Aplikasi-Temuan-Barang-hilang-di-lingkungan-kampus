@@ -225,8 +225,8 @@
       color: #ffffff;
     }
 
-    .btn-export-csv {
-      background: #0284c7;
+    .btn-export-word {
+      background: #185abd;
       color: #ffffff;
       font-size: 1rem;
       font-weight: 700;
@@ -240,8 +240,8 @@
       transition: background-color 0.15s ease;
       text-decoration: none;
     }
-    .btn-export-csv:hover {
-      background: #0369a1;
+    .btn-export-word:hover {
+      background: #103f84;
       color: #ffffff;
     }
 
@@ -472,14 +472,16 @@
             <span>Unduh Tabel Excel (.xlsx)</span>
           </button>
 
-          <!-- Tombol Unduh CSV -->
-          <button type="button" class="btn-export-csv" onclick="exportDataToCSV()" title="Unduh data standar format CSV">
+          <!-- Tombol Unduh Dokumen Word (.doc) -->
+          <button type="button" class="btn-export-word" onclick="exportDataToWord()" title="Unduh dokumen laporan resmi berformat Microsoft Word (.doc)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <line x1="10" y1="9" x2="8" y2="9"></line>
             </svg>
-            <span>Unduh CSV</span>
+            <span>Unduh Dokumen Word (.doc)</span>
           </button>
 
           <!-- Tombol Cetak / Print -->
@@ -1036,40 +1038,217 @@
       URL.revokeObjectURL(url);
     }
 
-    // 6. Ekspor ke CSV dengan UTF-8 BOM
-    function exportDataToCSV() {
+    // 6. Ekspor ke Dokumen Laporan Resmi Microsoft Word (.doc)
+    function exportDataToWord() {
       if (filteredData.length === 0) {
         alert('Tidak ada data yang dapat diekspor.');
         return;
       }
 
-      // Gunakan UTF-8 BOM (\uFEFF) agar Microsoft Excel langsung membaca encoding dengan benar
-      let csvContent = '\uFEFF';
-      csvContent += 'No,ID Laporan,Nama Barang,Kategori,Tipe,Tanggal,Lokasi Kampus,Pelapor,Status Laporan\r\n';
-
-      filteredData.forEach((row, i) => {
-        const id = `L${String(row.id).padStart(3, '0')}`;
-        const nama = `"${(row.nama_barang || '').replace(/"/g, '""')}"`;
-        const kat = `"${(row.kategori || '').replace(/"/g, '""')}"`;
-        const tgl = `"${(row.tanggal || '').replace(/"/g, '""')}"`;
-        const lok = `"${(row.lokasi || '').replace(/"/g, '""')}"`;
-        const jenis = (row.jenis || '').toLowerCase() === 'temuan' ? 'Ditemukan' : 'Hilang';
-        const status = normalizeStatus(row.status);
-
-        let pelapor = '-';
-        if (row.users && row.users.name) {
-          pelapor = row.users.name;
-        }
-        pelapor = `"${pelapor.replace(/"/g, '""')}"`;
-
-        csvContent += `${i + 1},${id},${nama},${kat},${jenis},${tgl},${lok},${pelapor},${status}\r\n`;
+      const todayStr = new Date().toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
       });
 
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      let cntTemuan = 0;
+      let cntHilang = 0;
+      let cntSelesai = 0;
+
+      let tableRows = '';
+      filteredData.forEach((item, idx) => {
+        const isTemuan = (item.jenis || '').toLowerCase() === 'temuan';
+        if (isTemuan) cntTemuan++; else cntHilang++;
+        const status = normalizeStatus(item.status);
+        if (status === 'dikembalikan') cntSelesai++;
+
+        let pelapor = '-';
+        if (item.users && item.users.name) {
+          pelapor = item.users.name;
+          if (item.users.nim) pelapor += ` (${item.users.nim})`;
+        } else if (item.deskripsi && item.deskripsi.includes('Pelapor:')) {
+          const m = item.deskripsi.match(/Pelapor:\s*([^|]+)/);
+          if (m) pelapor = m[1].trim();
+        }
+
+        tableRows += `
+          <tr>
+            <td style="text-align: center; width: 32px;">${idx + 1}</td>
+            <td style="text-align: center; width: 70px; font-weight: bold; color: #0f8a77;">L${String(item.id).padStart(3, '0')}</td>
+            <td style="font-weight: bold;">${escapeHtml(item.nama_barang || '-')}</td>
+            <td>${escapeHtml(item.kategori || 'Lain-lain')}</td>
+            <td style="text-align: center; font-weight: bold; color: ${isTemuan ? '#047857' : '#b91c1c'};">${isTemuan ? 'Temuan' : 'Hilang'}</td>
+            <td style="text-align: center; width: 85px;">${escapeHtml(item.tanggal || '-')}</td>
+            <td>${escapeHtml(item.lokasi || '-')}</td>
+            <td>${escapeHtml(pelapor)}</td>
+            <td style="text-align: center; font-weight: bold;">${status.toUpperCase()}</td>
+          </tr>
+        `;
+      });
+
+      const wordHtml = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head>
+          <meta charset="utf-8">
+          <title>Rekapitulasi Laporan Barang Hilang &amp; Temuan Polibatam</title>
+          <!--[if gte mso 9]>
+          <xml>
+            <w:WordDocument>
+              <w:View>Print</w:View>
+              <w:Zoom>100</w:Zoom>
+              <w:DoNotOptimizeForBrowser/>
+            </w:WordDocument>
+          </xml>
+          <![endif]-->
+          <style>
+            @page {
+              size: A4 portrait;
+              margin: 2cm 2cm 2cm 2cm;
+              mso-page-orientation: portrait;
+            }
+            body {
+              font-family: 'Calibri', 'Times New Roman', Arial, sans-serif;
+              font-size: 11pt;
+              line-height: 1.35;
+              color: #000000;
+            }
+            .kop-instansi {
+              text-align: center;
+              font-size: 11pt;
+              font-weight: bold;
+              text-transform: uppercase;
+              margin-bottom: 2px;
+            }
+            .kop-kampus {
+              text-align: center;
+              font-size: 15pt;
+              font-weight: bold;
+              color: #064e43;
+              text-transform: uppercase;
+              margin-bottom: 2px;
+            }
+            .kop-unit {
+              text-align: center;
+              font-size: 11pt;
+              font-weight: bold;
+              color: #334155;
+              margin-bottom: 3px;
+            }
+            .kop-alamat {
+              text-align: center;
+              font-size: 9pt;
+              font-style: italic;
+              color: #64748b;
+            }
+            .kop-garis {
+              border-top: 2.5px solid #064e43;
+              border-bottom: 1px solid #064e43;
+              height: 3px;
+              margin: 8px 0 16px 0;
+            }
+            .judul-laporan {
+              text-align: center;
+              font-size: 13pt;
+              font-weight: bold;
+              text-transform: uppercase;
+              color: #0f172a;
+              margin-bottom: 4px;
+            }
+            .meta-laporan {
+              text-align: center;
+              font-size: 9.5pt;
+              color: #64748b;
+              margin-bottom: 16px;
+            }
+            table.data-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 12px 0;
+            }
+            table.data-table th {
+              background-color: #0f8a77;
+              color: #ffffff;
+              border: 1px solid #064e43;
+              padding: 8px 6px;
+              font-size: 9.5pt;
+              font-weight: bold;
+              text-align: center;
+            }
+            table.data-table td {
+              border: 1px solid #cbd5e1;
+              padding: 6px 6px;
+              font-size: 9pt;
+              vertical-align: middle;
+            }
+            .summary-box {
+              background-color: #f8fafc;
+              border: 1px solid #e2e8f0;
+              padding: 10px 14px;
+              font-size: 10pt;
+              margin-top: 15px;
+            }
+            .footer-note {
+              font-size: 8.5pt;
+              font-style: italic;
+              color: #94a3b8;
+              text-align: right;
+              margin-top: 20px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="kop-instansi">KEMENTERIAN PENDIDIKAN TINGGI, RISET, DAN TEKNOLOGI</div>
+          <div class="kop-kampus">POLITEKNIK NEGERI BATAM</div>
+          <div class="kop-unit">UNIT LAYANAN TERPADU K3 &amp; PUSAT PENGAMANAN KAMPUS</div>
+          <div class="kop-alamat">Jl. Ahmad Yani, Batam Kota, Kota Batam, Kepulauan Riau 29461 | www.polibatam.ac.id</div>
+          <div class="kop-garis"></div>
+
+          <div class="judul-laporan">REKAPITULASI LAPORAN BARANG HILANG &amp; TEMUAN</div>
+          <div class="meta-laporan">Tanggal Unduh: <b>${todayStr}</b> | Oleh Petugas: <b>${session.name || 'Muhammad Rafie Ilham'}</b></div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>ID</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Tipe</th>
+                <th>Tanggal</th>
+                <th>Lokasi Kampus</th>
+                <th>Pelapor</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+            <tfoot>
+              <tr style="background-color: #f1f5f9; font-weight: bold;">
+                <td colspan="4" style="padding: 8px;">TOTAL KESELURUHAN: ${filteredData.length} LAPORAN</td>
+                <td colspan="2" style="text-align: center;">${cntTemuan} Temuan | ${cntHilang} Hilang</td>
+                <td colspan="3" style="text-align: right; padding: 8px;">Telah Dikembalikan: ${cntSelesai} Barang</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <div class="summary-box">
+            <b>Ringkasan Operasional:</b> Laporan ini ditarik secara otomatis dari Sistem Terpadu <b>FoundIt! Polibatam (PRO-13)</b> sebagai rekapitulasi penanganan barang temuan dan hilang di lingkungan kampus.
+          </div>
+
+          <div class="footer-note">
+            Dokumentasi Resmi FoundIt! Polibatam &copy; 2026 - Politeknik Negeri Batam
+          </div>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob(['\ufeff', wordHtml], { type: 'application/msword;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `rekap_laporan_foundit_${new Date().toISOString().split('T')[0]}.csv`;
+      link.download = `rekap_laporan_foundit_polibatam_${new Date().toISOString().split('T')[0]}.doc`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
