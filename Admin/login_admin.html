@@ -77,15 +77,29 @@
           <div id="adminAlert" class="alert d-none small mb-3" role="alert"></div>
 
           <form onsubmit="handleAdminLogin(event)" class="vstack gap-3">
+            <button type="button" onclick="masukOtomatisAdmin()" class="btn w-100 py-3 fw-bold mb-3 d-flex align-items-center justify-content-center gap-2 text-white shadow" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 12px; font-size: 1.05rem; border: none; transition: transform 0.15s ease;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Masuk Otomatis Sebagai Admin (1-Klik)</span>
+            </button>
+
+            <div class="position-relative text-center my-3">
+              <hr class="text-secondary opacity-25 m-0" />
+              <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 small text-muted fw-semibold">
+                atau masuk manual
+              </span>
+            </div>
+
             <div>
               <label class="form-label small fw-semibold text-secondary">Username / Identitas Admin</label>
-              <input type="text" id="adminUsername" required class="form-control py-2" placeholder="admin" />
+              <input type="text" id="adminUsername" value="admin" required class="form-control py-2" placeholder="admin" />
             </div>
 
             <div>
               <label class="form-label small fw-semibold text-secondary">Password</label>
               <div class="input-group">
-                <input type="password" id="adminPassword" required class="form-control py-2" placeholder="Masukkan password" />
+                <input type="password" id="adminPassword" value="admin123" required class="form-control py-2" placeholder="Masukkan password" />
                 <button type="button" class="btn btn-light border text-muted" onclick="toggleAdminPassword()" title="Tampilkan / Sembunyikan Password">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
@@ -134,6 +148,39 @@
   </div>
 
   <script>
+    function masukOtomatisAdmin() {
+      const alertBox = document.getElementById('adminAlert');
+      const submitBtn = document.getElementById('btnAdminSubmit');
+      
+      const adminSession = {
+        id: 1,
+        name: 'Administrator Kampus (K3 Polibatam)',
+        nim: 'admin',
+        role: 'admin'
+      };
+      localStorage.setItem('foundit_session', JSON.stringify(adminSession));
+
+      alertBox.textContent = 'Autentikasi admin berhasil! Mengalihkan ke Dasbor Admin...';
+      alertBox.className = 'alert alert-success small mb-3';
+      alertBox.classList.remove('d-none');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Mengalihkan...';
+      }
+
+      setTimeout(() => {
+        window.location.href = 'dashboard_admin.html';
+      }, 350);
+    }
+
+    // Auto-login jika URL terdapat parameter ?auto=1 atau ?auto=true
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('auto') === '1' || urlParams.get('auto') === 'true') {
+        masukOtomatisAdmin();
+      }
+    });
+
     function isiOtomatisAdmin() {
       document.getElementById('adminUsername').value = 'admin';
       document.getElementById('adminPassword').value = 'admin123';

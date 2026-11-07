@@ -354,6 +354,13 @@
             Belum punya akun? 
             <a href="register.html" class="switch-link ms-1">Daftar Sekarang</a>
           </p>
+
+          <div class="text-center pt-4 mt-4 border-top">
+            <span class="text-muted" style="font-size: 0.95rem;">Khusus petugas K3 / Pengelola kampus?</span>
+            <a href="admin/login_admin.html" class="switch-link ms-1 fw-bold" style="font-size: 0.95rem;">
+              Masuk Portal Admin &rarr;
+            </a>
+          </div>
         </div>
       </div>
 
@@ -412,9 +419,11 @@
         alertBox.classList.remove('d-none');
 
         setTimeout(() => {
-          if (user.role === 'admin') {
+          // Hanya akun ber-identitas 'admin' yang diarahkan ke dashboard admin
+          if (user.role === 'admin' && String(user.nim).toLowerCase() === 'admin') {
             window.location.href = 'admin/dashboard_admin.html';
           } else {
+            // Semua mahasiswa (termasuk NIM 3312601087) selalu masuk ke dashboard mahasiswa
             window.location.href = 'dashboard_mahasiswa.html';
           }
         }, 800);

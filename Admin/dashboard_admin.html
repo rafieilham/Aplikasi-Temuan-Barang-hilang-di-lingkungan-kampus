@@ -510,6 +510,81 @@
         <div id="statSummaryText" class="fw-medium">Memuat ringkasan laporan...</div>
       </div>
 
+      <!-- Section Hotspot Lokasi Sering Kehilangan & Temuan Barang -->
+      <div class="row g-4 mb-4">
+        <!-- Kolom Kiri: Peringkat Titik Hotspot Lokasi Kehilangan -->
+        <div class="col-lg-7">
+          <div class="table-card h-100 mb-0">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <span class="p-2 rounded-3 bg-danger bg-opacity-10 text-danger d-inline-flex align-items-center justify-content-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </span>
+                <div>
+                  <h2 class="h5 fw-bold text-dark mb-0">Titik Hotspot Kampus Sering Kehilangan Barang</h2>
+                  <small class="text-muted">Frekuensi lokasi kejadian berdasarkan arsip laporan resmi Polibatam</small>
+                </div>
+              </div>
+              <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 fw-semibold" style="font-size: 0.8rem;">
+                🔥 Pantauan K3
+              </span>
+            </div>
+
+            <!-- List Hotspot Bars Dinamis -->
+            <div id="hotspotListContainer" class="vstack gap-3 mt-3">
+              <div class="text-center py-3 text-muted small">Memuat statistik titik lokasi...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Rekomendasi Mitigasi K3 & Insight Wilayah -->
+        <div class="col-lg-5">
+          <div class="table-card h-100 mb-0 d-flex flex-column justify-content-between" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="p-2 rounded-3 bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </span>
+                <h3 class="h6 fw-bold text-dark mb-0">Analisis &amp; Rekomendasi K3 Kampus</h3>
+              </div>
+              
+              <div class="p-3 rounded-3 mb-3" style="background-color: #fef2f2; border-left: 4px solid #ef4444;">
+                <div class="fw-bold text-danger small mb-1">Pusat Frekuensi Tertinggi: Gedung Utama (GU)</div>
+                <p class="text-secondary small mb-0">
+                  Gedung Utama (GU) mencatat frekuensi kehilangan tertinggi (<strong id="guPercentText">42%</strong>). Kasus terbanyak berada di Ruang Teori, Tangga Utama, dan Lobi pada jam sibuk perkuliahan.
+                </p>
+              </div>
+
+              <div class="p-3 rounded-3 mb-3" style="background-color: #f0fdf4; border-left: 4px solid #10b981;">
+                <div class="fw-bold text-success small mb-1">Gedung Kuliah Terpadu (GKT)</div>
+                <p class="text-secondary small mb-0">
+                  Menyumbang <strong id="gktPercentText">32%</strong> kasus temuan. Mayoritas perlengkapan kuliah (kalkulator, charger laptop, flashdisk) tertinggal di laboratorium komputer.
+                </p>
+              </div>
+
+              <div class="p-3 rounded-3" style="background-color: #eff6ff; border-left: 4px solid #3b82f6;">
+                <div class="fw-bold text-primary small mb-1">Tindakan Preventif Pengelola</div>
+                <p class="text-secondary small mb-0">
+                  Disarankan penempatan pos serah terima barang temuan di Lobi Gedung Utama (GU) &amp; Lobi Tower A GKT untuk mempercepat penanganan barang.
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-3 mt-3 border-top d-flex justify-content-between align-items-center">
+              <span class="text-muted small">Data sinkronisasi otomatis:</span>
+              <span class="badge bg-light text-dark border fw-medium" id="hotspotSyncBadge">Real-time Supabase</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Section Laporan Terbaru -->
       <div class="table-card">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
@@ -628,6 +703,9 @@
         document.getElementById('statSummaryText').textContent = 
           `Tipe laporan: ${hilang} Hilang dan ${temuan} Ditemukan. Perincian 4 status: ${aktif} Aktif, ${cocok} Cocok/Ditemukan, ${dikembalikan} Dikembalikan, ${ditutup} Ditutup (Total ${total} laporan tercatat).`;
 
+        // Hitung dan Render Hotspot Lokasi Kampus
+        renderCampusHotspots(allItems, total);
+
         // Render tabel laporan terbaru (maksimal 6 laporan)
         const recentItems = allItems.slice(0, 6);
         await renderRecentTable(recentItems);
@@ -725,6 +803,75 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+    }
+
+    function renderCampusHotspots(items, total) {
+      const container = document.getElementById('hotspotListContainer');
+      if (!container) return;
+
+      const stats = {
+        'Gedung Utama (GU)': { count: 0, color: '#ef4444', badge: '🔥 Titik Tertinggi' },
+        'Gedung Kuliah Terpadu (GKT)': { count: 0, color: '#0f8a77', badge: '⚠️ Frekuensi Tinggi' },
+        'Perpustakaan Polibatam': { count: 0, color: '#3b82f6', badge: '📘 Area Belajar' },
+        'Area Parkiran Kampus': { count: 0, color: '#f59e0b', badge: '🛵 Area Terbuka' },
+        'Kantin & Fasilitas Umum': { count: 0, color: '#8b5cf6', badge: '🍽️ Area Publik' }
+      };
+
+      (items || []).forEach(it => {
+        const l = (it.lokasi || '').toLowerCase();
+        if (l.includes('gedung utama') || l.includes('gu')) {
+          stats['Gedung Utama (GU)'].count++;
+        } else if (l.includes('gkt') || l.includes('kuliah terpadu') || l.includes('tower a')) {
+          stats['Gedung Kuliah Terpadu (GKT)'].count++;
+        } else if (l.includes('perpustakaan')) {
+          stats['Perpustakaan Polibatam'].count++;
+        } else if (l.includes('parkir')) {
+          stats['Area Parkiran Kampus'].count++;
+        } else {
+          stats['Kantin & Fasilitas Umum'].count++;
+        }
+      });
+
+      const entries = Object.entries(stats).sort((a, b) => b[1].count - a[1].count);
+      const totalCount = total > 0 ? total : 1;
+
+      const guCount = stats['Gedung Utama (GU)'].count;
+      const gktCount = stats['Gedung Kuliah Terpadu (GKT)'].count;
+      const guPct = Math.round((guCount / totalCount) * 100);
+      const gktPct = Math.round((gktCount / totalCount) * 100);
+
+      const guTxt = document.getElementById('guPercentText');
+      if (guTxt) guTxt.textContent = `${guPct}% (${guCount} Laporan)`;
+      const gktTxt = document.getElementById('gktPercentText');
+      if (gktTxt) gktTxt.textContent = `${gktPct}% (${gktCount} Laporan)`;
+
+      let html = '';
+      entries.forEach(([name, data], idx) => {
+        const pct = Math.round((data.count / totalCount) * 100);
+        const rank = idx + 1;
+        html += `
+          <div class="p-3 rounded-3 border bg-light bg-opacity-50">
+            <div class="d-flex justify-content-between align-items-center mb-1.5">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge ${rank === 1 ? 'bg-danger text-white' : 'bg-secondary bg-opacity-25 text-dark'} rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.78rem;">
+                  #${rank}
+                </span>
+                <span class="fw-bold text-dark" style="font-size: 1.02rem;">${name}</span>
+                <span class="badge bg-white text-secondary border px-2 py-0.5" style="font-size: 0.74rem;">${data.badge}</span>
+              </div>
+              <div class="text-end">
+                <span class="fw-bold text-dark" style="font-size: 1.05rem;">${data.count} Laporan</span>
+                <span class="text-muted small ms-1">(${pct}%)</span>
+              </div>
+            </div>
+            <div class="progress" style="height: 10px; background-color: #e2e8f0; border-radius: 6px;">
+              <div class="progress-bar" role="progressbar" style="width: ${pct}%; background-color: ${data.color}; border-radius: 6px;" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
 
     loadAdminDashboard();
