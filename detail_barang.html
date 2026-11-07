@@ -1125,10 +1125,20 @@
         const lower = (item.nama_barang || '').toLowerCase();
         if (lower.includes('dompet')) imgSrc = 'assets/images/dompet_kulit.jpg';
         else if (lower.includes('motor') || lower.includes('kunci')) imgSrc = 'assets/images/kunci_motor.jpg';
-        else if (lower.includes('laptop')) imgSrc = 'assets/images/laptop_asus.jpg';
-        else if (lower.includes('ktm') || lower.includes('kartu')) imgSrc = 'assets/images/ktm_mahasiswa.jpg';
+        else if (lower.includes('laptop') || lower.includes('charger')) imgSrc = 'assets/images/laptop_asus.jpg';
+        else if (lower.includes('ktm') || lower.includes('kartu') || lower.includes('e-money')) imgSrc = 'assets/images/ktm_mahasiswa.jpg';
         else if (lower.includes('kalkulator')) imgSrc = 'assets/images/kalkulator_casio.jpg';
         else if (lower.includes('tumbler') || lower.includes('botol') || lower.includes('minum')) imgSrc = 'assets/images/tumbler_hitam.jpg';
+        else if (lower.includes('helm')) imgSrc = 'assets/images/helm_motor.jpg';
+        else if (lower.includes('flashdisk') || lower.includes('usb')) imgSrc = 'assets/images/flashdisk.jpg';
+        else if (lower.includes('hoodie') || lower.includes('jaket')) imgSrc = 'assets/images/jaket_hoodie.jpg';
+        else if (lower.includes('mouse')) imgSrc = 'assets/images/mouse_komputer.jpg';
+        else if (lower.includes('kacamata')) imgSrc = 'assets/images/kacamata.jpg';
+        else if (lower.includes('pensil')) imgSrc = 'assets/images/kotak_pensil.jpg';
+        else if (lower.includes('tws') || lower.includes('earphone')) imgSrc = 'assets/images/tws_earphone.jpg';
+        else if (lower.includes('payung')) imgSrc = 'assets/images/payung_lipat.jpg';
+        else if (lower.includes('binder') || lower.includes('buku')) imgSrc = 'assets/images/buku_binder.jpg';
+        else if (lower.includes('powerbank')) imgSrc = 'assets/images/powerbank.jpg';
         else imgSrc = 'assets/images/default_item.svg';
       }
 
