@@ -881,16 +881,16 @@
               ></textarea>
             </div>
 
-            <!-- Kontak WhatsApp / ID Telegram untuk Klaim -->
+            <!-- Kontak WhatsApp Aktif -->
             <div class="mb-4">
               <label for="kontakInput" class="form-field-label">
-                Kontak WhatsApp / ID Telegram untuk Klaim <span class="required-star">*</span>
+                Nomor Kontak WhatsApp Aktif <span class="required-star">*</span>
               </label>
               <input 
                 type="tel" 
                 id="kontakInput" 
                 class="form-control-custom" 
-                placeholder="081301210001" 
+                placeholder="081234567890" 
                 required 
               />
             </div>
@@ -1122,7 +1122,7 @@
       // Validasi nomor kontak
       const kontakClean = kontak.replace(/[^0-9]/g, '');
       if (kontakClean.length < 10 || kontakClean.length > 15) {
-        alertBox.textContent = 'Nomor kontak WhatsApp/Telegram harus aktif dan terdiri dari 10–15 digit.';
+        alertBox.textContent = 'Nomor kontak WhatsApp harus aktif dan terdiri dari 10–15 digit.';
         alertBox.className = 'alert alert-danger py-3 px-4 mb-4';
         alertBox.classList.remove('d-none');
         window.scrollTo({ top: 120, behavior: 'smooth' });
