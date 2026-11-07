@@ -582,6 +582,40 @@
       border: 1px solid #fecaca;
     }
 
+    /* Badge Status Laporan di Pojok Kanan Atas Kartu (Aktif, Dalam Klaim, Dikembalikan, Ditutup) */
+    .badge-status-report-corner {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      padding: 5px 12px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .badge-report-aktif {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+    .badge-report-cocok {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .badge-report-dikembalikan {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+    .badge-report-ditutup {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
     .item-card-body {
       padding: 22px;
       display: flex;
@@ -632,7 +666,96 @@
       border-color: var(--primary-color);
     }
 
-    /* Footer (Dark Navy Sesuai Polibatam) */
+    /* Section Tentang Kami - Clean, Aesthetic & Inviting */
+    .about-section {
+      scroll-margin-top: 90px;
+    }
+    .about-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: #e6f4ea;
+      color: #0f8a77;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 1px solid #bbf7d0;
+    }
+    .about-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .about-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08) !important;
+      border-color: #cbd5e1;
+    }
+    .live-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: 1px solid #a7f3d0;
+    }
+    .pulsing-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+    .faq-accordion .accordion-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px !important;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    .faq-accordion .accordion-button {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: #0f172a;
+      background: #ffffff;
+      padding: 16px 20px;
+      box-shadow: none;
+    }
+    .faq-accordion .accordion-button:not(.collapsed) {
+      background: #f8fafc;
+      color: #0f8a77;
+    }
+    .faq-accordion .accordion-body {
+      padding: 16px 20px;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #475569;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* Footer (Dark Navy  ) */
     .footer-custom {
       background-color: var(--footer-navy);
       color: #94a3b8;
@@ -738,7 +861,7 @@
         <a href="dashboard_mahasiswa.html" class="nav-link-custom active">Beranda</a>
         <a href="daftar_laporan.html" class="nav-link-custom">Katalog Barang</a>
         <a href="laporkan_barang.html" class="nav-link-custom">Laporkan Barang</a>
-        <a href="#tentangKami" class="nav-link-custom" onclick="document.getElementById('tentangKami').scrollIntoView({behavior: 'smooth'})">Tentang</a>
+        <a href="tentang.html" class="nav-link-custom">Tentang</a>
       </nav>
 
       <!-- 3. Right: Notification & User Profile -->
@@ -956,10 +1079,47 @@
       </div>
     </div>
 
+    <!-- BANNER PANDUAN & POSKO SATPAM KAMPUS (TERHUBUNG KE TENTANG.HTML) -->
+    <section class="mt-5 pt-4">
+      <div class="p-4 p-lg-5 rounded-4 border shadow-sm bg-white" style="border-color: #e2e8f0;">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="live-status-pill">
+                <span class="pulsing-dot"></span>
+                <span>Posko Buka (08.00 – 16.00 WIB)</span>
+              </span>
+              <span class="badge bg-light text-secondary border fw-bold">Polibatam</span>
+            </div>
+            <h2 class="h3 fw-bold text-dark mb-2">Pusat Layanan &amp; Posko Satpam Polibatam</h2>
+            <p class="text-muted mb-3" style="font-size: 1.05rem; line-height: 1.65; max-width: 660px;">
+              Pelajari SOP 3 langkah pengembalian barang hilang, lokasi posko fisik di Ruang K3 Satpam Gedung Utama Lantai 1, serta panduan verifikasi klaim kepemilikan selengkapnya.
+            </p>
+            <div class="d-flex flex-wrap align-items-center gap-4 text-secondary small">
+              <span class="d-flex align-items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> <strong>Hotline:</strong> 0813-7441-4869</span>
+              <span class="d-flex align-items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> <strong>Lokasi:</strong> Gedung Utama Lt. 1</span>
+              <span class="d-flex align-items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Semester Ganjil 2026/2027</span>
+            </div>
+          </div>
+          <div class="col-lg-4 text-lg-end text-start">
+            <div class="d-flex flex-column gap-2">
+              <a href="tentang.html" class="btn fw-bold py-3 px-4 shadow-sm text-white" style="background: #0f8a77; border-radius: 12px; font-size: 1.02rem;">
+                Buka Halaman Tentang &amp; Panduan &rarr;
+              </a>
+              <a href="https://wa.me/6281374414869?text=Halo%20Petugas%20Posko%20Satpam%20Polibatam,%20saya%20ingin%20menanyakan%20perihal%20laporan%20barang%20di%20FoundIt!" target="_blank" class="btn btn-outline-success fw-bold py-2.5 px-3 d-inline-flex align-items-center justify-content-center gap-2" style="border-radius: 12px; font-size: 0.96rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>WhatsApp Posko (0813-7441-4869)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer Dark Navy Sesuai Polibatam -->
-  <footer class="footer-custom" id="tentangKami">
+  <footer class="footer-custom">
     <div class="custom-container">
       <div class="row g-4 justify-content-between">
         
@@ -987,16 +1147,17 @@
             <li><a href="dashboard_mahasiswa.html">Beranda</a></li>
             <li><a href="daftar_laporan.html">Katalog Barang</a></li>
             <li><a href="laporkan_barang.html">Laporkan Barang</a></li>
+            <li><a href="tentang.html">Tentang</a></li>
           </ul>
         </div>
 
         <!-- Kolom 3: Bantuan & Layanan Polibatam -->
         <div class="col-lg-3 col-md-6 col-6">
-          <div class="footer-col-title">Bantuan & Layanan</div>
+          <div class="footer-col-title">Bantuan &amp; Layanan</div>
           <ul class="footer-links">
-            <li><a href="javascript:void(0)">Panduan Klaim Barang</a></li>
-            <li><a href="javascript:void(0)">Syarat & Ketentuan</a></li>
-            <li><a href="javascript:void(0)">Posko Keamanan (Gedung Utama)</a></li>
+            <li><a href="tentang.html">Panduan Klaim Barang</a></li>
+            <li><a href="tentang.html">Posko Keamanan (Gedung Utama)</a></li>
+            <li><a href="tentang.html">Syarat &amp; Ketentuan</a></li>
           </ul>
         </div>
 
@@ -1018,7 +1179,7 @@
       <div class="footer-divider"></div>
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div style="font-size: 0.95rem; color: #94a3b8;">
-          FoundIt! 2025 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
+          FoundIt! 2026 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
         </div>
         <div style="font-size: 0.95rem; color: #94a3b8;">
           Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
@@ -1086,7 +1247,7 @@
         jenis: 'hilang',
         status: 'aktif',
         lokasi: 'Perpustakaan Pusat - Lt.3',
-        tanggal: '24 Okt 2025',
+        tanggal: '24 Okt 2026',
         foto_url: 'assets/images/laptop_asus.jpg'
       },
       {
@@ -1096,7 +1257,7 @@
         jenis: 'temuan',
         status: 'aktif',
         lokasi: 'Gedung Utama Polibatam',
-        tanggal: '23 Okt 2025',
+        tanggal: '23 Okt 2026',
         foto_url: 'assets/images/ktm_mahasiswa.jpg'
       }
     ];
@@ -1179,6 +1340,16 @@
         const badgeText = isTemuan ? 'DITEMUKAN' : 'HILANG';
         const badgeClass = isTemuan ? 'badge-corner-temuan' : 'badge-corner-hilang';
 
+        const normStatus = normalizeStatus(item.status);
+        let statusTagHtml = '<span class="badge-status-report-corner badge-report-aktif">Aktif</span>';
+        if (normStatus === 'cocok/ditemukan') {
+          statusTagHtml = '<span class="badge-status-report-corner badge-report-cocok">Dalam Klaim</span>';
+        } else if (normStatus === 'dikembalikan') {
+          statusTagHtml = '<span class="badge-status-report-corner badge-report-dikembalikan">Dikembalikan</span>';
+        } else if (normStatus === 'ditutup') {
+          statusTagHtml = '<span class="badge-status-report-corner badge-report-ditutup">Ditutup</span>';
+        }
+
         let imgSrc = item.foto_url;
         if (!imgSrc || imgSrc.trim() === '') {
           const lowerName = (item.nama_barang || '').toLowerCase();
@@ -1197,6 +1368,7 @@
             <div class="item-card">
               <div class="item-card-img-wrap">
                 <span class="badge-status-corner ${badgeClass}">${badgeText}</span>
+                ${statusTagHtml}
                 <img src="${imgSrc}" alt="${item.nama_barang || 'Barang'}" class="item-card-img" onerror="this.src='${defaultImg}'" />
               </div>
               <div class="item-card-body">

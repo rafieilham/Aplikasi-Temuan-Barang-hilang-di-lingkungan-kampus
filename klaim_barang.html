@@ -232,7 +232,7 @@
         <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
         <a href="daftar_laporan.html" class="nav-link-custom">Katalog Barang</a>
         <a href="laporkan_barang.html" class="nav-link-custom">Laporkan Barang</a>
-        <a href="dashboard_mahasiswa.html#tentangKami" class="nav-link-custom">Tentang</a>
+        <a href="tentang.html" class="nav-link-custom">Tentang</a>
       </nav>
 
       <!-- 3. Right: User Info & Back Button -->
@@ -500,9 +500,9 @@
         <div class="col-lg-3 col-md-6 col-6">
           <div class="fw-bold text-white mb-3 text-uppercase" style="font-size: 1rem;">Bantuan & Layanan</div>
           <ul class="list-unstyled vstack gap-2 text-secondary" style="font-size: 0.95rem;">
-            <li><a href="javascript:void(0)" class="text-decoration-none text-secondary">Panduan Klaim Barang</a></li>
-            <li><a href="javascript:void(0)" class="text-decoration-none text-secondary">Syarat & Ketentuan</a></li>
-            <li><a href="javascript:void(0)" class="text-decoration-none text-secondary">Posko Keamanan (Gedung Utama)</a></li>
+            <li><a href="tentang.html" class="text-decoration-none text-secondary">Panduan Klaim Barang</a></li>
+            <li><a href="tentang.html" class="text-decoration-none text-secondary">Syarat &amp; Ketentuan</a></li>
+            <li><a href="tentang.html" class="text-decoration-none text-secondary">Posko Keamanan (Gedung Utama)</a></li>
           </ul>
         </div>
 
@@ -522,7 +522,7 @@
       <!-- Garis Pemisah & Hak Cipta -->
       <div class="border-top border-secondary border-opacity-25 my-4 pt-3 d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div style="font-size: 0.95rem; color: #94a3b8;">
-          FoundIt! 2025 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
+          FoundIt! 2026 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
         </div>
         <div style="font-size: 0.95rem; color: #94a3b8;">
           Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
@@ -625,30 +625,48 @@
         const isUserClaimant = session.nim && item.klaim_nim === session.nim;
         
         if (isUserClaimant) {
-          // Mahasiswa yang sedang login adalah pemilik klaim ini!
-          document.getElementById('klaimStatusBanner').className = 'alert alert-warning small mb-4';
+          // Mahasiswa yang sedang login adalah pemilik klaim ini — TAMPILAN READ-ONLY
+          document.getElementById('klaimStatusBanner').className = 'alert alert-info small mb-4';
           document.getElementById('klaimStatusBanner').innerHTML = `
-            <strong>Klaim Sedang Dalam Peninjauan:</strong>
-            Bukti klaim Anda sedang dalam proses peninjauan petugas. Anda dapat memperbarui informasi atau bukti foto di bawah ini jika diperlukan.
+            <strong>Klaim Anda Sedang Ditinjau:</strong>
+            Data klaim Anda sedang dalam proses verifikasi oleh petugas kampus. Data tidak dapat diubah selama proses peninjauan berlangsung. Jika ingin membatalkan klaim, gunakan tombol di bawah.
           `;
           document.getElementById('klaimStatusBanner').classList.remove('d-none');
           
-          document.getElementById('formHeaderTitle').textContent = 'Perbarui Data & Bukti Klaim Anda';
-          document.getElementById('btnKirimKlaim').textContent = 'Simpan Pembaruan Klaim';
+          document.getElementById('formHeaderTitle').textContent = 'Data Klaim Anda (Menunggu Verifikasi)';
+          document.querySelector('#formKlaim .border-bottom .text-muted').textContent = 
+            'Berikut adalah data klaim yang telah Anda ajukan. Hanya petugas admin kampus yang dapat memperbarui data klaim.';
 
-          // Isi field dengan data klaim yang sudah pernah dimasukkan
+          // Isi field dengan data klaim yang sudah dimasukkan (READ-ONLY)
           if (item.klaim_kontak) document.getElementById('klaimKontak').value = item.klaim_kontak;
           if (item.klaim_bukti) document.getElementById('klaimBukti').value = item.klaim_bukti;
+
+          // Buat semua field input READONLY
+          document.getElementById('klaimKontak').readOnly = true;
+          document.getElementById('klaimKontak').classList.add('bg-light');
+          document.getElementById('klaimBukti').readOnly = true;
+          document.getElementById('klaimBukti').classList.add('bg-light');
+
+          // Foto bukti — tampilkan sebagai gambar saja (tanpa bisa ganti)
           if (item.klaim_foto) {
             base64FotoBukti = item.klaim_foto;
             const preview = document.getElementById('previewFotoBukti');
             preview.src = base64FotoBukti;
             preview.classList.remove('d-none');
             document.getElementById('placeholderFotoBukti').classList.add('d-none');
-            document.getElementById('btnHapusFotoWrapper').classList.remove('d-none');
           }
+          // Sembunyikan tombol hapus/ganti foto & nonaktifkan area upload
+          document.getElementById('btnHapusFotoWrapper').classList.add('d-none');
+          document.getElementById('dropAreaFotoBukti').style.pointerEvents = 'none';
+          document.getElementById('dropAreaFotoBukti').style.cursor = 'default';
 
-          // Tambahkan tombol untuk membatalkan klaim
+          // Nonaktifkan checkbox pernyataan
+          document.getElementById('checkPernyataanKlaim').disabled = true;
+
+          // SEMBUNYIKAN tombol submit — hanya admin yang boleh memperbarui klaim
+          document.getElementById('btnKirimKlaim').classList.add('d-none');
+
+          // Tampilkan tombol batalkan klaim saja
           document.getElementById('claimExtraActions').innerHTML = `
             <button type="button" onclick="batalkanKlaimSaya()" class="btn btn-outline-danger btn-sm py-2 px-3 fw-semibold">
               Batalkan Klaim Saya (Reset ke Aktif)
@@ -793,11 +811,11 @@
 
       const parsedId = parseInt(itemId, 10);
 
-      // Update tabel items di Supabase
+      // Update tabel items di Supabase secara otomatis saat klaim diajukan
       const { data, error } = await supabaseClient
         .from('items')
         .update({
-          status: 'proses',
+          status: 'cocok/ditemukan',
           klaim_nama: nama || session.name,
           klaim_nim: nim || session.nim,
           klaim_kontak: kontak,

@@ -277,7 +277,7 @@
       font-weight: 600;
     }
 
-    /* Main Detail Layout
+    /* Main Detail Layout */
     .detail-container-card {
       background: #ffffff;
       border: 1px solid var(--border-color);
@@ -361,6 +361,26 @@
       color: #991b1b;
       border: 1.5px solid #fecaca;
     }
+    .badge-report-aktif {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1.5px solid #7dd3fc;
+    }
+    .badge-report-cocok {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1.5px solid #fcd34d;
+    }
+    .badge-report-dikembalikan {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1.5px solid #86efac;
+    }
+    .badge-report-ditutup {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1.5px solid #cbd5e1;
+    }
     .category-text-label {
       font-size: 1.05rem;
       font-weight: 600;
@@ -434,7 +454,7 @@
       margin-bottom: 8px;
     }
 
-    /* Buttons
+    /* Buttons */
     .btn-klaim-primary {
       background: var(--primary-color);
       color: #ffffff;
@@ -696,7 +716,7 @@
         <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
         <a href="daftar_laporan.html" class="nav-link-custom active">Katalog Barang</a>
         <a href="laporkan_barang.html" class="nav-link-custom">Laporkan Barang</a>
-        <a href="dashboard_mahasiswa.html#tentangKami" class="nav-link-custom">Tentang</a>
+        <a href="tentang.html" class="nav-link-custom">Tentang</a>
       </nav>
 
       <!-- 3. Right: Notification & User Profile -->
@@ -788,7 +808,10 @@
           
           <!-- Badges Status & Kategori -->
           <div class="detail-header-badges">
-            <span id="badgeStatusPill" class="badge-status-pill badge-pill-temuan">DITEMUKAN</span>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <span id="badgeStatusPill" class="badge-status-pill badge-pill-temuan">DITEMUKAN</span>
+              <span id="badgeStatusLaporan" class="badge-status-pill badge-report-aktif">AKTIF</span>
+            </div>
             <span id="labelKategoriHeader" class="category-text-label">Aksesoris Pribadi</span>
           </div>
 
@@ -809,7 +832,7 @@
             </div>
             <div>
               <div class="meta-text-title" id="labelTanggalKey">Tanggal Ditemukan</div>
-              <div class="meta-text-val" id="valTanggal">15 September 2025</div>
+              <div class="meta-text-val" id="valTanggal">15 September 2026</div>
             </div>
           </div>
 
@@ -917,9 +940,9 @@
         <div class="col-lg-3 col-md-6 col-6">
           <div class="footer-col-title">Bantuan & Layanan</div>
           <ul class="footer-links">
-            <li><a href="javascript:void(0)">Panduan Klaim Barang</a></li>
-            <li><a href="javascript:void(0)">Syarat & Ketentuan</a></li>
-            <li><a href="javascript:void(0)">Posko Keamanan (Gedung Utama)</a></li>
+            <li><a href="tentang.html">Panduan Klaim Barang</a></li>
+            <li><a href="tentang.html">Syarat &amp; Ketentuan</a></li>
+            <li><a href="tentang.html">Posko Keamanan (Gedung Utama)</a></li>
           </ul>
         </div>
 
@@ -941,7 +964,7 @@
       <div class="footer-divider"></div>
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div style="font-size: 0.95rem; color: #94a3b8;">
-          FoundIt! 2025 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
+          FoundIt! 2026 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
         </div>
         <div style="font-size: 0.95rem; color: #94a3b8;">
           Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
@@ -1031,6 +1054,37 @@
       badgePill.textContent = isTemuan ? 'DITEMUKAN' : 'HILANG';
       badgePill.className = `badge-status-pill ${isTemuan ? 'badge-pill-temuan' : 'badge-pill-hilang'}`;
 
+      // Badge Status Laporan & Tombol Klaim Otomatis
+      const normStatus = normalizeStatus(item.status);
+      const statusLaporanBadge = document.getElementById('badgeStatusLaporan');
+      const btnKlaim = document.getElementById('btnAjukanKlaim');
+
+      if (normStatus === 'dikembalikan') {
+        statusLaporanBadge.textContent = 'DIKEMBALIKAN (SELESAI)';
+        statusLaporanBadge.className = 'badge-status-pill badge-report-dikembalikan';
+        btnKlaim.className = 'btn btn-secondary w-100 py-3 fw-bold disabled';
+        btnKlaim.style.pointerEvents = 'none';
+        btnKlaim.textContent = 'Barang Telah Dikembalikan ke Pemilik Sah (Kasus Selesai)';
+      } else if (normStatus === 'ditutup') {
+        statusLaporanBadge.textContent = 'DITUTUP (SELESAI)';
+        statusLaporanBadge.className = 'badge-status-pill badge-report-ditutup';
+        btnKlaim.className = 'btn btn-secondary w-100 py-3 fw-bold disabled';
+        btnKlaim.style.pointerEvents = 'none';
+        btnKlaim.textContent = 'Laporan Kasus Ini Telah Ditutup (Selesai)';
+      } else if (normStatus === 'cocok/ditemukan') {
+        statusLaporanBadge.textContent = 'SEDANG DALAM KLAIM';
+        statusLaporanBadge.className = 'badge-status-pill badge-report-cocok';
+        btnKlaim.className = 'btn btn-warning w-100 py-3 fw-bold text-dark';
+        btnKlaim.textContent = 'Barang Ini Sedang Ditinjau / Dalam Proses Klaim';
+        btnKlaim.href = `klaim_barang.html?id=${item.id}`;
+      } else {
+        statusLaporanBadge.textContent = 'AKTIF';
+        statusLaporanBadge.className = 'badge-status-pill badge-report-aktif';
+        btnKlaim.className = 'btn-klaim-primary';
+        btnKlaim.textContent = 'Ajukan Klaim Barang Ini';
+        btnKlaim.href = `klaim_barang.html?id=${item.id}`;
+      }
+
       document.getElementById('labelKategoriHeader').textContent = item.kategori || 'Umum';
 
       // Meta keys
@@ -1116,7 +1170,7 @@
       // Data fallback jika laporan spesifik belum ada di database
       document.getElementById('breadcrumbItemName').textContent = 'Dompet Kulit Coklat';
       document.getElementById('itemTitleDisplay').textContent = 'Dompet Kulit Coklat';
-      document.getElementById('valTanggal').textContent = '15 September 2025';
+      document.getElementById('valTanggal').textContent = '15 September 2026';
       document.getElementById('valLokasi').textContent = 'Gedung A - Lantai 2, Ruang 205';
       document.getElementById('valPelapor').textContent = 'Ahmad Rizki (Satpam)';
       document.getElementById('btnAjukanKlaim').href = 'klaim_barang.html';
@@ -1150,7 +1204,7 @@
           kategori: 'Elektronik & Gadget',
           jenis: 'hilang',
           lokasi: 'Perpustakaan Pusat - Lt.3',
-          tanggal: '24 Okt 2025',
+          tanggal: '24 Okt 2026',
           foto_url: 'assets/images/laptop_asus.jpg'
         },
         {
@@ -1159,7 +1213,7 @@
           kategori: 'Dokumen & Identitas',
           jenis: 'temuan',
           lokasi: 'Gedung Kuliah Bersama (GKB)',
-          tanggal: '23 Okt 2025',
+          tanggal: '23 Okt 2026',
           foto_url: 'assets/images/ktm_mahasiswa.jpg'
         }
       ];

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tentang &amp; Panduan Layanan - FoundIt! Polibatam</title>
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Plus Jakarta Sans & Inter Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary-color: #0f8a77;
+      --primary-hover: #0c7262;
+      --primary-dark: #09483e;
+      --primary-mint: #2dd4bf;
+      --primary-mint-subtle: #e6f4ea;
+      --accent-coral: #fb7185;
+      --bg-page: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --card-border: #e2e8f0;
+      --footer-navy: #03131c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 17.5px;
+      scroll-behavior: smooth;
+    }
+    @media (min-width: 1400px) {
+      html { font-size: 18.5px; }
+    }
+    @media (min-width: 1800px) {
+      html { font-size: 19.5px; }
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .custom-container {
+      width: 100%;
+      max-width: 1320px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      height: 84px;
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+    .brand-logo-badge {
+      width: 44px;
+      height: 44px;
+      background-color: var(--primary-mint-subtle);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      flex-shrink: 0;
+    }
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title-main {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+    .brand-campus-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary-color);
+      line-height: 1;
+    }
+    .nav-links-center {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-link-custom {
+      color: #475569;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: color 0.15s ease;
+      position: relative;
+      padding: 6px 0;
+    }
+    .nav-link-custom:hover {
+      color: var(--primary-color);
+    }
+    .nav-link-custom.active {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    .nav-link-custom.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2.5px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    /* Hero Banner Tentang */
+    .tentang-hero {
+      background: linear-gradient(135deg, #09483e 0%, #032b24 100%);
+      color: #ffffff;
+      padding: 70px 0 60px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .tentang-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(to top, rgba(248, 250, 252, 1), rgba(248, 250, 252, 0));
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.15);
+      color: var(--primary-mint);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    /* Cards */
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 32px 28px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+      border-color: #cbd5e1;
+    }
+    .feature-icon-wrap {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    /* Pulsing Dot & Live Status */
+    .live-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: 1px solid #a7f3d0;
+    }
+    .pulsing-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    /* FAQ Accordion */
+    .faq-accordion .accordion-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px !important;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    .faq-accordion .accordion-button {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #0f172a;
+      background: #ffffff;
+      padding: 20px 24px;
+      box-shadow: none;
+    }
+    .faq-accordion .accordion-button:not(.collapsed) {
+      background: #f8fafc;
+      color: #0f8a77;
+    }
+    .faq-accordion .accordion-body {
+      padding: 20px 24px;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #475569;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* Footer */
+    .footer-custom {
+      background-color: var(--footer-navy);
+      color: #94a3b8;
+      padding: 64px 0 36px 0;
+      margin-top: 80px;
+      font-size: 1rem;
+    }
+    .footer-brand-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .footer-desc {
+      color: #94a3b8;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      max-width: 360px;
+      margin-top: 14px;
+    }
+    .footer-col-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 18px;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  </style>
+
+  <!-- Supabase & Config JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+
+  <!-- Top Navbar Sesuai Standar Kampus -->
+  <header class="navbar-custom">
+    <div class="custom-container h-100 d-flex align-items-center justify-content-between">
+      
+      <!-- Brand Logo -->
+      <a href="dashboard_mahasiswa.html" class="d-flex align-items-center gap-2 text-decoration-none">
+        <div class="brand-logo-badge">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div class="brand-title-wrap">
+          <div class="d-flex align-items-center gap-1.5">
+            <span class="brand-title-main">FoundIt!</span>
+            <span class="brand-campus-badge">Polibatam</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Menu Navigasi Tengah -->
+      <nav class="nav-links-center d-none d-md-flex">
+        <a href="dashboard_mahasiswa.html" class="nav-link-custom">Beranda</a>
+        <a href="daftar_laporan.html" class="nav-link-custom">Katalog Barang</a>
+        <a href="laporkan_barang.html" class="nav-link-custom">Laporkan Barang</a>
+        <a href="tentang.html" class="nav-link-custom active">Tentang</a>
+      </nav>
+
+      <!-- Profil Pengguna -->
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-light d-flex align-items-center gap-2 py-2 px-3 border shadow-sm rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div id="avatarInitial" class="rounded-circle bg-success text-white fw-bold d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.9rem;">
+              U
+            </div>
+            <div class="text-start d-none d-sm-block pe-1">
+              <div id="userNameDisplay" class="fw-bold text-dark lh-1 small">Memuat...</div>
+              <small id="userNimDisplay" class="text-muted" style="font-size: 0.75rem;">Mahasiswa</small>
+            </div>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2 mt-2" style="border-radius: 12px; min-width: 220px; font-size: 1rem;">
+            <li><a class="dropdown-item py-2 fw-semibold" href="laporan_saya.html">Laporan Saya</a></li>
+            <li><a class="dropdown-item py-2 fw-semibold" href="daftar_laporan.html">Katalog Barang</a></li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li><a class="dropdown-item py-2 text-danger fw-semibold" href="javascript:void(0)" onclick="logout()">Keluar</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Banner Halaman Tentang -->
+  <section class="tentang-hero">
+    <div class="custom-container text-center">
+      <div class="hero-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>Pusat Layanan &amp; Informasi Kampus</span>
+      </div>
+      <h1 class="display-5 fw-bold mb-3" style="letter-spacing: -0.025em;">
+        Tentang FoundIt! Polibatam
+      </h1>
+      <p class="mx-auto text-white-50" style="max-width: 720px; font-size: 1.15rem; line-height: 1.7;">
+        Sistem informasi resmi sivitas Politeknik Negeri Batam untuk melacak, melaporkan, dan mengembalikan barang temuan secara transparan, aman, dan berintegritas.
+      </p>
+    </div>
+  </section>
+
+  <!-- Konten Utama -->
+  <main class="custom-container py-5">
+    
+    <!-- Section: 3 Langkah Alur Layanan -->
+    <div class="mb-5">
+      <div class="text-center mb-4">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5 rounded-pill fw-bold" style="font-size: 0.85rem;">
+          PANDUAN ALUR
+        </span>
+        <h2 class="h3 fw-bold text-dark mt-2 mb-1">Bagaimana Cara Kerjanya?</h2>
+        <p class="text-muted mb-0">Tiga tahapan praktis untuk menemukan atau mengembalikan barang temuan di kampus Polibatam.</p>
+      </div>
+
+      <div class="row g-4 row-cols-1 row-cols-md-3">
+        
+        <!-- Langkah 01 -->
+        <div class="col">
+          <div class="feature-card h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="feature-icon-wrap" style="background: #e6f4ea; color: #0f8a77;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="12" y1="18" x2="12" y2="12"></line>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+              </div>
+              <span class="badge bg-light text-secondary border fw-bold rounded-pill px-3 py-1.5" style="font-size: 0.78rem;">
+                LANGKAH 01
+              </span>
+            </div>
+            <h3 class="h5 fw-bold text-dark mb-2">Laporkan Temuan / Kehilangan</h3>
+            <p class="text-muted mb-3" style="font-size: 0.98rem; line-height: 1.65;">
+              Jika Anda menemukan barang atau kehilangan barang pribadi di kampus, buat laporan resmi dengan mengisi nama barang, ciri fisik, lokasi kejadian, dan lampiran foto pendukung.
+            </p>
+            <div class="mt-auto pt-3 border-top small text-secondary d-flex align-items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              <span>Laporan langsung tercatat di sistem kampus secara real-time.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Langkah 02 -->
+        <div class="col">
+          <div class="feature-card h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="feature-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <polyline points="11 8 11 11 14 11"></polyline>
+                </svg>
+              </div>
+              <span class="badge bg-light text-secondary border fw-bold rounded-pill px-3 py-1.5" style="font-size: 0.78rem;">
+                LANGKAH 02
+              </span>
+            </div>
+            <h3 class="h5 fw-bold text-dark mb-2">Pencocokan &amp; Pengajuan Klaim</h3>
+            <p class="text-muted mb-3" style="font-size: 0.98rem; line-height: 1.65;">
+              Cari barang Anda di katalog. Ajukan klaim dengan menyertakan bukti kepemilikan yang sah (deskripsi ciri khusus, bukti identitas, atau foto pendukung).
+            </p>
+            <div class="mt-auto pt-3 border-top small text-secondary d-flex align-items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>Verifikasi ketat mencegah klaim palsu oleh pihak lain.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Langkah 03 -->
+        <div class="col">
+          <div class="feature-card h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="feature-icon-wrap" style="background: #fef3c7; color: #d97706;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <span class="badge bg-light text-secondary border fw-bold rounded-pill px-3 py-1.5" style="font-size: 0.78rem;">
+                LANGKAH 03
+              </span>
+            </div>
+            <h3 class="h5 fw-bold text-dark mb-2">Serah Terima Fisik di Posko</h3>
+            <p class="text-muted mb-3" style="font-size: 0.98rem; line-height: 1.65;">
+              Setelah klaim disetujui petugas admin, Anda dapat mengambil barang fisik di Posko K3 Satpam Gedung Utama dengan menunjukkan Kartu Tanda Mahasiswa (KTM) asli.
+            </p>
+            <div class="mt-auto pt-3 border-top small text-secondary d-flex align-items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>Status otomatis terkunci: <strong>Dikembalikan</strong>.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section: Informasi Posko Fisik & FAQ Mahasiswa -->
+    <div class="row g-4 mb-5">
+      
+      <!-- Kolom Kiri: Posko Satpam & Kontak Langsung -->
+      <div class="col-lg-5">
+        <div class="feature-card h-100 d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="live-status-pill">
+                <span class="pulsing-dot"></span>
+                <span>Posko Buka (08.00 – 16.00 WIB)</span>
+              </span>
+              <span class="badge bg-light text-secondary border fw-bold">Polibatam</span>
+            </div>
+
+            <h3 class="h5 fw-bold text-dark mb-3">Posko Fisik Lost &amp; Found Kampus</h3>
+            <p class="text-muted mb-4" style="font-size: 0.98rem; line-height: 1.65;">
+              Penyimpanan dan serah terima fisik barang temuan dikelola secara terpusat oleh Pengelola Ketertiban &amp; K3 Politeknik Negeri Batam.
+            </p>
+
+            <div class="vstack gap-3 mb-4" style="font-size: 0.98rem;">
+              <div class="d-flex align-items-start gap-2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 flex-shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span class="text-dark"><strong>Lokasi Posko:</strong> Ruang Pengamanan K3 &amp; Satpam, Gedung Utama (Direktorat &amp; Administrasi) Lantai 1, Polibatam.</span>
+              </div>
+              <div class="d-flex align-items-start gap-2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span class="text-dark"><strong>Jam Pelayanan:</strong> Senin s/d Jumat, Pukul 08.00 – 16.00 WIB (Hari Kerja).</span>
+              </div>
+              <div class="d-flex align-items-start gap-2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 flex-shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span class="text-dark"><strong>Hotline Posko:</strong> 0813-7441-4869</span>
+              </div>
+              <div class="d-flex align-items-start gap-2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f8a77" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 flex-shrink-0"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span class="text-dark"><strong>Proyek Akademik:</strong> PBL PRO-13 D3 Teknik Informatika, Semester Ganjil 2026/2027.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-top d-flex flex-column gap-2">
+            <a href="https://wa.me/6281374414869?text=Halo%20Petugas%20Posko%20Satpam%20Polibatam,%20saya%20ingin%20menanyakan%20perihal%20laporan%20barang%20di%20FoundIt!" target="_blank" class="btn btn-outline-success fw-bold py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2" style="border-radius: 12px; font-size: 1rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Hubungi Posko Satpam (WhatsApp)</span>
+            </a>
+            <a href="daftar_laporan.html" class="btn btn-light fw-bold py-2.5 w-100 text-dark border" style="border-radius: 12px; font-size: 1rem;">
+              Telusuri Katalog Barang
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kolom Kanan: FAQ Interaktif -->
+      <div class="col-lg-7">
+        <div class="feature-card h-100">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h3 class="h5 fw-bold text-dark mb-0">Pertanyaan Sering Diajukan (FAQ)</h3>
+            <span class="badge bg-light text-secondary border fw-medium">Panduan Praktis</span>
+          </div>
+          <p class="text-muted small mb-3">Klik pertanyaan di bawah untuk membaca petunjuk resmi kampus.</p>
+
+          <div class="accordion faq-accordion" id="faqAccordion">
+            
+            <!-- FAQ 1 -->
+            <div class="accordion-item">
+              <h4 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Berapa lama barang temuan disimpan di posko kampus?
+                </button>
+              </h4>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Sesuai Standar Operasional Prosedur (SOP) Polibatam, barang temuan disimpan dengan aman di lemari posko selama <strong>30 hari kalender</strong>. Jika melewati batas waktu tanpa klaim sah, barang akan dialihkan sesuai kebijakan pengelola ketertiban kampus.
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="accordion-item">
+              <h4 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Jika KTM saya yang hilang, bagaimana cara verifikasi pengambilannya?
+                </button>
+              </h4>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Anda dapat menunjukkan identitas pendukung lain seperti KTP atau SIM asli, atau membuka profil akun mahasiswa aktif pada <strong>SIM Polibatam</strong> secara langsung di hadapan petugas jaga posko.
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="accordion-item">
+              <h4 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Apakah pelaporan dan serah terima barang dipungut biaya?
+                </button>
+              </h4>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Tidak ada biaya apa pun (<strong>100% Bebas Biaya</strong>). Sistem FoundIt! merupakan fasilitas resmi kampus untuk membangun kejujuran dan saling tolong-menolong sesama sivitas Polibatam.
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="accordion-item">
+              <h4 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  Apa yang terjadi jika klaim saya ditolak oleh petugas admin?
+                </button>
+              </h4>
+              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Jika bukti yang diberikan belum cukup spesifik, petugas akan menolak klaim dan status barang otomatis kembali menjadi <strong>Aktif</strong>. Anda dapat mengajukan kembali dengan melampirkan bukti kepemilikan yang lebih rinci.
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Banner Komitmen & Integritas Kampus -->
+    <div class="p-4 p-md-4 rounded-4 border shadow-sm d-flex flex-wrap align-items-center justify-content-between gap-3" style="background: #f0fdf9; border-color: #a7f3d0 !important;">
+      <div class="d-flex align-items-center gap-3">
+        <div class="rounded-3 d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px; background: #0f8a77; color: #ffffff;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+        </div>
+        <div>
+          <div class="fw-bold text-dark" style="font-size: 1.1rem;">Menjaga Nilai Kejujuran &amp; Kebersamaan Kampus</div>
+          <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+            Setiap barang yang dikembalikan adalah bukti nyata integritas sivitas Politeknik Negeri Batam.
+          </p>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <a href="laporkan_barang.html" class="btn btn-sm fw-bold px-3 py-2 text-white shadow-sm" style="background: #0f8a77; border-radius: 8px;">
+          Laporkan Barang
+        </a>
+        <a href="daftar_laporan.html" class="btn btn-sm btn-outline-secondary fw-semibold px-3 py-2 bg-white" style="border-radius: 8px;">
+          Lihat Katalog
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Dark Navy Sesuai Polibatam -->
+  <footer class="footer-custom">
+    <div class="custom-container">
+      <div class="row g-4 justify-content-between">
+        
+        <!-- Kolom 1: Brand & Penjelasan Polibatam -->
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2">
+            <div class="brand-logo-badge" style="background-color: var(--primary-mint); color: #032b24;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <span class="footer-brand-title">FoundIt! Polibatam</span>
+          </div>
+          <p class="footer-desc">
+            Sistem informasi penanganan barang hilang terintegrasi, membantu menjaga kebersamaan dan integritas mahasiswa Politeknik Negeri Batam.
+          </p>
+        </div>
+
+        <!-- Kolom 2: Navigasi -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <div class="footer-col-title">Navigasi</div>
+          <ul class="footer-links">
+            <li><a href="dashboard_mahasiswa.html">Beranda</a></li>
+            <li><a href="daftar_laporan.html">Katalog Barang</a></li>
+            <li><a href="laporkan_barang.html">Laporkan Barang</a></li>
+            <li><a href="tentang.html">Tentang</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Bantuan & Layanan Polibatam -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <div class="footer-col-title">Bantuan &amp; Layanan</div>
+          <ul class="footer-links">
+            <li><a href="tentang.html">Panduan Klaim Barang</a></li>
+            <li><a href="tentang.html">Posko Keamanan (Gedung Utama)</a></li>
+            <li><a href="tentang.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4: Sistem Resmi Kampus Polibatam -->
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-col-title">Sistem Keamanan</div>
+          <div class="security-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+            <span>Layanan Resmi Kampus Polibatam</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Garis Pemisah & Hak Cipta -->
+      <div class="footer-divider" style="height: 1px; background: rgba(255, 255, 255, 0.08); margin: 36px 0 24px 0;"></div>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          FoundIt! 2026 - Politeknik Negeri Batam. Hak Cipta Dilindungi.
+        </div>
+        <div style="font-size: 0.95rem; color: #94a3b8;">
+          Kampus Utama: Jl. Ahmad Yani, Batam Kota, Batam
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Inisialisasi Sesi Pengguna
+    const session = JSON.parse(localStorage.getItem('foundit_session') || 'null');
+    if (session) {
+      const name = session.name || 'Pengguna';
+      document.getElementById('userNameDisplay').textContent = name;
+      document.getElementById('userNimDisplay').textContent = session.nim ? 'NIM: ' + session.nim : 'Mahasiswa Polibatam';
+      document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
+    } else {
+      window.location.href = 'login.html';
+    }
+
+    function logout() {
+      localStorage.removeItem('foundit_session');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
+
