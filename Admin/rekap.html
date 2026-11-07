@@ -384,6 +384,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../config.js"></script>
+  <script src="../assets/js/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -459,8 +460,8 @@
           <p class="page-subtitle mb-0">Tabel ringkasan dan rekapitulasi data barang hilang &amp; temuan terintegrasi Polibatam (Modul PRO-13).</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-          <!-- Tombol Unduh Excel Terformat Rapi -->
-          <button type="button" class="btn-export-excel" onclick="exportDataToExcel()" title="Unduh tabel berformat rapi untuk Microsoft Excel / WPS Office">
+          <!-- Tombol Unduh Excel Terformat Rapi (.xlsx) -->
+          <button type="button" class="btn-export-excel" onclick="exportDataToExcel()" title="Unduh tabel resmi berformat rapi (.xlsx) untuk Microsoft Excel & WPS Office">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
@@ -468,7 +469,7 @@
               <line x1="8" y1="17" x2="16" y2="17"></line>
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-            <span>Unduh Excel (.xls)</span>
+            <span>Unduh Tabel Excel (.xlsx)</span>
           </button>
 
           <!-- Tombol Unduh CSV -->
@@ -806,7 +807,7 @@
       `;
     }
 
-    // 5. Ekspor ke Excel (.xls) dengan Styling Indah & Rapi
+    // 5. Ekspor ke Excel (.xlsx) dengan Tabel Rapi & Lebar Kolom Proporsional
     function exportDataToExcel() {
       if (filteredData.length === 0) {
         alert('Tidak ada data untuk diekspor.');
@@ -814,27 +815,93 @@
       }
 
       const today = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-      const filename = `rekap_laporan_foundit_polibatam_${new Date().toISOString().split('T')[0]}.xls`;
+      const filename = `rekap_laporan_foundit_polibatam_${new Date().toISOString().split('T')[0]}.xlsx`;
 
-      // Buat template tabel HTML terformat yang didukung langsung oleh Microsoft Excel & WPS Office
+      // Jika pustaka SheetJS tersedia (baik lokal assets/js maupun CDN)
+      if (window.XLSX && typeof window.XLSX.utils !== 'undefined') {
+        const aoa = [
+          ["REKAPITULASI LAPORAN BARANG TEMUAN & HILANG (FOUNDIT!)"],
+          ["POLITEKNIK NEGERI BATAM - UNIT LAYANAN TERPADU K3 & KEAMANAN KAMPUS"],
+          [`Tanggal Unduh: ${today} | Oleh: ${session.name || 'Petugas Admin'} (NIM: ${session.nim || 'admin'})`],
+          [], // Baris kosong pemisah
+          ["No.", "ID Laporan", "Nama Barang", "Kategori", "Tipe Laporan", "Tanggal", "Lokasi di Kampus", "Pelapor Laporan", "Status Terkini"]
+        ];
+
+        let cntTemuan = 0;
+        let cntHilang = 0;
+
+        filteredData.forEach((row, i) => {
+          const isTemuan = (row.jenis || '').toLowerCase() === 'temuan';
+          if (isTemuan) cntTemuan++; else cntHilang++;
+          const id = `L${String(row.id).padStart(3, '0')}`;
+          const tipe = isTemuan ? 'Temuan' : 'Hilang';
+
+          let pelapor = '-';
+          if (row.users && row.users.name) {
+            pelapor = row.users.name;
+            if (row.users.nim) pelapor += ` (${row.users.nim})`;
+          } else if (row.deskripsi && row.deskripsi.includes('Pelapor:')) {
+            const m = row.deskripsi.match(/Pelapor:\s*([^|]+)/);
+            if (m) pelapor = m[1].trim();
+          }
+
+          let status = (row.status || 'aktif').toUpperCase();
+          if (status === 'COCOK/DITEMUKAN') status = 'COCOK / DALAM KLAIM';
+
+          aoa.push([
+            i + 1,
+            id,
+            row.nama_barang || '-',
+            row.kategori || 'Lain-lain',
+            tipe,
+            row.tanggal || '-',
+            row.lokasi || '-',
+            pelapor,
+            status
+          ]);
+        });
+
+        aoa.push([]); // Baris kosong
+        aoa.push([
+          "TOTAL KESELURUHAN",
+          `${filteredData.length} Laporan (${cntTemuan} Ditemukan | ${cntHilang} Hilang)`,
+          "", "", "", "", "", "", "Dokumentasi Resmi FoundIt! Polibatam"
+        ]);
+
+        const ws = window.XLSX.utils.aoa_to_sheet(aoa);
+
+        // Atur Lebar Kolom yang Lega agar TIDAK ADA TULISAN TERPOTONG di Excel / WPS
+        ws['!cols'] = [
+          { wch: 6 },   // No.
+          { wch: 14 },  // ID Laporan
+          { wch: 44 },  // Nama Barang (Sangat Lega)
+          { wch: 25 },  // Kategori
+          { wch: 16 },  // Tipe Laporan
+          { wch: 16 },  // Tanggal
+          { wch: 46 },  // Lokasi di Kampus (Sangat Lega)
+          { wch: 28 },  // Pelapor Laporan
+          { wch: 24 }   // Status Terkini
+        ];
+
+        // Merge sel judul kop laporan di bagian atas
+        ws['!merges'] = [
+          { s: { r: 0, c: 0 }, e: { r: 0, c: 8 } },
+          { s: { r: 1, c: 0 }, e: { r: 1, c: 8 } },
+          { s: { r: 2, c: 0 }, e: { r: 2, c: 8 } },
+          { s: { r: aoa.length - 1, c: 1 }, e: { r: aoa.length - 1, c: 7 } }
+        ];
+
+        const wb = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(wb, ws, "Rekap Laporan FoundIt");
+        window.XLSX.writeFile(wb, filename);
+        return;
+      }
+
+      // Fallback format HTML jika pustaka XLSX sedang dimuat
       let excelHtml = `
         <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
         <head>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-          <!--[if gte mso 9]>
-          <xml>
-            <x:ExcelWorkbook>
-              <x:ExcelWorksheets>
-                <x:ExcelWorksheet>
-                  <x:Name>Rekap Laporan Lost and Found</x:Name>
-                  <x:WorksheetOptions>
-                    <x:DisplayGridlines/>
-                  </x:WorksheetOptions>
-                </x:ExcelWorksheet>
-              </x:ExcelWorksheets>
-            </x:ExcelWorkbook>
-          </xml>
-          <![endif]-->
           <style>
             body { font-family: Calibri, 'Segoe UI', Arial, sans-serif; }
             .title { font-size: 16pt; font-weight: bold; color: #064e43; text-align: center; }
@@ -962,7 +1029,7 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename;
+      link.download = filename.replace('.xlsx', '.xls');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
