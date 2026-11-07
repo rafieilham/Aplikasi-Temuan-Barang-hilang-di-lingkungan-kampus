@@ -1195,9 +1195,11 @@
     }
 
     function hubungiWhatsApp() {
-      const nomor = targetWhatsApp || '081301210001';
-      const nama = currentItem ? currentItem.nama_barang : 'Dompet Kulit Coklat';
-      const text = encodeURIComponent(`Halo, saya ingin menanyakan perihal laporan barang "${nama}" di portal FoundIt!`);
+      let nomor = targetWhatsApp || '081234567890';
+      nomor = nomor.replace(/[^0-9]/g, '');
+      if (nomor.startsWith('0')) nomor = '62' + nomor.slice(1);
+      const nama = currentItem ? currentItem.nama_barang : 'Barang Temuan';
+      const text = encodeURIComponent(`Halo, saya ingin menanyakan perihal laporan barang "${nama}" di portal FoundIt! Polibatam.`);
       window.open(`https://wa.me/${nomor}?text=${text}`, '_blank');
     }
 

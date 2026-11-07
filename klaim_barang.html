@@ -445,11 +445,17 @@
             Bukti kepemilikan Anda telah tercatat di sistem Polibatam. Status barang kini beralih menjadi <strong>DALAM KLAIM</strong> untuk proses verifikasi.
           </p>
           <div class="p-3 bg-light rounded-3 text-start small mb-4">
-            <div class="fw-semibold text-dark mb-1">Prosedur Pengambilan:</div>
-            <ul class="mb-0 ps-3 text-secondary">
-              <li>Hubungi pelapor via WhatsApp atau tunggu peninjauan dari pengelola kampus.</li>
-              <li>Bawa <strong>KTM asli</strong> saat verifikasi dan serah terima fisik barang.</li>
+            <div class="fw-semibold text-dark mb-1">Prosedur Verifikasi &amp; Pengambilan:</div>
+            <ul class="mb-3 ps-3 text-secondary">
+              <li>Bukti klaim Anda telah tercatat dan status barang kini menjadi <strong>DALAM KLAIM</strong>.</li>
+              <li>Bawa <strong>KTM asli</strong> saat verifikasi dan serah terima fisik barang di Pos K3 Gedung PES / GU Lantai 1.</li>
             </ul>
+            <a id="btnWaKlaimSukses" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-success w-100 fw-bold py-2.5 d-flex align-items-center justify-content-center gap-2 shadow-sm" style="border-radius: 10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <span>Kirim Konfirmasi ke WA Petugas K3</span>
+            </a>
           </div>
           <div class="d-grid gap-2">
             <button onclick="window.location.href=`detail_barang.html?id=${itemId}&klaim_sukses=1`" class="btn btn-foundit fw-semibold py-2">
@@ -838,6 +844,15 @@
       bottomAlert.textContent = 'Pengajuan klaim berhasil disimpan! Status barang kini "DALAM KLAIM".';
       bottomAlert.className = 'alert alert-success small mb-0';
       bottomAlert.classList.remove('d-none');
+
+      // Siapkan tautan konfirmasi WhatsApp ke Petugas K3 Polibatam
+      const adminWa = '6281234567890';
+      const itemTitle = currentItem?.nama_barang || 'Barang Kampus';
+      const pesanWa = `Halo Petugas K3 & Pengelola FoundIt! Polibatam,\n\nSaya telah mengajukan klaim kepemilikan melalui website FoundIt!:\n*Nama:* ${nama || session.name}\n*NIM:* ${nim || session.nim}\n*Barang:* ${itemTitle}\n*ID Laporan:* L${String(parsedId).padStart(3, '0')}\n\nMohon bantuannya untuk meninjau berkas bukti klaim saya di sistem admin. Terima kasih!`;
+      const btnWa = document.getElementById('btnWaKlaimSukses');
+      if (btnWa) {
+        btnWa.href = `https://wa.me/${adminWa}?text=${encodeURIComponent(pesanWa)}`;
+      }
 
       // Tampilkan Modal Sukses — navigasi dilakukan dari tombol di dalam modal
       const modal = new bootstrap.Modal(document.getElementById('modalSuksesKlaim'));

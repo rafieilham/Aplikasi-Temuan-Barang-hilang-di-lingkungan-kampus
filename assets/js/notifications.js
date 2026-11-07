@@ -401,6 +401,58 @@
         </a>
       `;
     }).join('');
+
+    // Tampilkan Floating Toast Pop-up otomatis untuk notifikasi penting pertama yang belum dibaca
+    const latestImportant = unreadList.find(n => n.type === 'success' || n.type === 'info');
+    if (latestImportant && !sessionStorage.getItem('foundit_toast_shown_' + latestImportant.id)) {
+      sessionStorage.setItem('foundit_toast_shown_' + latestImportant.id, '1');
+      setTimeout(() => {
+        showFloatingToast(latestImportant);
+      }, 1000);
+    }
+  }
+
+  function showFloatingToast(notif) {
+    if (!notif) return;
+    const toastId = 'foundit-floating-toast';
+    let toast = document.getElementById(toastId);
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = toastId;
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        max-width: 380px;
+        background: #ffffff;
+        border-radius: 14px;
+        border: 1.5px solid #2dd4bf;
+        box-shadow: 0 14px 34px rgba(15, 23, 42, 0.18);
+        padding: 16px 20px;
+        z-index: 9999;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        animation: notifFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `
+      <div style="width: 36px; height: 36px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">${notif.title}</div>
+        <p style="font-size: 0.85rem; color: #475569; margin: 0 0 8px 0; line-height: 1.4;">${notif.desc}</p>
+        <a href="${notif.url}" style="font-size: 0.82rem; font-weight: 700; color: #0f8a77; text-decoration: none;">Buka Detail Laporan &rarr;</a>
+      </div>
+      <button type="button" onclick="document.getElementById('${toastId}').remove()" style="background: none; border: none; color: #94a3b8; font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 4px;">&times;</button>
+    `;
+
+    setTimeout(() => {
+      const el = document.getElementById(toastId);
+      if (el) el.remove();
+    }, 7000);
   }
 
   // 4. Fungsi Tandai Notifikasi Dibaca
@@ -433,3 +485,4 @@
     }
   };
 })();
+
