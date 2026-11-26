@@ -378,7 +378,6 @@
     }
   </style>
   
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../config.js"></script>
 </head>
 <body>
@@ -579,7 +578,7 @@
 
             <div class="pt-3 mt-3 border-top d-flex justify-content-between align-items-center">
               <span class="text-muted small">Data sinkronisasi otomatis:</span>
-              <span class="badge bg-light text-dark border fw-medium" id="hotspotSyncBadge">Real-time Supabase</span>
+              <span class="badge bg-light text-dark border fw-medium" id="hotspotSyncBadge">Terkoneksi MySQL</span>
             </div>
           </div>
         </div>
@@ -661,7 +660,7 @@
     async function loadAdminDashboard() {
       try {
         if (!supabaseClient) {
-          throw new Error('Supabase Client belum terinisialisasi. Periksa koneksi internet Anda.');
+          throw new Error('Koneksi database MySQL belum terhubung. Pastikan Laragon/Apache aktif.');
         }
 
         const { data: items, error } = await supabaseClient
