@@ -88,12 +88,18 @@ function handleGet(PDO $pdo, string $table) {
     $params = [];
 
     // Filter langsung via parameter query (misal ?id=5 atau ?pelapor_id=3)
-    $specialKeys = ['table', 'select', 'order', 'limit', 'offset', 'or', 'single', '_method'];
+    $specialKeys = ['table', 'select', 'order', 'limit', 'offset', 'or', 'single', '_method', 'q'];
     foreach ($_GET as $key => $val) {
         if (!in_array($key, $specialKeys, true) && preg_match('/^[a-zA-Z0-9_]+$/', $key)) {
-            $whereClauses[] = "`$key` = :p_$key";
+            $whereClauses[] = "t.`$key` = :p_$key";
             $params[":p_$key"] = $val;
         }
+    }
+
+    // Dukungan pencarian cepat (q) nama barang, deskripsi, lokasi
+    if (!empty($_GET['q'])) {
+        $whereClauses[] = "(t.`nama_barang` LIKE :q_search OR t.`deskripsi` LIKE :q_search OR t.`lokasi` LIKE :q_search)";
+        $params[':q_search'] = '%' . trim($_GET['q']) . '%';
     }
 
     // Filter klausa OR khusus (misal ?or=nim.eq.admin,email.eq.admin)
@@ -109,7 +115,7 @@ function handleGet(PDO $pdo, string $table) {
                 $val = trim($val);
                 if (preg_match('/^[a-zA-Z0-9_]+$/', $col)) {
                     $paramName = ":or_val_{$i}";
-                    $subOrs[] = "`$col` = $paramName";
+                    $subOrs[] = "t.`$col` = $paramName";
                     $params[$paramName] = $val;
                     $i++;
                 }
@@ -120,7 +126,12 @@ function handleGet(PDO $pdo, string $table) {
         }
     }
 
-    $sql = "SELECT $selectCols FROM `$table`";
+    if ($table === 'items') {
+        $sql = "SELECT t.*, u.name AS pelapor_nama, u.nim AS pelapor_nim, u.phone AS pelapor_phone, u.role AS pelapor_role FROM `items` t LEFT JOIN `users` u ON t.pelapor_id = u.id";
+    } else {
+        $sql = "SELECT $selectCols FROM `$table` t";
+    }
+
     if (!empty($whereClauses)) {
         $sql .= " WHERE " . implode(' AND ', $whereClauses);
     }
@@ -136,10 +147,10 @@ function handleGet(PDO $pdo, string $table) {
             $orderDir = 'ASC';
         }
         if (preg_match('/^[a-zA-Z0-9_]+$/', $orderCol)) {
-            $sql .= " ORDER BY `$orderCol` $orderDir";
+            $sql .= " ORDER BY t.`$orderCol` $orderDir";
         }
     } else {
-        $sql .= " ORDER BY `id` DESC";
+        $sql .= " ORDER BY t.`id` DESC";
     }
 
     // Batasan jumlah (LIMIT)
@@ -155,6 +166,18 @@ function handleGet(PDO $pdo, string $table) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     $rows = $stmt->fetchAll();
+
+    if ($table === 'items') {
+        foreach ($rows as &$r) {
+            $r['users'] = [
+                'name'  => $r['pelapor_nama'] ?? null,
+                'nim'   => $r['pelapor_nim'] ?? null,
+                'phone' => $r['pelapor_phone'] ?? null,
+                'role'  => $r['pelapor_role'] ?? null
+            ];
+        }
+        unset($r);
+    }
 
     // Jika dipanggil dengan flag single=true atau maybeSingle
     if (!empty($_GET['single']) && $_GET['single'] === 'true') {
